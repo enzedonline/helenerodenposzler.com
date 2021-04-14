@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% load wagtailimages_tags %}
+
+{% block content %}
+    <div class="jumbotron pt-3">
+        <h1 class="display-4">{{ page.title }}</h1>
+        <p class="lead">{{ page.introduction }}</p>
+        {% if posts %}
+            {% for post in posts %}
+                <div class="row">
+                    <div class="card mb-3 bg-secondary">
+                        <div class="row no-gutters row-cols-2">
+                            <div class="col-3 pt-2" style="max-width: 150px;">
+                                {% image post.image fill-150x150 as blog_img %}
+                                <img src="{{ blog_img.url }}" class="card-img-top" alt="{{ blog_img.alt }}">
+                            </div>
+                            <div class="col-9 mt-n2">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ post.title }}</h5>
+                                    <p class="card-text">{{ post.body |truncatewords:30}}</p>
+                                    <p class="card-text"><small class="text-muted">{{ post.publication_date }}</small></p>
+                                    <a href="{{post.url}}" class="btn btn-primary stretched-link">Read More ...</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            No results found
+        {% endif %}
+    </div>
+
+
+{% endblock content %}

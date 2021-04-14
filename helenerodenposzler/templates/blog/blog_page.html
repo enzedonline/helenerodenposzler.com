@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static wagtailimages_tags wagtailcore_tags  %}
+
+{% block content %}
+
+    <div class="card">
+        {% image page.image fill-1200x300 as banner_img %}
+        <img src="{{ banner_img.url }}" class="card-img-top" alt="{{ banner_img.alt }}" style="width:100%; height:auto">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <h3 class="card-title">{{page.title}}</h3>
+                </div>
+            </div>
+            <p class="card-text">
+                {% for block in page.body %}
+                    {% include_block block %}
+                {% endfor %}                
+            </p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>        
+
+
+{% endblock content %}

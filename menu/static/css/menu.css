@@ -1,0 +1,18 @@
+.dropright {
+    position: relative;
+    margin-left: 10px;
+  }
+  
+.dropright .btn-dark-outline {
+    background-color: transparent;
+  }
+
+.dropright .btn:focus,.btn:active {
+    outline: none !important;
+    box-shadow: none;
+ }
+.dropright .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -1px;
+  }

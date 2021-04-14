@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block extra_css %}
+hgghdfgdfgdfgd
+{% endblock extra_css %}
+
+{% block content %}
+{{page.body}}
+{% for block in page.body %}
+    {{block}}
+    {% comment %} {% include_block block with block_id=block.id %} {% endcomment %}
+{% endfor %}
+
+{% endblock content %}
