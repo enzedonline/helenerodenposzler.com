@@ -11,7 +11,8 @@ INSTALLED_APPS = [
     'blog',
     'menu',
     'core',
-    
+
+    'wagtailmetadata',
     'wagtailfontawesome',
     'wagtail_blocks',
 
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sitemaps',
     'django.contrib.staticfiles',
 ]
 

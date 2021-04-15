@@ -1,6 +1,6 @@
 from menu.models import Menu, CompanyLogo
 from django import template
-from wagtail_localize.synctree import Locale
+from wagtail_localize.synctree import Locale, Page
 from wagtail.images.models import Image
 
 def sub_menu_items(menu, logged_in):
@@ -132,13 +132,21 @@ def language_switcher(page):
 
     switch_pages = []
     for locale in Locale.objects.all():
-        trans_page = page.get_translation(locale=locale)
+        try:
+            if page.has_translation(locale=locale):
+                trans_page = page.get_translation(locale=locale)
+            else:
+                trans_page = page
+            next_url = '/?next=' + trans_page.url
+        except AttributeError:
+            trans_page = Page.objects.first().get_children().live().first()
+            next_url = ''
         if not locale == current_lang: # add the link to switch language and also alternate link
             alternate_link = f'<link rel="alternate" hreflang="{locale.language_code}" href="{trans_page.get_full_url()}" />'
             switch_pages.append(
                 {
                     'language': locale, 
-                    'url': '/lang/' + locale.language_code + '/?next=' + trans_page.url,
+                    'url': '/lang/' + locale.language_code + next_url,
                     'flag': get_lang_flag(locale.language_code),
                     'alternate': alternate_link
                 }

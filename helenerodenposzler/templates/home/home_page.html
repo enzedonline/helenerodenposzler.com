@@ -4,11 +4,13 @@
 {% block body_class %}template-homepage{% endblock %}
 
 {% block content %}
+<div class="container-fluid p2">
+    <div class="hero-content__title">
+        <h1 class="h1">{{ page.title }}</h1>
+    </div>
 
-<h1>{{ page.title }}</h1>
-
-{% for block in page.body %}
-    {% include_block block with block_id=block.id %}
-{% endfor %}
-
+    {% for block in page.body %}
+        {% include_block block with block_id=block.id %}
+    {% endfor %}
+</div>
 {% endblock content %}
