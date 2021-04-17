@@ -1,5 +1,19 @@
-{% load wagtailimages_tags %}
+{% load quote_tags %}
+{% quote_marks as quote_mark %}
 
-<blockquote><p class="text">{{ self.text }}</p>
-<footer><p class="attribute_name">{{ self.attribute_name}}</p></footer>
-</blockquote>
+<div class="card w-90 border-0">
+  <div class="card-body p-0">
+    <blockquote class="blockquote">
+      <p class="mb-0 p-0">
+        <span class="helene-blockquote">
+          {{ quote_mark.open }} &nbsp{{ self.text | linebreaksbr }}&nbsp {{ quote_mark.close }}
+        </span>
+      </p>
+      {% if self.attribute_name %}
+      <footer class="blockquote-footer">
+        <p class="attribute_name">{{ self.attribute_name }}</p>
+      </footer>
+      {% endif %}
+    </blockquote>
+  </div>
+</div>

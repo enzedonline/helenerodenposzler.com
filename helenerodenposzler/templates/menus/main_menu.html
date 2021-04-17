@@ -5,7 +5,7 @@
 
 <link rel="stylesheet" href="{% static '/css/menu.css'%}">
 
-<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+<nav class="navbar navbar-expand-md navbar-light bg-light">
     <a class="navbar-brand" href="/">{% image logo.logo fill-150x30 %}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" 
             aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -107,10 +107,10 @@
                     {% get_lang_flag as flag %}
                     {% image flag fill-16x11 class="image-menu" %}
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-menu dropdown-menu-right switcher-menu">
                     {% language_switcher self as switcher %}
                     {% for lang in switcher.switch_pages %}
-                        <a class="dropdown-item" href="{{ lang.url }}">
+                        <a class="dropdown-item switcher-item" href="{{ lang.url }}">
                             {% image lang.flag fill-16x11 class="image-menu" %}&nbsp
                             {{ lang.language }}
                         </a>

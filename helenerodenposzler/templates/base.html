@@ -7,15 +7,20 @@
         {% include 'head.html' %}
     </head>
 
+    <div class="sticky-top">
+        {% include 'menus/main_menu.html' %}
+    </div>
+
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
-
-        {% include 'menus/main_menu.html' %}
+        <div mt-4>
+ 
 
         {% block content %}{% endblock %}
 
         {% block extra_js %}
             {# Override this in templates to add extra javascript #}
         {% endblock %}
+        </div>
     </body>
 </html>

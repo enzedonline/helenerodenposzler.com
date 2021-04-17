@@ -7,6 +7,7 @@ from wagtail.core.blocks import (
     CharBlock, ChoiceBlock, RichTextBlock, StreamBlock, StructBlock, TextBlock,
 )
 from wagtail_blocks.blocks import *
+from wagtail_localize.synctree import Locale
 
 class ImageBlock(StructBlock):
     """
@@ -27,7 +28,7 @@ class BlockQuote(StructBlock):
     """
     text = TextBlock()
     attribute_name = CharBlock(
-        blank=True, required=False, label='e.g. Mary Berry')
+        blank=True, required=False, label='Optional Attribution')
 
     class Meta:
         icon = "fa-quote-left"
@@ -40,9 +41,13 @@ class Link_Value(blocks.StructValue):
         internal_page = self.get("internal_page")
         external_link = self.get("external_link")
         if internal_page:
-            return internal_page.url
+            return internal_page.localized.url
         elif external_link:
-            return external_link
+            if external_link.startswith('/'): # presumes internal link starts with '/' and no lang code
+                url = '/' + Locale.get_active().language_code + external_link
+            else: # external link, do nothing
+                url = external_link
+            return url
         else:
             return None
 
@@ -50,16 +55,19 @@ class Link(blocks.StructBlock):
     link_text = blocks.CharBlock(
         max_length=50,
         default='More Details',
+        label="Button Text"
     )
     internal_page = blocks.PageChooserBlock(
         required=False,
     )
-    external_link = blocks.URLBlock(
+    external_link = blocks.CharBlock(
         required=False,
     )
 
     class Meta:
         value_class = Link_Value
+        icon = "fa-link"
+        template = "blocks/link_button.html"
 
     def clean(self, value):
         errors = {}
@@ -74,6 +82,24 @@ class Link(blocks.StructBlock):
             raise ValidationError("Please check the errors below and correct before saving", params=errors)
 
         return super().clean(value)
+
+class SimpleRichTextBlock(blocks.StructBlock):
+    content = blocks.RichTextBlock(
+                features= [
+                    'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+                    'bold',
+                    'italic',
+                    'ol',
+                    'ul',
+                    'link',
+                    'hr ',
+                ]
+    )
+
+    class Meta:
+        template = 'blocks/simple_richtext_block.html'
+        label = _("Formatted Text Block")
+        icon = 'fa-text-height'
 
 class Card(blocks.StructBlock):
     title = blocks.CharBlock(
@@ -134,7 +160,7 @@ class ImageAndTextBlock(blocks.StructBlock):
     link=Link()
 
     class Meta:
-        template = 'streams/image_and_text_block.html'
+        template = 'blocks/image_and_text_block.html'
         icon = 'image'
         label = "Image & Text"
 
@@ -146,7 +172,7 @@ class CallToActionBlock(blocks.StructBlock):
     link = Link()
 
     class Meta:
-        template = 'streams/call_to_action_block.html'
+        template = 'blocks/call_to_action_block.html'
         icon = 'plus'
         label = "Call to Action"
 
@@ -196,26 +222,27 @@ class BaseStreamBlock(StreamBlock):
     Define the custom blocks that `StreamField` will utilize
     """
 
-    header_block = HeaderBlock()
-    list_block = ListBlock()
-    image_text_overlay = ImageTextOverlayBlock()
-    cropped_images_with_text = CroppedImagesWithTextBlock()
-    list_with_images = ListWithImagesBlock()
-    thumbnail_gallery = ThumbnailGalleryBlock()
-    image_slider = ImageSliderBlock()
-    paragraph_block = RichTextBlock(
-        icon="fa-paragraph",
-        template="blocks/paragraph_block.html"
-    )
+    # header_block = HeaderBlock()
+    # list_block = ListBlock()
+    # image_text_overlay = ImageTextOverlayBlock()
+    # cropped_images_with_text = CroppedImagesWithTextBlock()
+    # list_with_images = ListWithImagesBlock()
+    # thumbnail_gallery = ThumbnailGalleryBlock()
+    # image_slider = ImageSliderBlock()
+    # paragraph_block = RichTextBlock(
+    #     icon="fa-paragraph",
+    #     template="blocks/paragraph_block.html"
+    # )
+    richtext_block = SimpleRichTextBlock()
     image_block = ImageBlock()
     block_quote = BlockQuote()
-    embed_block = EmbedBlock(
-        help_text='Insert an embed URL e.g https://www.youtube.com/embed/SGJFWirQ3ks',
-        icon="fa-s15",
-        template="blocks/embed_block.html")
-    link_block = Link()
-    card_block = CardsBlock()
-    image_and_text_block = ImageAndTextBlock()
-    call_to_action_block = CallToActionBlock()
-    inline_image_block = InlineImageBlock()
-    inline_video_block = InlineVideoBlock()
+    # embed_block = EmbedBlock(
+    #     help_text='Insert an embed URL e.g https://www.youtube.com/embed/SGJFWirQ3ks',
+    #     icon="fa-s15",
+    #     template="blocks/embed_block.html")
+    link_button = Link()
+    # card_block = CardsBlock()
+    # image_and_text_block = ImageAndTextBlock()
+    # call_to_action_block = CallToActionBlock()
+    # inline_image_block = InlineImageBlock()
+    # inline_video_block = InlineVideoBlock()

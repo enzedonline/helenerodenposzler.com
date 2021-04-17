@@ -1,6 +1,56 @@
 {% load wagtailimages_tags %}
+{% comment %} {% image self.image original as img %} {% endcomment %}
+{% image self.image original format-webp as webp_img_scale_100 %}
+{% image self.image width-1200 format-webp as webp_img_w_1200 %}
+{% image self.image width-750 format-webp as webp_img_w_750 %}
+{% image self.image width-500 format-webp as webp_img_w_500 %}
+{% image self.image width-250 format-webp as webp_img_w_250 %}
+{% image self.image width-100 format-webp as webp_img_w_100 %}
+{% image self.image width-50 format-webp as webp_img_w_50 %}
+{% image self.image width-25 format-webp as webp_img_w_25 %}
 
 <figure>
-    {% image self.image fill-600x600 %}
-    <figcaption>{{ self.caption }} - {{ self.attribution }}</figcaption>
+  <picture class="srcset card-training-category__image">
+    <source
+      srcset="{{ webp_img_scale_100.url }} 1500w"  
+      type="image/webp"
+    />
+    <source
+      srcset="{{ webp_img_w_1200.url }} 1200w"  
+      type="image/webp"
+    />
+    <source
+      srcset="{{ webp_img_w_750.url }} 750w"  
+      type="image/webp"
+    />
+    <source
+      srcset="{{ webp_img_w_500.url }} 500w"  
+      type="image/webp"
+    />
+    <source
+      srcset="{{ webp_img_w_250.url }} 250w"  
+      type="image/webp"
+    />
+    <source
+      srcset="{{ webp_img_w_100.url }} 100w"  
+      type="image/webp"
+    />
+    <source
+      srcset="{{ webp_img_w_50.url }} 50w"  
+      type="image/webp"
+    />
+    <source
+      srcset="{{ webp_img_w_25.url }} 25w"  
+      type="image/webp"
+    />
+
+    <img class="srcset__image" src="{{ self.image.url }}" alt="{{ self.image.alt }}" style='width: 100%; height: auto;'/>
+  </picture>
+  {% if self.caption or self.attribution %}
+  <figcaption>
+  {% if self.caption %}{{ self.caption }}{% endif %}
+  {% if self.caption and self.attribution %}&nbsp-&nbsp{% endif %}
+  {% if self.attribution %}{{ self.attribution }}{% endif %}
+   </figcaption>
+   {% endif %}
 </figure>
