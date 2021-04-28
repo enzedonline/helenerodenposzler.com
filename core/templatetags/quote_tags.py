@@ -10,8 +10,10 @@ def quote_marks(context):
     if language in ('fr', 'es'):
         quote_mark['open'] = "«"
         quote_mark['close'] = "»"
+        quote_mark['top_margin'] = "mt-n2"
     else:
         quote_mark['open'] = "“"
         quote_mark['close'] = "”"
+        quote_mark['top_margin'] = "mt-4"
 
     return quote_mark

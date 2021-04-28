@@ -1,0 +1,17 @@
+{% load static wagtailcore_tags grid_block_tags %}
+{% two_column_layout value.breakpoint value.column_layout as layout %}
+<div class="margin-auto">
+  <div class="row">
+    <div class="col{{ layout.left }}  pb-2">
+        {% for block in value.left_column %}
+            {% include_block block %}
+        {% endfor %}
+    </div>
+    <div class="col{{ layout.right }}  pb-2">
+        {% for block in value.right_column %}
+            {% include_block block %}
+        {% endfor %}
+    </div>
+  </div>
+</div>
+

@@ -5,13 +5,12 @@
 {% image self.banner_image fill-600x200-c100 format-webp as webp_img_w_600 %}
 
 <div class="banner-overlay-container">
-  <picture class="srcset card-training-category__image">
+  <picture>
     <source srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp" />
     <source srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp" />
     <source srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
     <source srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
     <img
-      class="srcset__image"
       src="{{ self.banner_image.url }}"
       alt="{{ self.banner_image.alt }}"
       style="width: 100%; height: auto"

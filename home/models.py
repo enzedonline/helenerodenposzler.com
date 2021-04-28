@@ -5,7 +5,7 @@ from wagtail.core.fields import StreamField
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel, PageChooserPanel
 from wagtail.images.edit_handlers import ImageChooserPanel
 
-from core.blocks import BaseStreamBlock
+from core.blocks import GridStreamBlock
 from core.models import SEOPage
 
 class HomePage(SEOPage):
@@ -43,7 +43,7 @@ class HomePage(SEOPage):
     )
 
     body = StreamField(
-        BaseStreamBlock(), verbose_name="Page body", blank=True
+        GridStreamBlock(), verbose_name="Page body", blank=True
     )
 
     content_panels = SEOPage.content_panels + [
@@ -57,7 +57,7 @@ class HomePage(SEOPage):
             ], 
             heading=_("Choose banner image and text/button overlay options.")
         ),
-        StreamFieldPanel("body", classname="Full"),
+        StreamFieldPanel("body"),
     ]
 
     class Meta:

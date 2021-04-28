@@ -24,7 +24,7 @@ class ServiceType(TranslatableMixin, models.Model):
         return self.service
 
 class ServiceListQuerySet(object):
-    # Call as class()() to act as a function call, passes all menus to ServiceTypePanel dropdown
+    # Call as class()() to act as a function call, passes service list to ServiceTypePanel dropdown
     def __call__(self, *args, **kwds):
         return ServiceType.objects.all()
 
@@ -33,19 +33,19 @@ class Testimonial(TranslatableMixin, models.Model):
     """Testimonial Class"""
 
     reference_text = models.TextField(
-        max_length=500,
+        max_length=800,
         null=False,
         blank=False,
         help_text=_("Reference text")
     )
     author = models.CharField(
-        max_length=60,
+        max_length=100,
         null=False,
         blank=False,
         help_text=_("Name of referee")
     )
     author_description = models.CharField(
-        max_length=60,
+        max_length=150,
         null=True,
         blank=True,
         help_text=_("Optional - Brief description of referee ('Mother of a student' etc)")
@@ -81,7 +81,7 @@ class Testimonial(TranslatableMixin, models.Model):
 
     def __str__(self):
         """The string representation of this class"""
-        return f"{self.author} - {self.reference_text}"
+        return self.author
 
     class Meta:
         verbose_name = 'Testimonial'

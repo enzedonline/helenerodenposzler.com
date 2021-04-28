@@ -151,6 +151,7 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+WAGTAILEMBEDS_RESPONSIVE_HTML = True
 
 # Wagtail settings
 
@@ -159,3 +160,12 @@ WAGTAIL_SITE_NAME = "helenerodenposzler"
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 BASE_URL = 'http://example.com'
+
+WAGTAILEMBEDS_FINDERS = [
+    {
+        'class': 'core.oembedfinder.YouTubePreserveRelFinder',
+    },
+    {
+        'class': 'wagtail.embeds.finders.oembed',
+    }
+]

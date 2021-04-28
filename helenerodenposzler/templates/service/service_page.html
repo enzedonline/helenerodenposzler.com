@@ -5,9 +5,9 @@
 
 {% block content %}
 {% include 'core/banner_image.html' %}
-<div class="container-fluid p2 pb-4">
+<div class="container-fluid p2 mt-4">
     {% for block in page.body %}
-        {% include_block block %}
+        {% include_block block with block_id=block.id %}
     {% endfor %}
 </div>
 {% endblock content %}

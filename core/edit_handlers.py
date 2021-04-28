@@ -1,3 +1,4 @@
+from django.db import connection
 from django.forms.widgets import Select
 from wagtail_localize.synctree import Locale
 from wagtail.admin.edit_handlers import FieldPanel
@@ -21,6 +22,18 @@ class ServiceTypeFieldPanel(FieldPanel):
             'field_name': self.field_name,
         }
 
+    # returns the locale_id of a testimonial given the pk id
+    def parent_testimonial(self, id):
+        with connection.cursor() as cursor:
+            cursor.execute("select locale_id from core_testimonial where id=%s", [id])
+            columns = [col[0] for col in cursor.description]
+            value = [
+                dict(zip(columns, row))
+                for row in cursor.fetchall()
+            ]
+            print(value)
+        return value
+
     # Get locale id - logic based on uri of form
     # uri ends with parent id if it is in edit mode, ends in add/?locale=code if it is in add new mode
     # Fudge to get around lack of access to parent object
@@ -31,8 +44,8 @@ class ServiceTypeFieldPanel(FieldPanel):
         if path.split('/')[-2] == 'add':
             locale_id = Locale.objects.get(language_code=path.split('/')[-1].replace('?locale=','')).pk
         else:
-            parent = self.list_queryset.get(id=int(path.split('/')[-2]))
-            locale_id = getattr(parent, 'locale_id')  
+            parent = self.parent_testimonial(id=int(path.split('/')[-2]))
+            locale_id = parent[0]['locale_id']
         service_list = self.list_queryset.filter(locale_id=locale_id)
         return [('', '------')] + list(service_list.values_list('id','service'))
 
