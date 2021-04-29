@@ -4,10 +4,11 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.forms.utils import ErrorList
+from wagtail.core.blocks.field_block import URLBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.core import blocks as wagtail_blocks
-from wagtail.core.blocks import BooleanBlock, CharBlock, TextBlock, StreamBlock, StructBlock
+from wagtail.core.blocks import BooleanBlock, CharBlock, TextBlock, StreamBlock, StructBlock, RawHTMLBlock
 from wagtail.core.blocks.stream_block import StreamValue
 from wagtail_localize.synctree import Locale
 from wagtail.core.fields import StreamField
@@ -21,6 +22,19 @@ class ColourThemeChoiceBlock(wagtail_blocks.ChoiceBlock):
         ('text-white bg-helene-coral', _("Coral")),
         ('text-white bg-helene-magenta', _("Magenta")),
         ('text-white bg-helene-blue', _("Blue")),
+    ]
+
+class ButtonChoiceBlock(wagtail_blocks.ChoiceBlock):
+    choices=[
+        ('btn-primary', _("Standard Button")),
+        ('btn-btn-secondary', _("Secondary Button")),
+        ('btn-link', _("Text Only")),
+        ('btn-success', _("Success Button")),
+        ('btn-danger', _("Danger Button")),
+        ('btn-warning', _("Warning Button")),
+        ('btn-info', _("Info Button")),
+        ('btn-light', _("Light Button")),
+        ('btn-dark', _("Dark Button")),
     ]
 
 class ImageFormatChoiceBlock(wagtail_blocks.ChoiceBlock):
@@ -105,20 +119,9 @@ class Link(wagtail_blocks.StructBlock):
         required=False,
         label=_("Link to external site or internal URL")
     )
-    appearance = wagtail_blocks.ChoiceBlock(
+    appearance = ButtonChoiceBlock(
         max_length=15,
         default='btn-primary',
-        choices=[
-            ('btn-primary', _("Standard Button")),
-            ('btn-btn-secondary', _("Secondary Button")),
-            ('btn-link', _("Text Only")),
-            ('btn-success', _("Success Button")),
-            ('btn-danger', _("Danger Button")),
-            ('btn-warning', _("Warning Button")),
-            ('btn-info', _("Info Button")),
-            ('btn-light', _("Light Button")),
-            ('btn-dark', _("Dark Button")),
-        ],
         label=_("Button Appearance")
     )
     placement = wagtail_blocks.ChoiceBlock(
@@ -301,6 +304,31 @@ class InlineVideoBlock(wagtail_blocks.StructBlock):
         template = 'blocks/inline_video_block.html'
         label = _("Embed external video")    
 
+class SocialMediaEmbedBlock(wagtail_blocks.StructBlock):
+    embed_code = RawHTMLBlock(
+        label=_("Paste Embed code block from Provider"),
+        help_text=_("Paste in only embed code. For Facebook, only Step 2 on the JavaScript SDK tab")
+    )
+    class Meta:
+        template='blocks/social_media_embed.html',
+        icon = 'fa-share-alt-square'
+        label = _("Embed Social Media Post")
+
+class ExternalLinkEmbedBlock(wagtail_blocks.StructBlock):
+    external_link = URLBlock(
+        label=_("URL to External Article"),
+        help_text=_("For articles in external websites without embed share option")
+    )
+    link_text = wagtail_blocks.CharBlock(
+        label=_("Text for link to article"),
+        default=_("Read Full Article")
+    )
+
+    class Meta:
+        template='blocks/external_link_embed.html',
+        icon = 'fa-share-alt'
+        label = _("Embed External Article")
+
 class CarouselImageBlock(wagtail_blocks.StructBlock):
     image = SEOImageChooseBlock(label=_("Select Image & Enter Details"))
     title = wagtail_blocks.CharBlock(label=_("Optional Image Title"), required=False)
@@ -328,9 +356,37 @@ class ImageCarouselBlock(wagtail_blocks.StructBlock):
     carousel_images = CarouselImageStreamBlock(min_num=2, max_num=5)
     
     class Meta:
-        template='blocks/image_carousel.html',
+        template='blocks/image_carousel.html'
         icon="fa-images"
         label = _("Image Carousel")
+
+class CollapsableCard(wagtail_blocks.StructBlock):
+    header = wagtail_blocks.CharBlock(
+        label=_("Card Banner Title")
+    )
+    text = SimpleRichTextBlock(
+        label=_("Card Body Text"),
+        help_text=_("Body text for this card."),
+    )
+
+class CollapsableCardStreamBlock(StreamBlock):
+    collapsable_card = CollapsableCard()
+
+class CollapsableCardBlock(wagtail_blocks.StructBlock):
+    header_colour  = ColourThemeChoiceBlock(
+        default='text-white bg-dark',
+        label=_("Card Header Background Colour")
+    )    
+    body_colour  = ColourThemeChoiceBlock(
+        default='text-black bg-light',
+        label=_("Card Body Background Colour")
+    )
+    cards = CollapsableCardStreamBlock(min_num=2)
+
+    class Meta:
+        template='blocks/collapsable_card_block.html'
+        icon="fa-layer-group"
+        label = _("Collapsable Text Card Group")
 
 class EmptyStaticBlock(wagtail_blocks.StaticBlock):
     class Meta:
@@ -340,18 +396,7 @@ class EmptyStaticBlock(wagtail_blocks.StaticBlock):
 
 # StreamBlocks
 class BaseStreamBlock(StreamBlock):
-    """
-    Define the custom blocks that `StreamField` will utilize
-    """
-
     # header_block = HeaderBlock()
-    # list_block = ListBlock()
-    # image_text_overlay = ImageTextOverlayBlock()
-    # cropped_images_with_text = CroppedImagesWithTextBlock()
-    # list_with_images = ListWithImagesBlock()
-    # thumbnail_gallery = ThumbnailGalleryBlock()
-    # image_slider = ImageSliderBlock()
-
     richtext_block = SimpleRichTextBlock()
     image_block = ImageBlock()
     block_quote = BlockQuote()
@@ -359,8 +404,9 @@ class BaseStreamBlock(StreamBlock):
     flex_card = FlexCard()
     simple_card = SimpleCard()
     simple_card_grid = SimpleCardGridBlock()
-    # call_to_action_block = CallToActionBlock()
-    # inline_image_block = InlineImageBlock()
+    collapsible_card_block = CollapsableCardBlock()
+    social_media_embed = SocialMediaEmbedBlock()
+    external_link_embed = ExternalLinkEmbedBlock()
     inline_video_block = InlineVideoBlock()
     image_carousel = ImageCarouselBlock()
     empty_block = EmptyStaticBlock()

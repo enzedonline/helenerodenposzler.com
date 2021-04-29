@@ -1,0 +1,92 @@
+{% load wagtailcore_tags collapsable_card_tags %} 
+{% button_colour value.header_colour as banner %}
+
+<div mb-3 py-3>
+  &nbsp
+  <div class="accordion" id="accordionExample" mb-3>
+    {% for card in value.cards %}
+    <div class="card mb-0 mt-0 border-0">
+      <div class="card-header p-0" id="headingOne">
+        <h2 class="mb-0">
+          <button
+            class="btn btn-link btn-block text-left"
+            type="button"
+            data-toggle="collapse"
+            data-target="#collapseOne"
+            aria-expanded="true"
+            aria-controls="collapseOne"
+          >
+            {{ card.value.header|title }}
+          </button>
+        </h2>
+      </div>
+      <div
+        id="collapseOne"
+        class="collapse {% if forloop.first %}show{% endif %}"
+        aria-labelledby="headingOne"
+        data-parent="#accordionExample"
+      >
+        <div class="card-body {{ value.body_colour }} pb-1">
+          {{ card.value.text.content|richtext }}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <style type="text/css">
+      .btn {
+        text-decoration: none !important;
+
+      }
+        .btn:hover {
+        font-weight: $font-weight-normal;
+        color: {{ banner.text }} !important;
+        background-color: var(--{{ banner.background }});
+        border-radius: 0px;
+        border-color: transparent;
+        border: 0px;
+        text-decoration: none !important;
+        }
+    .btn-link {
+        font-weight: $font-weight-normal;
+        color: {{ banner.text }};
+        background-color: var(--{{ banner.background }});
+        border-radius: 0px;
+        border-color: transparent;
+        border: 0px;
+        text-decoration: none;
+
+      @include hover {
+        font-weight: $font-weight-normal;
+        color: {{ banner.text }} !important;
+        background-color: var(--{{ banner.background }});
+        border-radius: 0px;
+        border-color: transparent;
+        border: 0px;
+        text-decoration: none !important;;
+
+      }
+
+      &:focus,
+      &.focus {
+        font-weight: $font-weight-normal;
+        color: {{ banner.text }} !important;
+        background-color: var(--{{ banner.background }});
+        border-radius: 0px;
+        border-color: transparent;
+        border: 0px;
+        text-decoration: none !important;;
+
+      }
+
+      &:disabled,
+      &.disabled {
+        color: $btn-link-disabled-color;
+        pointer-events: none;
+      }
+
+      // No need for an active state here
+    }
+  </style>
+</div>
