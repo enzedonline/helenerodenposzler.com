@@ -14,7 +14,7 @@
 
     <div class="collapse navbar-collapse w-100 order-1 order-md-0 dual-collapse2" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
-            {% get_menu 1 as main_menu %}
+            {% get_menu 'header' as main_menu %}
             {% if main_menu %}
                 {% get_menu_items main_menu request as navigation %}
                 {% for item in navigation %}

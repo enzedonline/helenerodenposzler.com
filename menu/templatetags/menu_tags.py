@@ -117,10 +117,10 @@ def get_menu_items(menu, request):
     return menu_items
 
 @register.simple_tag()
-def get_menu(menu_id):
+def get_menu(menu_title):
     # return the localized menu instance for a given id, or none if no such menu exists
     try:
-        return Menu.objects.get(id=menu_id).localized
+        return Menu.objects.get(title=menu_title).localized
     except (AttributeError, Menu.DoesNotExist):
         return None
     

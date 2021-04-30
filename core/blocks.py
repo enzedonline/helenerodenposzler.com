@@ -394,7 +394,6 @@ class EmptyStaticBlock(wagtail_blocks.StaticBlock):
         icon = 'placeholder'
         label = 'Empty Block'
 
-# StreamBlocks
 class BaseStreamBlock(StreamBlock):
     # header_block = HeaderBlock()
     richtext_block = SimpleRichTextBlock()
