@@ -18,6 +18,9 @@
 .bg-helene-blue {
   background-color: var(--helene-blue) !important;
 }
+body {
+  font-size: clamp(0.9rem, 0.8235rem + 0.2353vw, 1rem);
+}
 .h1,
 .h2,
 .h3,
@@ -74,6 +77,21 @@ p {
 }
 .switcher-menu {
   min-width: 8rem;
+}
+.footer-nav-link,
+.footer-nav-link.active {
+  color: var(--light) !important;
+  padding: 0px;
+}
+.light-nav-link,
+.light-nav-link.active {
+  color: var(--light) !important;
+}
+.category-nav-link,
+.category-nav-link.active {
+  color: var(--dark) !important;
+  padding: 0px;
+  font-size: clamp(1.125rem, 0.9099rem + 0.6618vw, 1.40625rem);
 }
 .helene-blockquote {
   font-family: 'Source Sans Pro', sans-serif;

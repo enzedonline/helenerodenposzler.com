@@ -12,18 +12,21 @@ INSTALLED_APPS = [
     'menu',
     'core',
     'site_settings',
+    'contact',
 
     'wagtailmetadata',
     'wagtailfontawesome',
-    'wagtail_blocks',
+    'widget_tweaks',
 
     'wagtail_localize',
     'wagtail_localize.locales',
 
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
+    'wagtail.contrib.routable_page',
     'wagtail.contrib.modeladmin',
     'wagtail.contrib.settings',
+    'wagtail.contrib.sitemaps',
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',
@@ -44,6 +47,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.sitemaps',
     'django.contrib.staticfiles',
+
+    'captcha',
+    'wagtailcaptcha',
 ]
 
 MIDDLEWARE = [
@@ -162,7 +168,7 @@ WAGTAIL_SITE_NAME = "helenerodenposzler"
 
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
-BASE_URL = 'http://example.com'
+BASE_URL = 'http://helenerosenposzler.com'
 
 WAGTAILEMBEDS_FINDERS = [
     {
@@ -172,3 +178,29 @@ WAGTAILEMBEDS_FINDERS = [
         'class': 'wagtail.embeds.finders.oembed',
     }
 ]
+
+# reCaptcha settings:
+RECAPTCHA_PUBLIC_KEY = '6LdmO8AaAAAAADp169DNvs3k_oj1YQH__sZpN8X8'
+RECAPTCHA_PRIVATE_KEY = '6LdmO8AaAAAAAEzHD7lmCeObdLitHaNxJRM1kput'
+NOCAPTCHA = True
+
+# email settings
+
+
+# EMAIL_HOST = 'mail.privateemail.com'
+# # EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = True
+# # EMAIL_PORT = 587
+# EMAIL_PORT = 465
+# EMAIL_HOST_USER = 'contact@helenerodenposzler.com'
+# EMAIL_HOST_PASSWORD = 'miaumiau2022!'
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# DEFAULT_FROM_EMAIL = 'contact@helenerodenposzler.com'
+# SERVER_EMAIL = 'contact@helenerodenposzler.com'
+# EMAIL_USE_SSL = True
+# EMAIL_HOST = 'mail.privateemail.com'
+# #EMAIL_USE_TLS = True
+# EMAIL_PORT = 465
+# EMAIL_HOST_USER = 'contact@helenerodenposzler.com'
+# EMAIL_HOST_PASSWORD = 'miaumiau2022!'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

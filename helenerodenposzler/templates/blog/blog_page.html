@@ -1,25 +1,73 @@
 {% extends "base.html" %}
-{% load static wagtailimages_tags wagtailcore_tags  %}
+{% load static wagtailcore_tags wagtailimages_tags blog_page_tags %}
+
+
 
 {% block content %}
 
-    <div class="card">
-        {% image page.image fill-1200x300 as banner_img %}
-        <img src="{{ banner_img.url }}" class="card-img-top" alt="{{ banner_img.alt }}" style="width:100%; height:auto">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-8">
-                    <h3 class="card-title">{{page.title}}</h3>
-                </div>
-            </div>
-            <p class="card-text">
-                {% for block in page.body %}
-                    {% include_block block %}
-                {% endfor %}                
-            </p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-    </div>        
+{% get_blog_index as blog_index %}
 
+{% image blog_index.banner_image fill-2100x700-c100 format-webp as webp_img_w_2100 %} 
+{% image blog_index.banner_image fill-1500x500-c100 format-webp as webp_img_w_1500 %} 
+{% image blog_index.banner_image fill-900x300-c100 format-webp as webp_img_w_900 %} 
+{% image blog_index.banner_image fill-600x200-c100 format-webp as webp_img_w_600 %}
 
+<div class="banner-overlay-container">
+  <picture>
+    <source srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp" />
+    <source srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp" />
+    <source srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
+    <source srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
+    <img
+      src="{{ blog_index.banner_image.url }}"
+      alt="{{ blog_index.banner_image.alt }}"
+      style="width: 100%; height: auto"
+    />
+  </picture>
+  {% if blog_index.banner_headline or blog_index.banner_small_text %}
+  <div class="banner-overlay-text-block" style="object-fit: cover;">
+    {% if blog_index.banner_headline %}<div class="display-6" style="font-size:calc(0.5rem + 2vw);">{{ blog_index.banner_headline }}</div>{% endif %}
+    {% if blog_index.banner_headline %}<div class="display-8" style="font-size:calc(0.4rem + 1vw);">{{ blog_index.banner_small_text }}</div>{% endif %}
+  </div>
+  {% endif %}
+</div>
+
+<ul class="nav justify-content-center bg-light">
+    {% for item in self.categories.all %}
+    <li class="nav-item px-3 py-1">
+        <a class="nav-link category-nav-link" href="{{ self.get_parent.url }}?category={{item.localized.slug }}">{{ item.localized.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<div class="container-fluid p2 pt-4 pb-4">
+    {% for block in page.body %}
+        {% include_block block with block_id=block.id %}
+    {% endfor %}
+</div>
+
+{% get_prev_next self as nav %}
+
+<div class="d-flex pt-0 px-2 px-sm-3 px-md-4 px-lg-5 px-xl-7 justify-content-around flex-nowrap" style="gap: 1.5rem;">
+  <div class="card w-50 justify-content-around text-center bg-light">
+    {% if nav.next %}
+    <div class="mb-auto">
+      <a class="stretched-link" href="{{ nav.next.url }}" title="{{ nav.next.title }}">
+        {% image nav.next_icon fill-100x100 %}
+      </a>
+      <h5 class="card-title">{{ nav.next.title }}</h5>
+    </div>
+    {% endif %}
+  </div>
+  <div class="card w-50 justify-content-around text-center bg-light">
+    {% if nav.prev %}
+    <div class="mb-auto">
+      <a class="stretched-link" href="{{ nav.prev.url }}" title="{{ nav.prev.title }}">
+        {% image nav.prev_icon fill-100x100 %}
+      </a>
+      <h5 class="card-title">{{ nav.prev.title }}</h5>
+    </div>
+    {% endif %}
+  </div>
+</div>
 {% endblock content %}

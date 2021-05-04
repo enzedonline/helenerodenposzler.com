@@ -4,7 +4,7 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.forms.utils import ErrorList
-from wagtail.core.blocks.field_block import URLBlock
+from wagtail.core.blocks.field_block import IntegerBlock, URLBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.core import blocks as wagtail_blocks
@@ -12,6 +12,8 @@ from wagtail.core.blocks import BooleanBlock, CharBlock, TextBlock, StreamBlock,
 from wagtail.core.blocks.stream_block import StreamValue
 from wagtail_localize.synctree import Locale
 from wagtail.core.fields import StreamField
+from django.forms.widgets import Input
+from django.db import models
 
 class ColourThemeChoiceBlock(wagtail_blocks.ChoiceBlock):
     choices=[
@@ -215,16 +217,22 @@ class FlexCard(wagtail_blocks.StructBlock):
         label=_("Select Image & Enter Details"),
         help_text=_("Card Image (approx 1:1.4 ratio - ideally upload 2100x1470px)."),
     )
+
+    class Meta:
+        template = 'blocks/flex_card_block.html'
+        label = _("Image & Text Card")
+        icon = 'fa-address-card'
+
+class CallToActionCard(FlexCard):
     link = Link(
         label=_("Link Button"),
         help_text = _("Enter a link or select a page and choose button options."),
         required=False,
     )
-
     class Meta:
         template = 'blocks/flex_card_block.html'
         label = _("Call-To-Action Card (Image/Text/Button)")
-        icon = 'fa-address-card'
+        icon = 'fa-mouse'
 
 class SimpleCard(wagtail_blocks.StructBlock):
     background = ColourThemeChoiceBlock(
@@ -268,18 +276,6 @@ class SimpleCardGridBlock(wagtail_blocks.StructBlock):
         icon = 'fa-th'
         label = _("Flexible Grid of Simple Cards")
 
-class CallToActionBlock(wagtail_blocks.StructBlock):
-    title = wagtail_blocks.CharBlock(
-        max_length=200,
-        help_text="Max length 200 characters"
-    )
-    link = Link()
-
-    class Meta:
-        template = 'blocks/call_to_action_block.html'
-        icon = 'plus'
-        label = "Call to Action"
-
 class InlineVideoBlock(wagtail_blocks.StructBlock):
     video = EmbedBlock(
         label=_("Video URL"),
@@ -314,10 +310,54 @@ class SocialMediaEmbedBlock(wagtail_blocks.StructBlock):
         icon = 'fa-share-alt-square'
         label = _("Embed Social Media Post")
 
+class HiddenField(Input):
+    input_type = 'hidden'
+    template_name = 'django/forms/widgets/hidden.html'
+
+class HiddenCharBlock(CharBlock):
+
+    #TODO: 
+    # trying to make a hidden field in the block
+    # this needs fixing - either turn it into a readonly panel or find out where
+    # the label comes from and disable it there (probably in the struct block)
+
+    def field(self):
+        field_kwargs = {'widget': HiddenField()}
+        field_kwargs.update(self.field_options)
+        return forms.CharField(**field_kwargs)
+    def render_form(self, value, prefix='', errors=None):
+        field = self.field
+        widget = HiddenField()
+
+        widget_attrs = {'id': prefix, 'placeholder': self.label, 'input_type': 'hidden'}
+
+        field_value = field.prepare_value(self.value_for_form(value))
+
+        if hasattr(widget, 'render_with_errors'):
+            widget_html = widget.render_with_errors(prefix, field_value, attrs=widget_attrs, errors=errors)
+            widget_has_rendered_errors = True
+        else:
+            widget_html = widget.render(prefix, field_value, attrs=widget_attrs)
+            widget_has_rendered_errors = False
+
+        return render_to_string('blocks/hidden_field.html', {
+            'name': self.name,
+            'classes': getattr(self.meta, 'form_classname', self.meta.classname),
+            'widget': widget_html,
+            'field': field,
+            'errors': errors if (not widget_has_rendered_errors) else None
+        })
+    def clean(self, value):
+        return None
+    @property
+    def required(self):
+        # a FieldBlock is required if and only if its underlying form field is required
+        return False
+
 class ExternalLinkEmbedBlock(wagtail_blocks.StructBlock):
     external_link = URLBlock(
         label=_("URL to External Article"),
-        help_text=_("For articles in external websites without embed share option")
+        help_text=_("For articles in external websites without embed share option"),
     )
     link_text = wagtail_blocks.CharBlock(
         label=_("Text for link to article"),
@@ -328,7 +368,7 @@ class ExternalLinkEmbedBlock(wagtail_blocks.StructBlock):
         template='blocks/external_link_embed.html',
         icon = 'fa-share-alt'
         label = _("Embed External Article")
-
+    
 class CarouselImageBlock(wagtail_blocks.StructBlock):
     image = SEOImageChooseBlock(label=_("Select Image & Enter Details"))
     title = wagtail_blocks.CharBlock(label=_("Optional Image Title"), required=False)
@@ -394,6 +434,36 @@ class EmptyStaticBlock(wagtail_blocks.StaticBlock):
         icon = 'placeholder'
         label = 'Empty Block'
 
+class RandomTestimonialBlock(wagtail_blocks.StaticBlock):
+    class Meta:
+        template = 'blocks/random_testimonial_block.html'
+        icon = 'fa-comment'
+        label = 'Random Testimonial'
+
+class LatestBlogPostGrid(StructBlock):
+    group_label = SimpleRichTextBlock(
+        blank=True,
+        null=True,
+        label=_("Optional heading for block"),
+        help_text=_("Leave blank for no heading"),
+        required=False
+    )
+    background = ColourThemeChoiceBlock(
+        default='bg-transparent',
+        label=_("Card Background Colour")
+    )
+    post_count = IntegerBlock(
+        default=2,
+        min_value=1,
+        max_value=20,
+        label=_("Number of blog posts to show")
+    )
+    class Meta:
+        template = 'blocks/latest_blog_posts_block.html'
+        label = _("Latest Blog Post(s)")
+        icon = 'fa-microblog'
+
+
 class BaseStreamBlock(StreamBlock):
     # header_block = HeaderBlock()
     richtext_block = SimpleRichTextBlock()
@@ -401,6 +471,7 @@ class BaseStreamBlock(StreamBlock):
     block_quote = BlockQuote()
     link_button = Link()
     flex_card = FlexCard()
+    call_to_action_card = CallToActionCard()
     simple_card = SimpleCard()
     simple_card_grid = SimpleCardGridBlock()
     collapsible_card_block = CollapsableCardBlock()
@@ -408,6 +479,8 @@ class BaseStreamBlock(StreamBlock):
     external_link_embed = ExternalLinkEmbedBlock()
     inline_video_block = InlineVideoBlock()
     image_carousel = ImageCarouselBlock()
+    latest_blog_posts = LatestBlogPostGrid()
+    random_testimonial = RandomTestimonialBlock()
     empty_block = EmptyStaticBlock()
 
 class TwoColumnLayoutChoiceBlock(wagtail_blocks.ChoiceBlock):

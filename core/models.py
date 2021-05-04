@@ -1,13 +1,14 @@
-from django.db.models.expressions import F
-from django.utils.translation import gettext_lazy as _
+from django.conf import settings
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
 from wagtail.core.models import Page, TranslatableMixin
 from wagtail.images.edit_handlers import ImageChooserPanel
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
 from wagtail.snippets.models import register_snippet
-from .edit_handlers import ServiceTypeFieldPanel
+from wagtailcaptcha.models import WagtailCaptchaEmailForm
 from wagtailmetadata.models import WagtailImageMetadataMixin
-from django.conf import settings
+
+from .edit_handlers import ServiceTypeFieldPanel
 
 
 @register_snippet
@@ -142,10 +143,15 @@ class SEOPageMixin(WagtailImageMetadataMixin, models.Model):
     class Meta:
         abstract = True
 
-
-
 class SEOPage(SEOPageMixin, Page):
     pass
 
     class Meta:
         abstract = True
+
+class SEOWagtailCaptchaEmailForm(SEOPageMixin, WagtailCaptchaEmailForm):
+    pass
+
+    class Meta:
+        abstract = True
+

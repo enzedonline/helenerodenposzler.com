@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n wagtailroutablepage_tags %}
+
+{% block content %}
+{% include 'core/banner_image.html' %}
+{% get_current_language as LANGUAGE_CODE %}
+
+<div class="container-fluid p2 pr-md-5 pb-4">
+
+   <ul class="nav justify-content-center bg-light">
+            <li class="nav-item px-3 py-1">
+            {% if LANGUAGE_CODE == 'en' %}
+                <a class="nav-link category-nav-link" href="{{ self.url }}">All Categories</a> 
+            {% elif LANGUAGE_CODE == 'es' %}
+                <a class="nav-link category-nav-link" href="{{ self.url }}">Todas las Categorias</a> 
+            {% else %}
+                <a class="nav-link category-nav-link" href="{{ self.url }}">Toutes Catégories</a> 
+            {% endif %}
+            </li>
+        {% for item in categories %}
+            <li class="nav-item px-3 py-1">
+                <a class="nav-link category-nav-link" href="{{ self.url }}?category={{item.slug}}">{{ item.name }}</a> 
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock content %}

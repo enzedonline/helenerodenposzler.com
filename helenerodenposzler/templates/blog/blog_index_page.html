@@ -1,36 +1,120 @@
 {% extends "base.html" %}
-{% load static %}
-{% load wagtailimages_tags %}
+{% load i18n static wagtailimages_tags wagtailcore_tags wagtailroutablepage_tags %}
 
 {% block content %}
-    <div class="jumbotron pt-3">
-        <h1 class="display-4">{{ page.title }}</h1>
-        <p class="lead">{{ page.introduction }}</p>
-        {% if posts %}
+{% include 'core/banner_image.html' %}
+{% get_current_language as LANGUAGE_CODE %}
+
+<div class="container-fluid p2 pr-md-5 pb-4">
+
+    <h1 class="display-4 pt-2">{{ page.title }}</h1>
+
+    {% for block in page.top_section %}
+        {% include_block block %}
+    {% endfor %}
+
+    <ul class="nav justify-content-center bg-light">
+            <li class="nav-item px-3 py-1">
+            {% if LANGUAGE_CODE == 'en' %}
+                <a class="nav-link category-nav-link" href="{{ self.url }}">All Categories</a> 
+            {% elif LANGUAGE_CODE == 'es' %}
+                <a class="nav-link category-nav-link" href="{{ self.url }}">Todas las Categorias</a> 
+            {% else %}
+                <a class="nav-link category-nav-link" href="{{ self.url }}">Toutes Catégories</a> 
+            {% endif %}
+            </li>
+        {% for item in categories %}
+            <li class="nav-item px-3 py-1">
+                <a class="nav-link category-nav-link" href="{{ self.url }}?category={{item.slug}}">{{ item.name }}</a> 
+            </li>
+        {% endfor %}
+    </ul>
+
+    <p class="h1 lead">{{ page.introduction }}</p>
+    {% if posts %}
+        <div class="row p-2 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 justify-content-center">
             {% for post in posts %}
-                <div class="row">
-                    <div class="card mb-3 bg-secondary">
-                        <div class="row no-gutters row-cols-2">
-                            <div class="col-3 pt-2" style="max-width: 150px;">
-                                {% image post.image fill-150x150 as blog_img %}
-                                <img src="{{ blog_img.url }}" class="card-img-top" alt="{{ blog_img.alt }}">
-                            </div>
-                            <div class="col-9 mt-n2">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ post.title }}</h5>
-                                    <p class="card-text">{{ post.body |truncatewords:30}}</p>
-                                    <p class="card-text"><small class="text-muted">{{ post.publication_date }}</small></p>
-                                    <a href="{{post.url}}" class="btn btn-primary stretched-link">Read More ...</a>
-                                </div>
-                            </div>
+                <div class="col mx-0 mb-4">
+                    <div class="card h-100 p-2">
+                        {% image post.search_image fill-900x600-c100 format-webp as webp_img_w_900 %} 
+                        {% image post.search_image fill-600x400-c100 format-webp as webp_img_w_600 %}
+                        {% image post.search_image fill-300x200-c100 format-webp as webp_img_w_300 %}
+                        <picture>
+                            <source srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
+                            <source srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
+                            <source srcset="{{ webp_img_w_600.url }} 300w" type="image/webp" />
+                            <img
+                                src="{{ post.search_image.url }}"
+                                alt="{{ post.title }}"
+                                style="width: 100%; height: auto"
+                            />
+                        </picture>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="card-text"><small class="text-muted">{{ post.first_published_at }}</small></p>
                         </div>
+                        <a href="{{post.url}}" class="stretched-link"></a>
                     </div>
                 </div>
             {% endfor %}
-        {% else %}
-            No results found
-        {% endif %}
-    </div>
+        </div>
+    {% else %}
+        <div class="card-body">
+            {% if LANGUAGE_CODE == 'en' %}
+                <p>Sorry, no results found. Please try a different category.</p>
+            {% elif LANGUAGE_CODE == 'es' %}
+                <p>Lo sentimos, no se encontraron resultados. Pruebe con una categoría diferente.</p>
+            {% else %}
+                <p>Désolé, aucun résultat trouvé. Veuillez essayer une autre catégorie.</p>
+            {% endif %}
+        </div>
+    {% endif %}
 
+    {% for block in page.bottom_section %}
+        {% include_block block %}
+    {% endfor %}
+</div>
+
+<div>
+    {% if posts.paginator.num_pages > 1 %}
+        <nav aria-label="...">
+            <ul class="pagination justify-content-center">
+                <li class="page-item {% if not posts.has_previous %}disabled{% endif %}">
+                    <a class="page-link" href="{% if posts.has_previous %}?page=1{% endif %}" tabindex="-1" {% if not posts.has_previous %}aria-disabled="true"{% endif %}><span>&laquo;&laquo;</span></a>
+                </li>
+                <li class="page-item {% if not posts.has_previous %}disabled{% endif %}">
+                    <a class="page-link" href="{% if posts.has_previous %}?page={{ posts.previous_page_number }}{% endif %}" tabindex="-1" {% if not posts.has_previous %}aria-disabled="true"{% endif %}><span>&laquo;</span></a>
+                </li>
+                {% if page_range_first > 1 %}
+                    <li class="page-item disabled">
+                        <a class="page-link">...</a>
+                    </li>      
+                {% endif %}                
+                {% for page_num in page_range %}
+                    {% if page_num == posts.number %}
+                        <li class="page-item active" aria-current="page">
+                            <a class="page-link" href="?page={{ page_num }}">{{ page_num }} <span class="sr-only">(current)</span></a>
+                        </li>      
+                    {% else %}
+                        <li class="page-item" aria-current="page">
+                            <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                        </li>      
+                    {% endif %}          
+                {% endfor %}
+                {% if page_range_last < posts.paginator.num_pages %}
+                    <li class="page-item disabled">
+                        <a class="page-link">...</a>
+                    </li>      
+                {% endif %}
+                <li class="page-item {% if not posts.has_next %}disabled{% endif %}">
+                    <a class="page-link" href="{% if posts.has_next %}?page={{ posts.next_page_number }}{% endif %}" {% if not posts.has_previous %}aria-disabled="true"{% endif %}><span>&raquo;</span></a>
+                </li>
+                <li class="page-item {% if not posts.has_next %}disabled{% endif %}">
+                    <a class="page-link" href="{% if posts.has_next %}?page={{ posts.paginator.num_pages }}{% endif %}" {% if not posts.has_next %}aria-disabled="true"{% endif %}><span>&raquo;&raquo;</span></a>
+                </li>
+            </ul>
+        </nav>    
+    {% endif %}
+</div>
 
 {% endblock content %}

@@ -1,3 +1,4 @@
+from site_settings.models import SocialMedia
 from menu.models import Menu, CompanyLogo
 from django import template
 from wagtail_localize.synctree import Locale, Page
@@ -118,9 +119,9 @@ def get_menu_items(menu, request):
 
 @register.simple_tag()
 def get_menu(menu_title):
-    # return the localized menu instance for a given id, or none if no such menu exists
+    # return the localized menu instance for a given title, or none if no such menu exists
     try:
-        return Menu.objects.get(title=menu_title).localized
+        return Menu.objects.all().filter(title=menu_title).first().localized 
     except (AttributeError, Menu.DoesNotExist):
         return None
     
@@ -167,3 +168,26 @@ def get_lang_flag(language_code=None):
 @register.simple_tag()
 def company_logo():
     return CompanyLogo.objects.first()
+
+@register.simple_tag()
+def get_social_media_icons():
+    try:
+        social_media_icons = []
+        icons = SocialMedia.objects.all().filter(locale_id=Locale.get_active().id)
+        for icon in icons:
+            item = {}
+            item['link'] = icon.url
+            item['image'] = icon.photo.get_rendition('fill-25x25').url
+            item['alt'] = icon.site_name
+            social_media_icons.append(item)
+        return social_media_icons
+    except:
+        return None
+
+@register.simple_tag()
+def locale_page(slug):
+    try:
+        localized_page = Page.objects.all().filter(slug=slug).first().localized
+        return localized_page
+    except (AttributeError, Menu.DoesNotExist):
+        return None        

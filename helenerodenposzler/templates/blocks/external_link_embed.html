@@ -1,6 +1,7 @@
 {% load wagtailcore_tags wagtailimages_tags external_link_embed_tags %} 
 {% get_metadata self.external_link as metadata %}
 
+{% if metadata.image or metadata.title or metadata.description %}
 <div mb-3 py-3>
   &nbsp
   <div class="card" style="width: auto">
@@ -29,3 +30,4 @@
     </div>
   </div>
 </div>
+{% endif %}
