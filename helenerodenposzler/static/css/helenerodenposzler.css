@@ -91,7 +91,7 @@ p {
 .category-nav-link.active {
   color: var(--dark) !important;
   padding: 0px;
-  font-size: clamp(1.125rem, 0.9099rem + 0.6618vw, 1.40625rem);
+  font-size: clamp(0.9375rem, 0.7583rem + 0.5515vw, 1.1718756rem);
 }
 .helene-blockquote {
   font-family: 'Source Sans Pro', sans-serif;

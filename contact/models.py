@@ -149,7 +149,7 @@ class ContactPage(SEOWagtailCaptchaEmailForm):
     receipt_email_footer = models.ForeignKey(
         'site_settings.EmailSignature',
         null=True,
-        blank=True,
+        blank=False,
         on_delete=models.SET_NULL,
         related_name='+'
     )
@@ -265,7 +265,7 @@ class ContactPage(SEOWagtailCaptchaEmailForm):
     def send_mail(self, form):
         notification_email = self.get_notification_email(form)
         receipt_email = self.html_email(self.get_receipt_email(notification_email['contact_email_address']))
-        receipt_email.reply_to = self.reply_to
+        receipt_email.reply_to = [x.strip() for x in self.reply_to.split(',')]
         notification_email = self.html_email(notification_email)
         connection = self.get_mail_backend()      
         connection.send_messages([notification_email, receipt_email])
