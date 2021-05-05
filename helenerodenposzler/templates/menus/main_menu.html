@@ -2,8 +2,6 @@
 
 {% company_logo as logo %}
 
-<link rel="stylesheet" href="{% static '/css/menu.css'%}">
-
 <nav class="navbar navbar-expand-md navbar-light bg-light">
     <a class="navbar-brand" href="/">{% image logo.logo fill-150x30 %}</a>
 
@@ -153,3 +151,24 @@
         $(this).blur();
     })
 </script>
+
+<style>
+.dropright {
+    position: relative;
+    margin-left: 10px;
+  }
+  
+.dropright .btn-dark-outline {
+    background-color: transparent;
+  }
+
+.dropright .btn:focus,.btn:active {
+    outline: none !important;
+    box-shadow: none;
+ }
+.dropright .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -1px;
+  }
+</style>

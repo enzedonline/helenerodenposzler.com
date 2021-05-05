@@ -12,6 +12,9 @@ from wagtail.documents import urls as wagtaildocs_urls
 from core.views import RobotsView
 from django.views import defaults as default_views
 
+def trigger_error(request):
+    division_by_zero = 1 / 0
+    
 urlpatterns = [
     path('lang/<str:language_code>/', set_language_from_url, name='set_language_from_url'),
     path('django-admin/', admin.site.urls),
@@ -19,6 +22,7 @@ urlpatterns = [
     path('documents/', include(wagtaildocs_urls)),
     url(r'^robots\.txt$', RobotsView.as_view(), name='robots'),
     url(r'^sitemap.xml$', sitemap),
+    path('sentry-debug/', trigger_error),
 ]
 
 if settings.DEBUG:
