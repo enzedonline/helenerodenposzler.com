@@ -1,14 +1,6 @@
 from .base import *
 
-DEBUG = False
-SECRET_KEY = 'x*iawo25-30xi1suo-12!z23-ie)+frm7ue736x$akp39dk0hm'
-BASE_URL = 'http://helelerodenposzler.com'
-ALLOWED_HOSTS = ['*']
-
-# reCaptcha settings:
-RECAPTCHA_PUBLIC_KEY = '6LdmO8AaAAAAADp169DNvs3k_oj1YQH__sZpN8X8'
-RECAPTCHA_PRIVATE_KEY = '6LdmO8AaAAAAAEzHD7lmCeObdLitHaNxJRM1kput'
-NOCAPTCHA = True
+# SECURITY WARNING: don't run with debug turned on in production!
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -24,21 +16,16 @@ DATABASES = {
     }
 }
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': '/debug.log',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-    },
-}
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'x*iawo25-30xi1suo-12!z23-ie)+frm7ue736x$akp39dk0hm'
+
+# SECURITY WARNING: define the correct hosts in production!
+ALLOWED_HOSTS = ['*']
+
+BASE_URL = 'http://helelerodenposzler.com'
+
+# reCaptcha settings:
+RECAPTCHA_PUBLIC_KEY = '6LdmO8AaAAAAADp169DNvs3k_oj1YQH__sZpN8X8'
+RECAPTCHA_PRIVATE_KEY = '6LdmO8AaAAAAAEzHD7lmCeObdLitHaNxJRM1kput'
+NOCAPTCHA = True
+
