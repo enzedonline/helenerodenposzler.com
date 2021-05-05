@@ -88,20 +88,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'helenerodenposzler.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'helenerodenposzler',
-        'USER': 'helene_admin',
-        'PASSWORD': 'miaumiau2021',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
