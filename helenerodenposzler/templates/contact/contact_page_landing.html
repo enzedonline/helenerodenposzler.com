@@ -17,9 +17,9 @@
                     {% image post.search_image fill-600x400-c100 format-webp as webp_img_w_600 %}
                     {% image post.search_image fill-300x200-c100 format-webp as webp_img_w_300 %}
                     <picture>
-                        <source srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
-                        <source srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
-                        <source srcset="{{ webp_img_w_600.url }} 300w" type="image/webp" />
+                        <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
+                        <source media="(min-width: 500px)" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
+                        <source srcset="{{ webp_img_w_300.url }} 300w" type="image/webp" />
                         <img
                             src="{{ post.search_image.url }}"
                             alt="{{ post.title }}"

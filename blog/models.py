@@ -1,46 +1,12 @@
 from core.blocks import GridStreamBlock
 from core.models import SEOPage
-from django import forms
-from django.utils.text import slugify
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
-from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
-from django_extensions.db.fields import AutoSlugField
-from modelcluster.fields import ParentalManyToManyField
 from wagtail.admin.edit_handlers import (FieldPanel, MultiFieldPanel,
                                          StreamFieldPanel)
-from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.core.fields import StreamField
-from wagtail.core.models import Locale, TranslatableMixin
 from wagtail.images.edit_handlers import ImageChooserPanel
-from wagtail.snippets.models import register_snippet
-
-
-@register_snippet
-class BlogCategory(TranslatableMixin, models.Model):
-    name = models.CharField(max_length=200)
-    slug = models.SlugField(
-        blank=True,
-        help_text=_("Set automatically"),
-    )
-    panels = [
-        FieldPanel('name'),
-        FieldPanel('slug'),
-    ]
-
-    class Meta:
-        verbose_name = 'Blog Category'
-        verbose_name_plural = 'Blog Categories'
-        ordering = ['name']
-        unique_together = ('translation_key', 'locale')
-    
-    def __str__(self):
-        return self.name
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        super(BlogCategory, self).save(*args, **kwargs)
 
 class BlogDetailPage(SEOPage):
     template = "blog/blog_page.html"
@@ -50,27 +16,15 @@ class BlogDetailPage(SEOPage):
     body = StreamField(
         GridStreamBlock(), verbose_name="Page body", blank=True
     )
-    categories = ParentalManyToManyField(
-        'blog.BlogCategory',
-    )
 
     content_panels = SEOPage.content_panels + [
-        MultiFieldPanel(
-            [
-                FieldPanel(
-                    'categories', 
-                    widget = forms.CheckboxSelectMultiple,
-                ),
-            ],
-            heading = "Blog Categories",
-        ),
         StreamFieldPanel("body"),
     ]
 
     class Meta:
         verbose_name = _("Blog Page")
 
-class BlogListingPage(RoutablePageMixin, SEOPage):
+class BlogListingPage(SEOPage):
     template = "blog/blog_index_page.html"
     parent_page_types = ['home.HomePage']
     subpage_types = [
@@ -120,12 +74,6 @@ class BlogListingPage(RoutablePageMixin, SEOPage):
         StreamFieldPanel("bottom_section"),
     ]
 
-    # def get_context(self, request, *args, **kwargs):
-    #     """Adds custom fields to the context"""
-    #     context = super().get_context(request, *args, **kwargs)
-    #     context['posts'] = BlogDetailPage.objects.child_of(self).live().public().reverse()
-    #     return context
-
     @property
     def get_child_pages(self):
         return self.get_children().public().live()
@@ -136,33 +84,6 @@ class BlogListingPage(RoutablePageMixin, SEOPage):
         # all_posts = self.get_children().public().live().order_by('-first_published_at')
         all_posts = BlogDetailPage.objects.child_of(self).live().public().reverse()
         
-        categories = BlogCategory.objects.all().filter(locale_id=Locale.get_active().id)
-        category_filter = request.GET.get("category", None)
-        if category_filter:
-            # distinct not supported in sqlite
-            # all_posts = all_posts.filter(categories__slug__in=[category_filter]).distinct('id')
-            all_posts = all_posts.filter(categories__slug__in=category_filter.split(','))
-            verbose_category_list = ""
-            for item in category_filter.split(','):
-                try:
-                    verbose_category_list += "'" + categories.filter(slug=item).first().name + "' "
-                except BlogCategory.DoesNotExist:
-                    verbose_category_list += "'" + item + "' "
-            context['category_filter'] = verbose_category_list
-
-#         tag_filter = request.GET.get("tag", None)
-#         if tag_filter:
-#             # distinct not supported in sqlite
-# #            all_posts = all_posts.filter(tags__slug__in=['tag1','tag2']).distinct('id')
-#             all_posts = all_posts.filter(tags__slug__in=tag_filter.split(','))
-#             verbose_tag_list = ""
-#             for item in tag_filter.split(','):
-#                 try:
-#                     verbose_tag_list += "'" + Tag.objects.get(slug=item).name + "' "
-#                 except Tag.DoesNotExist:
-#                     verbose_tag_list += "'" + item + "' "
-#             context['tag_filter'] = verbose_tag_list
-
         paginator = Paginator(all_posts, 8)
 
         requested_page = request.GET.get("page")
@@ -183,29 +104,8 @@ class BlogListingPage(RoutablePageMixin, SEOPage):
         context['page_range_first'] = context['page_range'][0]
         context['page_range_last'] = context['page_range'][-1]
         context["posts"] = posts
-        context['categories'] = categories
 
         return context
-
-    @route(r"^category/$", name="category_list")
-    @route(r"^category/(?P<cat_slug>[-\w]*)/$", name="category_view")
-    def category_view(self, request, cat_slug=None):
-        context = self.get_context(request)
-        try:
-            # Look for the blog category by its slug.
-            category = BlogCategory.objects.get(slug=cat_slug)
-            context["posts"] = BlogDetailPage.objects.child_of(self).live().public().filter(categories__in=[category]).reverse()
-            context['category_filter'] = category.name
-        except Exception:
-            # Blog category doesnt exist (ie /blog/category/missing-category/)
-            category = None
-
-        if category is None:
-            context['categories'] = BlogCategory.objects.all().filter(locale_id=Locale.get_active().id).order_by('name')
-            return render(request, "blog/category_list.html", context)  
-
-        return render(request, "blog/blog_index_page.html", context)            
-
 
 def paginator_range(requested_page, last_page_num, wing_size=5):
     """ Given a 'wing size', return a range for pagination. 

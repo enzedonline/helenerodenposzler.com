@@ -12,7 +12,7 @@
           {% image self.intro_image width-900 format-webp as webp_img_w_900 %} 
           {% image self.intro_image width-600 format-webp as webp_img_w_600 %}
           <picture>
-            <source srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
+            <source media="(min-width: 1200px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
             <source srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
             <img
               src="{{ self.intro_image.url }}"

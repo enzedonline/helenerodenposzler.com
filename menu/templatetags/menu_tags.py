@@ -138,7 +138,11 @@ def language_switcher(page):
                 trans_page = page.get_translation(locale=locale)
             else:
                 trans_page = page
-            next_url = '/?next=' + trans_page.url
+            # bug when run in debug mode on the server, page is none for some reason
+            if trans_page:
+                next_url = '/?next=' + trans_page.url
+            else:
+                next_url = '/?next=/'
         except AttributeError:
             trans_page = Page.objects.first().get_children().live().first()
             next_url = ''

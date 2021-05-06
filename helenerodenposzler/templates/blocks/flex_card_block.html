@@ -1,5 +1,4 @@
 {% load wagtailimages_tags wagtailcore_tags flex_card_tags %}
-{% image self.image.file fill-786x552 format-webp as img %}
 {% image self.image.file fill-2100x1470-c100 format-webp as webp_img_w_2100 %} 
 {% image self.image.file fill-1500x1050-c100 format-webp as webp_img_w_1500 %} 
 {% image self.image.file fill-900x630-c100 format-webp as webp_img_w_900 %} 
@@ -11,11 +10,11 @@
 {% if self.format == 'vertical' %}
   <div class="card {{ self.background }} {% if not self.border %}border-0{% endif %} p-{{pad}} mb-3 h-100">
     <picture>
-      <source srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp" />
-      <source srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp" />
-      <source srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
-      <source srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
-      <source srcset="{{ webp_img_w_600.url }} 300w" type="image/webp" />
+      <source media="(min-width: 1800px)" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp" />
+      <source media="(min-width: 120px)" srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp" />
+      <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
+      <source media="(min-width: 500px)" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
+      <source srcset="{{ webp_img_w_300.url }} 300w" type="image/webp" />
       <img
         src="{{ self.image.file.url }}"
         alt="{{ self.image.seo_title }}"
@@ -37,11 +36,11 @@
     <div class="row no-gutters">
       <div class="col-sm-3 p-0">
         <picture>
-          <source srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp" />
-          <source srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp" />
-          <source srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
-          <source srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
-          <source srcset="{{ webp_img_w_600.url }} 300w" type="image/webp" />
+          <source media="(min-width: 1800px)" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp" />
+          <source media="(min-width: 120px)" srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp" />
+          <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
+          <source media="(min-width: 500px)" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
+          <source srcset="{{ webp_img_w_300.url }} 300w" type="image/webp" />
           <img
             src="{{ self.image.file.url }}"
             alt="{{ self.image.seo_title }}"
@@ -67,11 +66,11 @@
     <div class="row no-gutters">
       <div class="col-3 p-0">
         <picture>
-          <source srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp" />
-          <source srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp" />
-          <source srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
-          <source srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
-          <source srcset="{{ webp_img_w_600.url }} 300w" type="image/webp" />
+          <source media="(min-width: 1800px)" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp" />
+          <source media="(min-width: 120px)" srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp" />
+          <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
+          <source media="(min-width: 500px)" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
+          <source srcset="{{ webp_img_w_300.url }} 300w" type="image/webp" />
           <img
             src="{{ self.image.file.url }}"
             alt="{{ self.image.seo_title }}"
@@ -107,11 +106,11 @@
       </div>
       <div class="col-sm-3 p-0 order-1 order-sm-12">
         <picture>
-          <source srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp" />
-          <source srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp" />
-          <source srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
-          <source srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
-          <source srcset="{{ webp_img_w_600.url }} 300w" type="image/webp" />
+          <source media="(min-width: 1800px)" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp" />
+          <source media="(min-width: 120px)" srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp" />
+          <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
+          <source media="(min-width: 500px)" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
+          <source srcset="{{ webp_img_w_300.url }} 300w" type="image/webp" />
           <img
             src="{{ self.image.file.url }}"
             alt="{{ self.image.seo_title }}"
@@ -136,11 +135,11 @@
       </div>
       <div class="col-3">
         <picture>
-          <source srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp" />
-          <source srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp" />
-          <source srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
-          <source srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
-          <source srcset="{{ webp_img_w_600.url }} 300w" type="image/webp" />
+          <source media="(min-width: 1800px)" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp" />
+          <source media="(min-width: 120px)" srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp" />
+          <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
+          <source media="(min-width: 500px)" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
+          <source srcset="{{ webp_img_w_300.url }} 300w" type="image/webp" />
           <img
             src="{{ self.image.file.url }}"
             alt="{{ self.image.seo_title }}"

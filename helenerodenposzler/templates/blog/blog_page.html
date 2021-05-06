@@ -14,9 +14,9 @@
 
 <div class="banner-overlay-container">
   <picture>
-    <source srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp" />
-    <source srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp" />
-    <source srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
+    <source media="(min-width: 1800px)" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp" />
+    <source media="(min-width: 1200px)" srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp" />
+    <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
     <source srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
     <img
       src="{{ blog_index.banner_image.url }}"
@@ -32,14 +32,6 @@
   {% endif %}
 </div>
 
-<ul class="nav justify-content-center bg-light">
-    {% for item in self.categories.all %}
-    <li class="nav-item px-3 py-1">
-        <a class="nav-link category-nav-link" href="{{ self.get_parent.url }}?category={{item.localized.slug }}">{{ item.localized.name }}</a>
-    </li>
-    {% endfor %}
-</ul>
-
 <div class="container-fluid p2 pt-4">
     {% for block in page.body %}
         {% include_block block with block_id=block.id %}
@@ -49,17 +41,13 @@
 {% get_prev_next self as nav %}
 
 <div class="d-flex pt-0 px-2 px-sm-3 px-md-4 px-lg-5 px-xl-7 justify-content-around flex-nowrap" style="gap: 1.5rem;">
-  <div class="card w-50 justify-content-around text-center border-0">
+  <div class="card w-50 justify-content-around text-center border-0" style="max-width: 400px;">
     {% if nav.next %}
     <div class="mb-auto bg-light border-1">
       <a class="stretched-link" href="{{ nav.next.url }}" title="{{ nav.next.title }}">
-        {% image nav.next.search_image fill-900x600-c100 format-webp as webp_img_w_900 %} 
-        {% image nav.next.search_image fill-600x400-c100 format-webp as webp_img_w_600 %}
-        {% image nav.next.search_image fill-300x200-c100 format-webp as webp_img_w_300 %}
+        {% image nav.prev.search_image fill-400x200-c100 format-webp as webp_img_w_400 %}
         <picture>
-            <source srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
-            <source srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
-            <source srcset="{{ webp_img_w_600.url }} 300w" type="image/webp" />
+            <source srcset="{{ webp_img_w_400.url }} 400w" type="image/webp" />
             <img
                 src="{{ nav.next.search_image.url }}"
                 alt="{{ post.title }}"
@@ -73,21 +61,17 @@
     </div>
     {% endif %}
   </div>
-  <div class="card w-50 justify-content-around text-center border-0">
+  <div class="card w-50 justify-content-around text-center border-0" style="max-width: 400px;">
     {% if nav.prev %}
     <div class="mb-auto bg-light border-1">
       <a class="stretched-link" href="{{ nav.prev.url }}" title="{{ nav.prev.title }}">
-        {% image nav.prev.search_image fill-900x600-c100 format-webp as webp_img_w_900 %} 
-        {% image nav.prev.search_image fill-600x400-c100 format-webp as webp_img_w_600 %}
-        {% image nav.prev.search_image fill-300x200-c100 format-webp as webp_img_w_300 %}
+        {% image nav.prev.search_image fill-400x200-c100 format-webp as webp_img_w_400 %}
         <picture>
-            <source srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
-            <source srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
-            <source srcset="{{ webp_img_w_600.url }} 300w" type="image/webp" />
+            <source srcset="{{ webp_img_w_400.url }} 400w" type="image/webp" />
             <img
                 src="{{ nav.prev.search_image.url }}"
                 alt="{{ post.title }}"
-                style="width: 100%; height: auto"
+                style="width: 100%; height: auto;"
             />
         </picture>
       </a>

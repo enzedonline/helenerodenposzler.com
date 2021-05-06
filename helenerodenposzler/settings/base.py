@@ -12,6 +12,7 @@ INSTALLED_APPS = [
     'core',
     'site_settings',
     'contact',
+    'dbbackup',
 
     'wagtailmetadata',
     'wagtailfontawesome',
@@ -165,4 +166,5 @@ WAGTAILEMBEDS_FINDERS = [
     }
 ]
 
-
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR, '../backups')}

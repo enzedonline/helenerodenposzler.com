@@ -6,42 +6,37 @@
 {% image self.image.file width-500 format-webp as webp_img_w_500 %}
 {% image self.image.file width-250 format-webp as webp_img_w_250 %}
 {% image self.image.file width-100 format-webp as webp_img_w_100 %}
-{% image self.image.file width-50 format-webp as webp_img_w_50 %}
-{% image self.image.file width-25 format-webp as webp_img_w_25 %}
 
 <div class="{{ self.background }} mb-3"
   <figure>
     <picture class="srcset card-training-category__image">
       <source
+        media="(min-width: 1500px)" 
         srcset="{{ webp_img_scale_100.url }} 1500w"  
         type="image/webp"
       />
       <source
+        media="(min-width: 1000px)" 
         srcset="{{ webp_img_w_1200.url }} 1200w"  
         type="image/webp"
       />
       <source
+        media="(min-width: 600px)" 
         srcset="{{ webp_img_w_750.url }} 750w"  
         type="image/webp"
       />
       <source
+        media="(min-width: 4500px)" 
         srcset="{{ webp_img_w_500.url }} 500w"  
         type="image/webp"
       />
       <source
+        media="(min-width: 200px)" 
         srcset="{{ webp_img_w_250.url }} 250w"  
         type="image/webp"
       />
       <source
         srcset="{{ webp_img_w_100.url }} 100w"  
-        type="image/webp"
-      />
-      <source
-        srcset="{{ webp_img_w_50.url }} 50w"  
-        type="image/webp"
-      />
-      <source
-        srcset="{{ webp_img_w_25.url }} 25w"  
         type="image/webp"
       />
 
