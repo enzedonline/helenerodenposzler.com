@@ -19,7 +19,7 @@
     <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
     <source srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
     <img
-      src="{{ blog_index.banner_image.url }}"
+      src="{% self.banner_image %}"
       alt="{{ self.title }}"
       style="width: 100%; height: auto"
     />
