@@ -38,6 +38,10 @@
     {% endfor %}
 </div>
 
+<div class="px-5 pt-2 pb-4">
+  <hr>
+</div>
+
 {% get_prev_next self as nav %}
 
 <div class="d-flex pt-0 px-2 px-sm-3 px-md-4 px-lg-5 px-xl-7 justify-content-around flex-nowrap" style="gap: 1.5rem;">
@@ -45,7 +49,7 @@
     {% if nav.next %}
     <div class="mb-auto bg-light border-1">
       <a class="stretched-link" href="{{ nav.next.url }}" title="{{ nav.next.title }}">
-        {% image nav.prev.search_image fill-400x200-c100 format-webp as webp_img_w_400 %}
+        {% image nav.next.search_image fill-400x200-c100 format-webp as webp_img_w_400 %}
         <picture>
             <source srcset="{{ webp_img_w_400.url }} 400w" type="image/webp" />
             <img

@@ -104,7 +104,7 @@ class ContactPage(SEOWagtailCaptchaEmailForm):
     )
     form_error_warning = CharField(
         default="There was a problem submitting the form. Please check below and try again.",
-        max_length=80,
+        max_length=150,
         verbose_name=_("Form Error Warning"),
         help_text=_("Text to display above the form in case there was a problem")
     )
