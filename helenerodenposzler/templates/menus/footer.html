@@ -9,8 +9,8 @@
       <ul class="nav bg-dark pr-4">
         {% for icon in social_media_icons %}
         <li class="nav-item px-1">
-          <a href="{{ icon.link }}">
-            <img src="{{ icon.image }}" alt="{{ icon.title }}" />
+          <a href="{{ icon.link }}" title="{{ icon.site_name }}">
+            <img src="{{ icon.image }}" alt="{{ icon.site_name }}" />
           </a>
         </li>
         {% endfor %}
