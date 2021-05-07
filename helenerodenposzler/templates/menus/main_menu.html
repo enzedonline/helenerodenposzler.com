@@ -2,24 +2,32 @@
 
 {% company_logo as logo %}
 
-<nav class="navbar navbar-expand-md navbar-light bg-light">
+<nav class="navbar navbar-expand-md navbar-light bg-light pr-2 pr-md-0">
     <a class="navbar-brand" href="/">{% image logo.logo fill-150x30 %}</a>
 
-    {% locale_page 'contact' as contact_page %}
-    {% if contact_page %}
-        <div class="ml-auto mr-0 order-0 order-md-1 pr-2">
-            <ul class="navbar-nav flex-row flex-nowrap">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ contact_page.url }}">{{ contact_page.title }}</a>
-                </li> 
-            </ul>
-        </div>    
+    {% get_menu 'contact' as contact_menu %}
+    {% if contact_menu %}
+        {% get_menu_items contact_menu request as contact_menu_items %}
+        {% for item in contact_menu_items %}
+            <div class="ml-auto mr-0 order-0 order-md-1 pr-2 pr-md-0">
+                <ul class="navbar-nav flex-row flex-nowrap">
+                    <li class="nav-item{% if request.path == item.url %} active{% endif %}">
+                        <a class="nav-link" href="{{item.url}}">                            
+                            {% if item.icon %}
+                                {% image item.icon fill-25x25 class="image-menu" %}
+                            {% endif %}
+                            {{ item.title }}
+                        </a>
+                    </li>
+                </ul>
+            </div>    
+        {% endfor %}
     {% endif %}
 
     <div class="collapse navbar-collapse order-1 order-md-0 dual-collapse2" id="navbarColor01">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav ml-auto">
             {% get_menu 'main_menu' as main_menu %}
-            {% if main_menu %}{{hello}}
+            {% if main_menu %}
                 {% get_menu_items main_menu request as navigation %}
                 {% for item in navigation %}
                     {% if not item.is_submenu %}
@@ -171,4 +179,11 @@
     left: 100%;
     margin-top: -1px;
   }
+.nav-item {
+    padding: 0rem 0rem;
+    padding-right: 0rem;
+    padding-left: 0rem;
+    font-size: clamp(0.84375rem, 0.7721rem + 0.2206vw, 0.9375rem);
+    font-weight: 500;
+}
 </style>
