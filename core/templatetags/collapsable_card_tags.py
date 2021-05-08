@@ -13,3 +13,4 @@ def button_colour(colour_theme):
         result['text'] = theme[0].replace('text-','')
         result['background'] = theme[1].replace('bg-','')
     return result
+
