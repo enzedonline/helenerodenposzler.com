@@ -33,7 +33,7 @@
   </div>
 {% elif self.format == 'image-left-responsive' %}
   <div class="card {{ self.background }} {% if not self.border %}border-0{% endif %} p-{{pad}} h-100">
-    <div class="row no-gutters">
+    <div class="row no-gutters pb-3">
       <div class="col-sm-3 p-0">
         <picture>
           <source media="(min-width: 1800px)" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp" />
@@ -63,7 +63,7 @@
   </div>
 {% elif self.format == 'image-left-fixed' %}
   <div class="card {{ self.background }} {% if not self.border %}border-0{% endif %} p-{{pad}} h-100">
-    <div class="row no-gutters">
+    <div class="row no-gutters pb-3">
       <div class="col-3 p-0">
         <picture>
           <source media="(min-width: 1800px)" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp" />
@@ -93,7 +93,7 @@
   </div>
 {% elif self.format == 'image-right-responsive' %}
   <div class="card {{ self.background }} {% if not self.border %}border-0{% endif %} p-{{pad}} h-100">
-    <div class="row no-gutters">
+    <div class="row no-gutters pb-3">
       <div class="d-flex flex-column col-sm-9 order-12 order-sm-1 pr-0 pr-sm-3">
         <div class="card-body pt-2 pt-sm-1 pt-md-0 pb-0 px-0 mt-0 mt-sm-n2 mt-md-n1">
           <span class="card-text">{{ self.text.content|richtext }}</span>
@@ -122,7 +122,7 @@
   </div>
 {% else %}
   <div class="card {{ self.background }} {% if not self.border %}border-0{% endif %} p-{{pad}} h-100">
-    <div class="row no-gutters">
+    <div class="row no-gutters pb-3">
       <div class="d-flex flex-column col-9 pr-3">
         <div class="card-body pt-0 pb-0 px-0 mt-n2 mt-md-n1">
           <span class="card-text">{{ self.text.content|richtext }}</span>
