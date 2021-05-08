@@ -7,11 +7,11 @@
     {% for card in value.cards %}
       <div class="card mb-0 mt-0 border-0">
         <div class="card-header p-0 mb-2" id="header{{ forloop.counter }}">
-          <h2 class="mb-0">
-            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
-              <h3>{{ card.value.header|title }}<h3>
+          <h3 class="mb-0">
+            <button class="btn btn-link btn-block text-left collapsed pb-0" type="button" data-toggle="collapse" data-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+              <h3><strong>{{ card.value.header|title }}</strong></h3>
             </button>
-          </h2>
+          </h3>
         </div>
         <div id="collapse{{ forloop.counter }}" class="collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading{{ forloop.counter }}" data-parent="#collapsable_card_block">
           <div class="card-body bg-transparent">
