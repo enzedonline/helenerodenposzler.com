@@ -1,18 +1,18 @@
 {% load static wagtailcore_tags grid_block_tags %}
 {% three_column_layout value.breakpoint value.column_layout as layout %}
-<div class="margin-auto pb-3">
+<div class="margin-auto">
   <div class="row">
-    <div class="col{{ layout.left }}">
+    <div class="col{{ layout.left }} pb-3">
         {% for block in value.left_column %}
             {% include_block block %}
         {% endfor %}
     </div>
-    <div class="col{{ layout.centre }}">
+    <div class="col{{ layout.centre }} pb-3">
         {% for block in value.centre_column %}
             {% include_block block %}
         {% endfor %}
     </div>
-    <div class="col{{ layout.right }}">
+    <div class="col{{ layout.right }} pb-3">
         {% for block in value.right_column %}
             {% include_block block %}
         {% endfor %}
