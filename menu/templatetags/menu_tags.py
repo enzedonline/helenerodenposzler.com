@@ -177,12 +177,13 @@ def company_logo():
 def get_social_media_icons():
     try:
         social_media_icons = []
-        icons = SocialMedia.objects.all().filter(locale_id=Locale.get_active().id)
+        icons = SocialMedia.objects.all().filter(locale_id=1)
         for icon in icons:
             item = {}
-            item['link'] = icon.url
-            item['image'] = icon.photo.get_rendition('fill-25x25').url
-            item['alt'] = icon.site_name
+            locale_icon = icon.localized
+            item['link'] = locale_icon.url
+            item['image'] = locale_icon.photo.get_rendition('fill-25x25').url
+            item['alt'] = locale_icon.site_name
             social_media_icons.append(item)
         return social_media_icons
     except:
