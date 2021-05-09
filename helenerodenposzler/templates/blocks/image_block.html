@@ -4,8 +4,6 @@
 {% image self.image.file width-1200 format-webp as webp_img_w_1200 %}
 {% image self.image.file width-750 format-webp as webp_img_w_750 %}
 {% image self.image.file width-500 format-webp as webp_img_w_500 %}
-{% image self.image.file width-250 format-webp as webp_img_w_250 %}
-{% image self.image.file width-100 format-webp as webp_img_w_100 %}
 
 <div class="{{ self.background }} mb-3"
   <figure>
@@ -26,17 +24,7 @@
         type="image/webp"
       />
       <source
-        media="(min-width: 400px)" 
         srcset="{{ webp_img_w_500.url }} 500w"  
-        type="image/webp"
-      />
-      <source
-        media="(min-width: 200px)" 
-        srcset="{{ webp_img_w_250.url }} 250w"  
-        type="image/webp"
-      />
-      <source
-        srcset="{{ webp_img_w_100.url }} 100w"  
         type="image/webp"
       />
 
