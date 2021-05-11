@@ -24,6 +24,8 @@ class ColourThemeChoiceBlock(wagtail_blocks.ChoiceBlock):
         ('text-white bg-helene-coral', _("Coral")),
         ('text-white bg-helene-magenta', _("Magenta")),
         ('text-white bg-helene-blue', _("Blue")),
+        ('text-white bg-helene-cerise', _("Cerise")),
+        ('text-black bg-helene-moutard', _("Moutard")),
     ]
 
 class ButtonChoiceBlock(wagtail_blocks.ChoiceBlock):

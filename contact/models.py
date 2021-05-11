@@ -219,14 +219,11 @@ class ContactPage(SEOWagtailCaptchaEmailForm):
         return email
 
     def get_receipt_email_html(self):
-        # locale_footer = self.receipt_email_footer.get_translation(Locale.get_active())
-        # print(locale_footer.signature_content)
-        # locale_footer = EmailSignature.objects.get(id=self.receipt_email_footer.id).localized
-        # print(locale_footer.signature_content)
         locale_footer = self.receipt_email_footer.localized
-        social_media_icons = SocialMedia.objects.all().filter(locale_id=Locale.get_active().id)
+        social_media_icons = SocialMedia.objects.all().filter(locale_id=1)
         icons = ''
-        for icon in social_media_icons:
+        for item in social_media_icons:
+            icon = item.localized
             icons += '<a href="{}"><img src="{}" width="32" height="32" style="padding-right: 10; padding-top: 10;"></a>&nbsp&nbsp'.format(
                 icon.url,
                 settings.BASE_URL + icon.photo.get_rendition('original').url
