@@ -436,6 +436,12 @@ class EmptyStaticBlock(wagtail_blocks.StaticBlock):
         icon = 'placeholder'
         label = 'Empty Block'
 
+class SpacerStaticBlock(wagtail_blocks.StaticBlock):
+    class Meta:
+        template = 'blocks/spacer_block.html'
+        icon = 'fa-square'
+        label = 'Add Blank Space'
+
 class RandomTestimonialBlock(wagtail_blocks.StaticBlock):
     class Meta:
         template = 'blocks/random_testimonial_block.html'
@@ -483,6 +489,7 @@ class BaseStreamBlock(StreamBlock):
     image_carousel = ImageCarouselBlock()
     latest_blog_posts = LatestBlogPostGrid()
     random_testimonial = RandomTestimonialBlock()
+    spacer_block = SpacerStaticBlock()
     empty_block = EmptyStaticBlock()
 
 class TwoColumnLayoutChoiceBlock(wagtail_blocks.ChoiceBlock):
