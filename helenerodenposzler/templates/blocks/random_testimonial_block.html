@@ -3,7 +3,7 @@
 
 <div mb-3 py-3>
   &nbsp
-  <div class="card bg-helene-green border-0 p-3 pb-0 mb-3 h-100">
+  <div class="card bg-helene-faded-green border-0 p-3 pb-0 mb-3 h-100" style="border-radius: 12px;">
     <div class="card-body p-0 mb-n3">
       <p>{{ testimonial.reference_text }}</p>
       <div class="row no-gutters">
@@ -14,7 +14,7 @@
         <div class="col">
           <p><small>
             {% if testimonial.author_link %}
-              <a class="light-nav-link" href="{{ testimonial.author_link }}">
+              <a class="dark-nav-link" href="{{ testimonial.author_link }}">
             {% endif %}
             {{ testimonial.author }} — <i>{{ testimonial.author_description }}</i>
             {% if testimonial.author_link %}

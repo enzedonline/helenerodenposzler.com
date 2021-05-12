@@ -21,6 +21,8 @@ class ColourThemeChoiceBlock(wagtail_blocks.ChoiceBlock):
         ('text-black bg-light', _("Light")),
         ('text-white bg-dark', _("Dark")),
         ('text-black bg-helene-green', _("Green")),
+        ('text-black bg-helene-faded-green', _("Faded Green")),
+        ('text-black bg-helene-grey-green', _("Grey Green")),
         ('text-white bg-helene-coral', _("Coral")),
         ('text-white bg-helene-magenta', _("Magenta")),
         ('text-white bg-helene-blue', _("Blue")),
@@ -234,7 +236,7 @@ class CallToActionCard(FlexCard):
     class Meta:
         template = 'blocks/flex_card_block.html'
         label = _("Call-To-Action Card (Image/Text/Button)")
-        icon = 'fa-mouse'
+        icon = 'fa-address-card'
 
 class SimpleCard(wagtail_blocks.StructBlock):
     background = ColourThemeChoiceBlock(
@@ -255,7 +257,7 @@ class SimpleCard(wagtail_blocks.StructBlock):
     class Meta:
         template = 'blocks/simple_card_block.html'
         label = _("Simple Card (Text Only)")
-        icon = 'fa-address-card'
+        icon = 'fa-align-justify'
 
 class SimpleCardStreamBlock(StreamBlock):
     simple_card = SimpleCard()
@@ -399,7 +401,7 @@ class ImageCarouselBlock(wagtail_blocks.StructBlock):
     
     class Meta:
         template='blocks/image_carousel.html'
-        icon="fa-images"
+        icon="fa-clone"
         label = _("Image Carousel")
 
 class CollapsableCard(wagtail_blocks.StructBlock):
@@ -427,8 +429,8 @@ class CollapsableCardBlock(wagtail_blocks.StructBlock):
 
     class Meta:
         template='blocks/collapsable_card_block.html'
-        icon="fa-layer-group"
-        label = _("Collapsable Text Card Group")
+        icon="fa-stack-overflow"
+        label = _("Collapsable Text Block")
 
 class EmptyStaticBlock(wagtail_blocks.StaticBlock):
     class Meta:
@@ -469,7 +471,7 @@ class LatestBlogPostGrid(StructBlock):
     class Meta:
         template = 'blocks/latest_blog_posts_block.html'
         label = _("Latest Blog Post(s)")
-        icon = 'fa-microblog'
+        icon = 'fa-edit'
 
 
 class BaseStreamBlock(StreamBlock):

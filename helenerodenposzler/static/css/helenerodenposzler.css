@@ -1,7 +1,9 @@
 @import url(https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap);
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital@1&display=swap');
 :root {
-  --helene-green: #3bcd99;
+  --helene-green: #69af8e;
+  --helene-faded-green: #91c6ad;
+  --helene-grey-green: #dcf1e7;
   --helene-coral: #f87c7c;
   --helene-magenta: #ea4e9a;
   --helene-blue: #54abf0;
@@ -10,6 +12,12 @@
 }
 .bg-helene-green {
   background-color: var(--helene-green) !important;
+}
+.bg-helene-faded-green {
+  background-color: var(--helene-faded-green) !important;
+}
+.bg-helene-grey-green {
+  background-color: var(--helene-grey-green) !important;
 }
 .bg-helene-coral {
   background-color: var(--helene-coral) !important;
@@ -91,9 +99,9 @@ p {
   color: var(--light) !important;
   padding: 0px;
 }
-.light-nav-link,
-.light-nav-link.active {
-  color: var(--light) !important;
+.dark-nav-link,
+.dark-nav-link.active {
+  color: var(--dark) !important;
 }
 .category-nav-link,
 .category-nav-link.active {
@@ -178,19 +186,19 @@ fieldset:disabled a.btn {
 }
 .btn-primary {
   color: #fff;
-  background-color: var(--helene-coral);
-  border-color: var(--helene-coral);
+  background-color: var(--helene-green);
+  border-color: var(--helene-green);
 }
 .btn-primary:hover {
   color: #fff;
-  background-color: var(--helene-green);
-  border-color: var(--helene-green);
+  background-color: var(--helene-faded-green);
+  border-color: var(--helene-faded-green);
 }
 .btn-primary.focus,
 .btn-primary:focus {
   color: #fff;
-  background-color: var(--helene-green);
-  border-color: var(--helene-green);
+  background-color: var(--helene-faded-green);
+  border-color: var(--helene-faded-green);
   box-shadow: 0 0 0 0rem rgb(255, 255, 255);
 }
 .btn-primary.disabled,
