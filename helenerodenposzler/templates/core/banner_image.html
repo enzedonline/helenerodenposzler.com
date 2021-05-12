@@ -17,8 +17,8 @@
     />
   </picture>
   {% if self.banner_headline or self.banner_small_text %}
-  <div class="banner-overlay-text-block" style="object-fit: cover;">
-    {% if self.banner_headline %}<div class="display-6" style="font-size:calc(0.5rem + 2vw);">{{ self.banner_headline }}</div>{% endif %}
+  <div class="banner-overlay-text-block pl-2 pl-md-3 pl-lg-4" style="object-fit: cover;">
+    {% if self.banner_headline %}<div class="display-6" style="font-size: clamp(0.9rem, 0.2734rem + 2.7848vw, 2rem);">{{ self.banner_headline }}</div>{% endif %}
     {% if self.banner_headline %}<div class="display-8" style="font-size:calc(0.4rem + 1vw);">{{ self.banner_small_text }}</div>{% endif %}
   </div>
   {% endif %}
