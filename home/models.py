@@ -1,8 +1,9 @@
 from django.utils.translation import gettext_lazy as _
 from django.db import models
 from wagtail.core.fields import StreamField
-from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel, PageChooserPanel
+from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel, MultiFieldPanel
 from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail_localize.synctree import Locale, Page as LocalePage
 
 from core.blocks import GridStreamBlock
 from core.models import SEOPage
@@ -52,3 +53,14 @@ class HomePage(SEOPage):
 
     class Meta:
         verbose_name = "Home Page"
+
+    def get_sitemap_urls(self, request):
+        sitemap = super().get_sitemap_urls(request)
+
+        for locale_home in self.get_siblings(inclusive=False).live():
+            for entry in locale_home.get_sitemap_urls(request):
+                sitemap.append(entry)
+            for child_page in locale_home.get_descendants().live():
+                for entry in child_page.get_sitemap_urls(request):
+                    sitemap.append(entry)
+        return sitemap        
