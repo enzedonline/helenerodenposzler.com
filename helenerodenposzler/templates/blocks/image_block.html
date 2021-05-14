@@ -4,6 +4,7 @@
 {% image self.image.file width-1200 format-webp as webp_img_w_1200 %}
 {% image self.image.file width-750 format-webp as webp_img_w_750 %}
 {% image self.image.file width-500 format-webp as webp_img_w_500 %}
+{% image self.image.file original as fallback %}
 
 <div class="{{ self.background }} mb-3"
   <figure>
@@ -27,8 +28,11 @@
         srcset="{{ webp_img_w_500.url }} 500w"  
         type="image/webp"
       />
+      <source
+        srcset="{{ fallback.url }} 1500w"  
+      />
 
-      <img class="srcset__image" src="{{ self.image.file.url }}" alt="{{ self.image.seo_title }}" style='width: 100%; height: auto;'/>
+      <img class="srcset__image" src="{{ fallback.url }}" alt="{{ self.image.seo_title }}" style='width: 100%; height: auto;'/>
     </picture>
     {% if self.caption or self.attribution %}
     <figcaption class="p-3" style="font-size: clamp(0.9375rem, 0.7583rem + 0.5515vw, 1.1718756rem);">

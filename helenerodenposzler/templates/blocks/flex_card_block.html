@@ -4,6 +4,7 @@
 {% image self.image.file fill-900x630-c100 format-webp as webp_img_w_900 %} 
 {% image self.image.file fill-600x420-c100 format-webp as webp_img_w_600 %}
 {% image self.image.file fill-300x210-c100 format-webp as webp_img_w_300 %}
+{% image self.image.file fill-2100x1470-c100 as fallback %}
 
 {% padding self.border self.background as pad %}
 
@@ -15,8 +16,9 @@
       <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
       <source media="(min-width: 500px)" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
       <source srcset="{{ webp_img_w_300.url }} 300w" type="image/webp" />
+      <source srcset="{{ fallback.url }} 2100w" />
       <img
-        src="{{ self.image.file }}"
+        src="{{ fallback.url }}"
         alt="{{ self.image.seo_title }}"
         style="width: 100%; height: auto"
       />
@@ -43,8 +45,9 @@
           <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
           <source media="(min-width: 500px)" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
           <source srcset="{{ webp_img_w_300.url }} 300w" type="image/webp" />
+          <source srcset="{{ fallback.url }} 2100w" />
           <img
-            src="{{ self.image.file.url }}"
+            src="{{ fallback.url }}"
             alt="{{ self.image.seo_title }}"
             style="width: 100%; height: auto"
           />
@@ -75,8 +78,9 @@
           <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
           <source media="(min-width: 500px)" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
           <source srcset="{{ webp_img_w_300.url }} 300w" type="image/webp" />
+          <source srcset="{{ fallback.url }} 2100w" />
           <img
-            src="{{ self.image.file.url }}"
+            src="{{ fallback.url }}"
             alt="{{ self.image.seo_title }}"
             style="width: 100%; height: auto"
           />
@@ -117,8 +121,9 @@
           <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
           <source media="(min-width: 500px)" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
           <source srcset="{{ webp_img_w_300.url }} 300w" type="image/webp" />
+          <source srcset="{{ fallback.url }} 2100w" />
           <img
-            src="{{ self.image.file.url }}"
+            src="{{ fallback.url }}"
             alt="{{ self.image.seo_title }}"
             style="width: 100%; height: auto"
           />
@@ -149,8 +154,9 @@
           <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
           <source media="(min-width: 500px)" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
           <source srcset="{{ webp_img_w_300.url }} 300w" type="image/webp" />
+          <source srcset="{{ fallback.url }} 2100w" />
           <img
-            src="{{ self.image.file.url }}"
+            src="{{ fallback.url }}"
             alt="{{ self.image.seo_title }}"
             style="width: 100%; height: auto"
           />

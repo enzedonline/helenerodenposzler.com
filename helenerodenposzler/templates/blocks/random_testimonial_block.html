@@ -5,7 +5,7 @@
   &nbsp
   <div class="card bg-helene-faded-green border-0 p-3 pb-0 mb-3 h-100" style="border-radius: 12px;">
     <div class="card-body p-0 mb-n3">
-      <p>{{ testimonial.reference_text }}</p>
+      <p class="testimonial">{{ testimonial.reference_text }}</p>
       <div class="row no-gutters">
         <div class="col-auto d-flex align-items-left pr-3 pb-3">
         {% image testimonial.photo fill-50x50 as img %}
@@ -30,5 +30,9 @@
 <style>
 col {
   width: 0;
+}
+.testimonial {
+  font-size: clamp(0.84375rem, 0.7721rem + 0.2206vw, 0.9375rem);
+  line-height: 120%;
 }
 </style>

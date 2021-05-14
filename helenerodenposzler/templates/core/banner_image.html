@@ -3,6 +3,7 @@
 {% image self.banner_image fill-1500x500-c100 format-webp as webp_img_w_1500 %} 
 {% image self.banner_image fill-900x300-c100 format-webp as webp_img_w_900 %} 
 {% image self.banner_image fill-600x200-c100 format-webp as webp_img_w_600 %}
+{% image self.banner_image fill-2100x700-c100 as fallback %} 
 
 <div class="banner-overlay-container">
   <picture>
@@ -10,8 +11,9 @@
     <source media="(min-width: 1200px)" srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp" />
     <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
     <source srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
+    <source srcset="{{ fallback.url }} 2100w" />
     <img
-      src="{{ self.banner_image }}"
+      src="{{ fallback.url }}"
       alt="{{ self.title }}"
       style="width: 100%; height: auto"
     />
