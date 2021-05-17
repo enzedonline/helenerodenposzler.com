@@ -7,7 +7,7 @@
             {% include_block block %}
         {% endfor %}
     </div>
-    <div class="col{{ layout.centre }} {{ layout.horizontal_padding }} {% if value.vertical_border %}divider{% endif %} pb-3">
+    <div class="col{{ layout.centre }} {{ layout.horizontal_padding }} {% if value.vertical_border %}three-column-divider{% endif %} pb-3">
         {% for block in value.centre_column %}
             {% include_block block %}
         {% endfor %}
@@ -21,7 +21,7 @@
 </div>
 
 <style>
-.divider{
+.three-column-divider{
   border-left: 1px solid #DADADA;
   border-right: 1px solid #DADADA;
 }
