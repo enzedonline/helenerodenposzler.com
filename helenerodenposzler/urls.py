@@ -16,13 +16,13 @@ def trigger_error(request):
     division_by_zero = 1 / 0
     
 urlpatterns = [
-    path('lang/<str:language_code>/', set_language_from_url, name='set_language_from_url'),
     path('django-admin/', admin.site.urls),
     path('admin/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
     url(r'^robots\.txt$', RobotsView.as_view(), name='robots'),
     url(r'^sitemap.xml$', sitemap),
     path('sentry-debug/', trigger_error),
+    path('lang/<str:language_code>/', set_language_from_url, name='set_language_from_url'),
 ]
 
 if settings.DEBUG:

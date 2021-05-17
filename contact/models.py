@@ -2,6 +2,7 @@ import os
 from datetime import datetime
 
 from bs4 import BeautifulSoup
+from core.blocks import HtmlBlock, SimpleCard, SimpleRichTextBlock, SpacerStaticBlock
 from core.models import SEOPage, SEOWagtailCaptchaEmailForm
 from django.conf import settings
 from django.core import mail
@@ -14,9 +15,11 @@ from django.utils.translation import gettext_lazy as _
 from modelcluster.models import ParentalKey
 from site_settings.models import EmailSettings, EmailSignature, SocialMedia
 from wagtail.admin.edit_handlers import (FieldPanel, FieldRowPanel,
-                                         InlinePanel, MultiFieldPanel)
+                                         InlinePanel, MultiFieldPanel,
+                                         StreamFieldPanel)
 from wagtail.contrib.forms.models import AbstractFormField
-from wagtail.core.fields import RichTextField
+from wagtail.core.blocks import StreamBlock, RichTextBlock
+from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import TranslatableMixin
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.images.models import Image
@@ -53,14 +56,43 @@ class FormField(TranslatableMixin, CustomAbstractFormField):
         ordering = ["sort_order"]
         unique_together = ('translation_key', 'locale')
 
+class IntroStreamBlock(StreamBlock):
+    text = RichTextBlock()
+    html = HtmlBlock()
+    spacer = SpacerStaticBlock()
+
 class ContactPage(SEOWagtailCaptchaEmailForm):
     template = "contact/contact_page.html"
     landing_page_template = "contact/contact_page_landing.html"
     subpage_types = []
     max_count = 1
 
-    intro = RichTextField(
-        blank=True, 
+    # intro = RichTextField(
+    #     blank=True, 
+    #     features= [
+    #         'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+    #         'bold',
+    #         'italic',
+    #         'ol',
+    #         'ul',
+    #         'link',
+    #         'hr',
+    #         'center',
+    #         'right',
+    #     ],
+    #     verbose_name=_("Introduction Text")
+    # )
+    intro_text = StreamField(IntroStreamBlock())
+    intro_image = models.ForeignKey(
+        'wagtailimages.Image',
+        blank=True,
+        null=True,
+        related_name='+',
+        on_delete=models.SET_NULL,
+        verbose_name=_("Introduction Image (optional)"),
+        help_text=_("Image to display in left column on widescreen only")
+    )
+    privacy_notice = RichTextField(
         features= [
             'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
             'bold',
@@ -71,17 +103,9 @@ class ContactPage(SEOWagtailCaptchaEmailForm):
             'hr',
             'center',
             'right',
+            'small'
         ],
-        verbose_name=_("Introduction Text")
-    )
-    intro_image = models.ForeignKey(
-        'wagtailimages.Image',
-        blank=True,
-        null=True,
-        related_name='+',
-        on_delete=models.SET_NULL,
-        verbose_name=_("Introduction Image (optional)"),
-        help_text=_("Image to display in left column on widescreen only")
+        verbose_name=_("Privacy Notice in Left Column")
     )
     thank_you_text = RichTextField(
         features= [
@@ -155,8 +179,9 @@ class ContactPage(SEOWagtailCaptchaEmailForm):
     )
     
     content_panels = SEOPage.content_panels + [
-        FieldPanel("intro"),
+        StreamFieldPanel('intro_text'),
         ImageChooserPanel('intro_image'),
+        FieldPanel("privacy_notice"),
         InlinePanel("form_fields", label = "Form Fields"),
         FieldPanel("submit_button_text"),
         FieldPanel("form_error_warning"),
@@ -237,7 +262,6 @@ class ContactPage(SEOWagtailCaptchaEmailForm):
         content = content.replace("{{ content }}", self.receipt_email_content)
         content = content.replace("{{ footer_text }}", locale_footer.signature_content)
         content = content.replace("{{ social_media }}", icons)
-        print(content)
         return content
 
     def get_receipt_email(self, contact_email_address):

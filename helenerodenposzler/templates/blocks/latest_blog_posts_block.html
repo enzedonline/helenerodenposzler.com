@@ -1,13 +1,14 @@
 {% load wagtailimages_tags wagtailcore_tags flex_card_tags latest_blog_posts_block_tags %}
 
-{% if value.group_label.content %}
-    <div class="container-fluid w-100 pt-4 px-4 mb-n2 justify-content-center">
-    {{ value.group_label.content }}
-    </div>
-{% endif %}
-<div class="container-fluid w-100 pt-4" style="gap: 1.5rem;">
-    {% get_latest_posts value.post_count as posts %}
-    {% if posts %}
+{% get_latest_posts value.post_count as posts %}
+{% if posts %}
+
+    {% if value.group_label.content %}
+        <div class="container-fluid w-100 pt-4 px-4 mb-n2 justify-content-center">
+        {{ value.group_label.content }}
+        </div>
+    {% endif %}
+    <div class="container-fluid w-100 pt-4" style="gap: 1.5rem;">
         <div class="d-flex flex-wrap justify-content-around p-0 pb-1">
             {% for post in posts %}
                 <div class="card {{ self.background }} p-2 mb-2 " style="width: 18rem;">
@@ -34,6 +35,6 @@
                 </div>
             {% endfor %}
         </div>
-    {% endif %}
-</div>
+    </div>
+{% endif %}
 

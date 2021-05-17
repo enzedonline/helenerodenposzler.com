@@ -2,12 +2,16 @@
 {% load wagtailcore_tags widget_tweaks contact_page_tags wagtailimages_tags %} 
 {% block content %} 
 
-<div class="container-fluid pt-0 pt-md-2 px-3 px-md-5 pb-4 mt-md-3">
-    <h1>{{ page.title }}</h1>
-
+<div class="container-fluid pt-0 pt-md-2 px-3 px-sm-5 pb-4 mt-md-3">
+    <div class="d-block d-md-none">
+      &nbsp
+    </div>
     <div class="row">
-      <div class="col-md-5">
-        <p>{{ self.intro|richtext }}</p>
+      <div class="col-md-5 pr-sm-5">
+        {% for block in page.intro_text %}
+            {% include_block block with block_id=block.id %}
+        {% endfor %}
+
         <div class="d-none d-md-block">
           {% image self.intro_image width-900 format-webp as webp_img_w_900 %} 
           {% image self.intro_image width-600 format-webp as webp_img_w_600 %}
@@ -27,7 +31,13 @@
           <hr>
         </div>
       </div>
-      <div class="col-md-7">
+      <div class="col-md-7 px-sm-5 border-left">
+        <div class="card bg-helene-moutard p-3">
+          <div class="card-body p-0 mb-n3 privacy-notice">
+            {{ self.privacy_notice|richtext }}
+          </div>
+        </div>        
+        <p>&nbsp</p>
         <form action="{% pageurl page %}" enctype="multipart/form-data" method="POST">
           {% csrf_token %} 
           

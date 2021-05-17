@@ -36,6 +36,7 @@
 }
 body {
   font-size: clamp(0.9rem, 0.8235rem + 0.2353vw, 1rem);
+  text-align: justify;
 }
 .h1,
 .h2,
@@ -122,6 +123,10 @@ p {
   padding: 0px;
   margin: 0px;
 }
+.privacy-notice {
+  font-size: 0.8em;
+  line-height: 120%;
+}
 .table_nopadding>tfoot>tr>td{ padding: 0px; margin: 0px;}
 .banner-overlay-container {
   position: relative;
@@ -138,6 +143,7 @@ p {
   padding-right: 20px;
   width: 50%;
   object-fit: cover;
+  text-align: left;
 }
 
 .btn {

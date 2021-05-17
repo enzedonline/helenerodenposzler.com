@@ -1,18 +1,18 @@
 {% load static wagtailcore_tags grid_block_tags %}
-{% three_column_layout value.breakpoint value.column_layout as layout %}
+{% three_column_layout value.breakpoint value.column_layout value.horizontal_padding as layout %}
 <div class="margin-auto">
   <div class="row">
-    <div class="col{{ layout.left }} pb-3">
+    <div class="col{{ layout.left }} {{ layout.horizontal_padding }} pb-3">
         {% for block in value.left_column %}
             {% include_block block %}
         {% endfor %}
     </div>
-    <div class="col{{ layout.centre }} pb-3">
+    <div class="col{{ layout.centre }} {{ layout.horizontal_padding }} {% if value.vertical_border %}divider{% endif %} pb-3">
         {% for block in value.centre_column %}
             {% include_block block %}
         {% endfor %}
     </div>
-    <div class="col{{ layout.right }} pb-3">
+    <div class="col{{ layout.right }} {{ layout.horizontal_padding }} pb-3">
         {% for block in value.right_column %}
             {% include_block block %}
         {% endfor %}
@@ -20,3 +20,16 @@
   </div>
 </div>
 
+<style>
+.divider{
+  border-left: 1px solid #DADADA;
+  border-right: 1px solid #DADADA;
+}
+@media (max-width: {{ layout.breakpoint_pixels }}) {
+  .divider {
+    border-left: 0px solid #DADADA !important;
+    border-right: 0px solid #DADADA !important;
+  }
+}
+
+</style>

@@ -213,6 +213,12 @@ class FlexCard(wagtail_blocks.StructBlock):
         label=_("Border"),
         help_text=_("Draw a border around the card?")
     )
+    full_height = wagtail_blocks.BooleanBlock(
+        default=True,
+        required=False,
+        label=_("Full Height"),
+        help_text=_("Card uses all available height")
+    )
     text = SimpleRichTextBlock(
         label=_("Card Body Text"),
         help_text=_("Body text for this card."),
@@ -234,7 +240,7 @@ class CallToActionCard(FlexCard):
         required=False,
     )
     class Meta:
-        template = 'blocks/flex_card_block.html'
+        template = 'blocks/call_to_action_card_block.html'
         label = _("Call-To-Action Card (Image/Text/Button)")
         icon = 'fa-address-card'
 
@@ -248,6 +254,12 @@ class SimpleCard(wagtail_blocks.StructBlock):
         required=False,
         label=_("Border"),
         help_text=_("Draw a border around the card?")
+    )
+    full_height = wagtail_blocks.BooleanBlock(
+        default=True,
+        required=False,
+        label=_("Full Height"),
+        help_text=_("Card uses all available height")
     )
     text = SimpleRichTextBlock(
         label=_("Card Body Text"),
@@ -310,9 +322,18 @@ class SocialMediaEmbedBlock(wagtail_blocks.StructBlock):
         help_text=_("Paste in only embed code. For Facebook, only Step 2 on the JavaScript SDK tab")
     )
     class Meta:
-        template='blocks/social_media_embed.html',
+        template='blocks/social_media_embed.html'
         icon = 'fa-share-alt-square'
         label = _("Embed Social Media Post")
+
+class HtmlBlock(wagtail_blocks.StructBlock):
+    code = RawHTMLBlock(
+        label=_("Enter HTML Code")
+    )
+    class Meta:
+        template='blocks/html_code_block.html'
+        icon = 'fa-file-code'
+        label = _("Embed HTML Code")
 
 class HiddenField(Input):
     input_type = 'hidden'
@@ -523,6 +544,7 @@ class ThreeColumnLayoutChoiceBlock(wagtail_blocks.ChoiceBlock):
 class BreakPointChoiceBlock(wagtail_blocks.ChoiceBlock):
     choices = [
         ('-', _("Columns side by side on all screen sizes (best for uneven column sizes)")),
+        ('-lg', _("Columns side by side on large screen only")),
         ('-md', _("Columns side by side on medium and large screen only")),
         ('-sm', _("Single column on mobile, side by side on all other screens"))
     ]
@@ -548,6 +570,17 @@ class TwoColumnBaseBlock(wagtail_blocks.StructBlock):
         default = '-sm',
         label = _("Select responsive layout behaviour")
     )
+    horizontal_padding = IntegerBlock(
+        default = 4,
+        max_value=5
+    )
+    vertical_border = wagtail_blocks.BooleanBlock(
+        default=False,
+        required=False,
+        label=_("Vertical Border"),
+        help_text=_("Add a vertical line between columns")
+    )
+
     left_column = BaseStreamBlock(
         label=_("Left Column Contents"),
         blank=True,
@@ -573,6 +606,17 @@ class ThreeColumnBaseBlock(wagtail_blocks.StructBlock):
         default = '-md',
         label = _("Select responsive layout behaviour")
     )
+    horizontal_padding = IntegerBlock(
+        default = 4,
+        max_value=5
+    )
+    vertical_border = wagtail_blocks.BooleanBlock(
+        default=False,
+        required=False,
+        label=_("Vertical Border"),
+        help_text=_("Add a vertical line between columns")
+    )
+
     left_column = BaseStreamBlock(
         label=_("Left Column Contents"),
         blank=True,

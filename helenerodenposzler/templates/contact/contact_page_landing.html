@@ -13,16 +13,17 @@
     {% if posts %}
         <div class="d-flex flex-wrap justify-content-around p-0 pb-1">
             {% for post in posts %}
-                <div class="card {{ self.background }} p-2 mb-2 " style="width: 18rem;">
+                <div class="card p-2 mb-2 " style="width: 18rem;">
                     {% image post.search_image fill-900x600-c100 format-webp as webp_img_w_900 %} 
                     {% image post.search_image fill-600x400-c100 format-webp as webp_img_w_600 %}
                     {% image post.search_image fill-300x200-c100 format-webp as webp_img_w_300 %}
+                    {% image post.search_image fill-900x600-c100 as fallback %} 
                     <picture>
                         <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
                         <source media="(min-width: 500px)" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
                         <source srcset="{{ webp_img_w_300.url }} 300w" type="image/webp" />
                         <img
-                            src="{{ post.search_image.url }}"
+                            src="{{ fallback.url }}"
                             alt="{{ post.title }}"
                             style="width: 100%; height: auto"
                         />

@@ -38,8 +38,7 @@ def set_language_from_url(request, language_code):
                 # If the page doesn't exist in the default language, default to home page
                 next_page = prev_page.get_translation_or_none(locale=requested_locale)
                 if next_page == None:
-                    default_locale = Locale.objects.get(language_code=settings.LANGUAGES[0][0])
-                    next_page = prev_page.get_translation_or_none(locale=default_locale)
+                    next_page = prev_page.get_translation_or_none(locale=Locale.get_default())
                 if next_page != None:
                     next_url = next_page.url
                 else:

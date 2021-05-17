@@ -5,13 +5,11 @@
 {% include 'core/banner_image.html' %}
 {% get_current_language as LANGUAGE_CODE %}
 
-<div class="container-fluid pt-0 pt-md-2 px-2 px-md-5 pb-4">
+<div class="container-fluid pt-0 pt-md-2 px-2 px-sm-5 pb-4">
 
     {% for block in page.top_section %}
         {% include_block block %}
     {% endfor %}
-
-    <p class="h1 lead">{{ page.introduction }}</p>
 
     <div class="row p-2 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 justify-content-center">
         {% for post in posts %}

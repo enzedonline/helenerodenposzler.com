@@ -1,33 +1,36 @@
 {% load wagtailcore_tags wagtailimages_tags external_link_embed_tags %} 
 {% get_metadata self.external_link as metadata %}
 
-{% if metadata.image or metadata.title or metadata.description %}
-<div mb-3 py-3>
-  &nbsp
-  <div class="card" style="width: auto">
-    {% if metadata.image %}
-    <img
-      src="{{ metadata.image }}"
-      class="card-img-top"
-      alt="{{ metadata.title }}"
-    />
-    {% endif %}
-    <div class="card-body">
-      {% if metadata.title %}
-      <h4 class="card-title font-weight-bold">{{ metadata.title }}</h4>
-      {% endif %} {% if metadata.description %}
-      <p class="card-text">{{ metadata.description }}</p>
+{% if metadata %}
+  {% if metadata.image or metadata.title or metadata.description %}
+  <div mb-3 py-3>
+    &nbsp
+    <div class="card" style="width: auto">
+      {% if metadata.image %}
+      <img
+        src="{{ metadata.image }}"
+        class="card-img-top"
+        alt="{{ metadata.title }}"
+      />
       {% endif %}
-      <div class="text-right">
-        <a
-          class="stretched-link"
-          href="{{ self.external_link }}"
-          target="_blank"
-          >
-          {{ self.link_text }}
-        </a>
+      <div class="card-body">
+        {% if metadata.title %}
+        <h4 class="card-title font-weight-bold">{{ metadata.title }}</h4>
+        {% endif %} 
+        {% if metadata.description %}
+        <p class="card-text">{{ metadata.description }}</p>
+        {% endif %}
+        <div class="text-right">
+          <a
+            class="stretched-link"
+            href="{{ self.external_link }}"
+            target="_blank"
+            >
+            {{ self.link_text }}
+          </a>
+        </div>
       </div>
     </div>
   </div>
-</div>
+  {% endif %}
 {% endif %}

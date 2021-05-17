@@ -34,7 +34,7 @@
   {% endif %}
 </div>
 
-<div class="container-fluid pt-0 pt-md-2 px-2 px-md-5 pb-4">
+<div class="container-fluid pt-0 pt-md-2 px-2 px-sm-5 pb-4">
     {% for block in page.body %}
         {% include_block block with block_id=block.id %}
     {% endfor %}
@@ -58,7 +58,7 @@
             <source srcset="{{ fallback.url }} 400w" />
             <img
                 src="{{ fallback.url }}"
-                alt="{{ post.title }}"
+                alt="{{ nav.next.title }}"
                 style="width: 100%; height: auto"
             />
         </picture>
@@ -80,7 +80,7 @@
             <source srcset="{{ fallback.url }} 400w" />
             <img
                 src="{{ fallback.url }}"
-                alt="{{ post.title }}"
+                alt="{{ nav.prev.title }}"
                 style="width: 100%; height: auto;"
             />
         </picture>

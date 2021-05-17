@@ -10,6 +10,7 @@ from core.models import SEOPage
 
 class HomePage(SEOPage):
 
+    template = 'home/home_page.html'
     subpage_types = [
         "service.ServicePage", 
         "contact.ContactPage", 
