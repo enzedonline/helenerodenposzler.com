@@ -9,6 +9,7 @@
   --helene-blue: #54abf0;
   --helene-cerise: #a73173;
   --helene-moutard: #e8c15c;
+  --helene-faded-moutard: #e6c67e;
 }
 .bg-helene-green {
   background-color: var(--helene-green) !important;
@@ -33,6 +34,9 @@
 }
 .bg-helene-moutard {
   background-color: var(--helene-moutard) !important;
+}
+.bg-helene-faded-moutard {
+  background-color: var(--helene-faded-moutard) !important;
 }
 body {
   font-size: clamp(0.9rem, 0.8235rem + 0.2353vw, 1rem);
