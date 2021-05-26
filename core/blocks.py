@@ -1,19 +1,17 @@
-from django.template.loader import render_to_string
-from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
-from django import forms
-from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 from django.forms.utils import ErrorList
 from wagtail.core.blocks.field_block import IntegerBlock, URLBlock
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.core import blocks as wagtail_blocks
-from wagtail.core.blocks import BooleanBlock, CharBlock, TextBlock, StreamBlock, StructBlock, RawHTMLBlock
-from wagtail.core.blocks.stream_block import StreamValue
+from wagtail.core.blocks import CharBlock, TextBlock, StreamBlock, StructBlock, RawHTMLBlock
 from wagtail_localize.synctree import Locale
-from wagtail.core.fields import StreamField
-from django.forms.widgets import Input
-from django.db import models
+
+import core.metadata 
+
+class HiddenCharBlock(CharBlock):
+    pass
 
 class ColourThemeChoiceBlock(wagtail_blocks.ChoiceBlock):
     choices=[
@@ -170,18 +168,26 @@ class Link(wagtail_blocks.StructBlock):
         return super().clean(value)
 
 class SimpleRichTextBlock(wagtail_blocks.StructBlock):
+    alignment = wagtail_blocks.ChoiceBlock(
+        choices = [
+            ('justify', 'Justified'), 
+            ('left', 'Left'), 
+            ('center', 'Centre'), 
+            ('right', 'Right')
+        ],
+        default='justify'
+    )
     content = wagtail_blocks.RichTextBlock(
-                features= [
-                    'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-                    'bold',
-                    'italic',
-                    'ol',
-                    'ul',
-                    'link',
-                    'hr',
-                    'center',
-                    'right',
-                ]
+        features= [
+            'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+            'bold',
+            'italic',
+            'ol',
+            'ul',
+            'link',
+            'hr',
+			'small',
+        ]
     )
 
     class Meta:
@@ -335,58 +341,84 @@ class HtmlBlock(wagtail_blocks.StructBlock):
         icon = 'fa-file-code'
         label = _("Embed HTML Code")
 
-class HiddenField(Input):
-    input_type = 'hidden'
-    template_name = 'django/forms/widgets/hidden.html'
-
-class HiddenCharBlock(CharBlock):
-
-    #TODO: 
-    # trying to make a hidden field in the block
-    # this needs fixing - either turn it into a readonly panel or find out where
-    # the label comes from and disable it there (probably in the struct block)
-
-    def field(self):
-        field_kwargs = {'widget': HiddenField()}
-        field_kwargs.update(self.field_options)
-        return forms.CharField(**field_kwargs)
-    def render_form(self, value, prefix='', errors=None):
-        field = self.field
-        widget = HiddenField()
-
-        widget_attrs = {'id': prefix, 'placeholder': self.label, 'input_type': 'hidden'}
-
-        field_value = field.prepare_value(self.value_for_form(value))
-
-        if hasattr(widget, 'render_with_errors'):
-            widget_html = widget.render_with_errors(prefix, field_value, attrs=widget_attrs, errors=errors)
-            widget_has_rendered_errors = True
-        else:
-            widget_html = widget.render(prefix, field_value, attrs=widget_attrs)
-            widget_has_rendered_errors = False
-
-        return render_to_string('blocks/hidden_field.html', {
-            'name': self.name,
-            'classes': getattr(self.meta, 'form_classname', self.meta.classname),
-            'widget': widget_html,
-            'field': field,
-            'errors': errors if (not widget_has_rendered_errors) else None
-        })
-    def clean(self, value):
-        return None
-    @property
-    def required(self):
-        # a FieldBlock is required if and only if its underlying form field is required
-        return False
-
 class ExternalLinkEmbedBlock(wagtail_blocks.StructBlock):
     external_link = URLBlock(
         label=_("URL to External Article"),
         help_text=_("For articles in external websites without embed share option"),
     )
-    link_text = wagtail_blocks.CharBlock(
+    image = CharBlock(
+        max_length=200, 
+        null=True, 
+        blank=True,
+        help_text=_("Leave blank to autofill from website. Delete text to refresh from website.")
+    )
+    title = CharBlock(
+        max_length=200, 
+        null=True, 
+        blank=True,
+        help_text=_("Leave blank to autofill from website. Delete text to refresh from website.")
+    )
+    description = TextBlock(
+        null=True, 
+        blank=True,
+        help_text=_("Leave blank to autofill from website. Delete text to refresh from website.")
+    )
+    format = wagtail_blocks.ChoiceBlock(
+        max_length=15,
+        default='vertical',
+        choices=[
+            ('image-left-responsive', _("Responsive Horizontal (Image left of text on widescreen only)")),
+            ('image-right-responsive', _("Responsive Horizontal (Image right of text on widescreen only)")),
+            ('image-left-fixed', _("Fixed Horizontal (Image left of text on all screen sizes)")),
+            ('image-right-fixed', _("Fixed Horizontal (Image right of text on all screen sizes)")),
+            ('vertical', _("Vertical (Image above text on on all screen sizes)")),
+        ],
+        label=_("Card Format")
+    )    
+    background = ColourThemeChoiceBlock(
+        default='bg-transparent',
+        label=_("Card Background Colour")
+    )
+    border = wagtail_blocks.BooleanBlock(
+        default=True,
+        required=False,
+        label=_("Border"),
+        help_text=_("Draw a border around the card?")
+    )
+    full_height = wagtail_blocks.BooleanBlock(
+        default=True,
+        required=False,
+        label=_("Full Height"),
+        help_text=_("Card uses all available height")
+    )
+    button_text = wagtail_blocks.CharBlock(
         label=_("Text for link to article"),
         default=_("Read Full Article")
+    )
+    button_appearance = ButtonChoiceBlock(
+        max_length=15,
+        default='btn-primary',
+        label=_("Button Appearance")
+    )
+    button_placement = wagtail_blocks.ChoiceBlock(
+        max_length=15,
+        default='right',
+        choices=[
+            ('left', _("Left")),
+            ('center', _("Centre")),
+            ('right', _("Right")),
+        ],
+        label=_("Button Placement")
+    )
+    button_size = wagtail_blocks.ChoiceBlock(
+        max_length=10,
+        default=' ',
+        choices=[
+            ('btn-sm', _("Small")),
+            (' ', _("Standard")),
+            ('btn-lg', _("Large")),
+        ],
+        label=_("Button Size")
     )
 
     class Meta:
@@ -394,6 +426,32 @@ class ExternalLinkEmbedBlock(wagtail_blocks.StructBlock):
         icon = 'fa-share-alt'
         label = _("Embed External Article")
     
+    def clean(self, value):
+        errors = {}
+
+        if not(value['image'] and value['title'] and value['description']):
+            try:
+                metadata = core.metadata.get_metadata(value.get('external_link'))
+            except:
+                metadata =  None
+                errors['external_link'] = ErrorList([_("No information for the URL was found, please check the URL and ensure the full URL is included and try again.")])
+            
+            try:
+                if metadata:
+                    if metadata['image'] and not value['image']:
+                        value['image'] = metadata['image']
+                    if metadata['title'] and not value['title']:
+                        value['title'] = metadata['title']
+                    if metadata['description'] and not value['description']:
+                        value['description'] = metadata['description']
+            except KeyError:
+                errors['external_link'] = ErrorList([_("No information for the URL was found, please check the URL and ensure the full URL is included and try again.")])
+
+            if errors:
+                raise ValidationError(_("Please check the errors below and correct before saving"), params=errors)
+
+        return super().clean(value)
+
 class CarouselImageBlock(wagtail_blocks.StructBlock):
     image = SEOImageChooseBlock(label=_("Select Image & Enter Details"))
     title = wagtail_blocks.CharBlock(label=_("Optional Image Title"), required=False)
@@ -496,7 +554,6 @@ class LatestBlogPostGrid(StructBlock):
 
 
 class BaseStreamBlock(StreamBlock):
-    # header_block = HeaderBlock()
     richtext_block = SimpleRichTextBlock()
     image_block = ImageBlock()
     block_quote = BlockQuote()
@@ -580,6 +637,26 @@ class TwoColumnBaseBlock(wagtail_blocks.StructBlock):
         label=_("Vertical Border"),
         help_text=_("Add a vertical line between columns")
     )
+    order = wagtail_blocks.ChoiceBlock(
+        max_length=15,
+        default='left-first',
+        choices=[
+            ('left-first', _("Left column is first on mobile")),
+            ('right-first', _("Right column is first on mobile")),
+        ],
+        label=_("Column order on mobile"),
+        help_text=_("Select which column will appear above the other on mobile screen")
+    )    
+    hide = wagtail_blocks.ChoiceBlock(
+        max_length=15,
+        default='hide-none',
+        choices=[
+            ('hide-none', _("Display both column contents on mobile (one above the other)")),
+            ('hide-left', _("Hide the left column contents on mobile")),
+            ('hide-right', _("Hide the right column contents on mobile")),
+        ],
+        label=_("Hide contents on mobile")
+    )    
 
     left_column = BaseStreamBlock(
         label=_("Left Column Contents"),
@@ -616,6 +693,15 @@ class ThreeColumnBaseBlock(wagtail_blocks.StructBlock):
         label=_("Vertical Border"),
         help_text=_("Add a vertical line between columns")
     )
+    hide = wagtail_blocks.ChoiceBlock(
+        max_length=15,
+        default='hide-none',
+        choices=[
+            ('hide-none', _("Display all columns on mobile (one above the other)")),
+            ('hide-sides', _("Hide the left and right columns contents on mobile")),
+        ],
+        label=_("Hide contents on mobile")
+    )    
 
     left_column = BaseStreamBlock(
         label=_("Left Column Contents"),

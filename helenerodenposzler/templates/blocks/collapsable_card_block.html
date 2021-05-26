@@ -15,7 +15,7 @@
         </div>
         <div id="collapse{{ forloop.counter }}" class="collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading{{ forloop.counter }}" data-parent="#collapsable_card_block">
           <div class="card-body bg-transparent">
-            {{ card.value.text.content }}
+            {% include_block card.value.text %}
           </div>
         </div>
       </div>
@@ -23,27 +23,14 @@
   </div>
 
   <style type="text/css">
-      .btn {
-        text-decoration: none !important;
-
-      }
-        .btn:hover {
-        font-weight: $font-weight-normal;
-        color: {{ banner.text }} !important;
-        background-color: var(--{{ banner.background }});
-        border-radius: 0px;
-        border-color: transparent;
-        border: 0px;
-        text-decoration: none !important;
-        }
-    .btn-link {
+  .btn-link {
         font-weight: $font-weight-normal;
         color: {{ banner.text }};
         background-color: var(--{{ banner.background }});
         border-radius: 0px;
         border-color: transparent;
         border: 0px;
-        text-decoration: none;
+        text-decoration: none !important;
 
       @include hover {
         font-weight: $font-weight-normal;
@@ -52,8 +39,7 @@
         border-radius: 0px;
         border-color: transparent;
         border: 0px;
-        text-decoration: none !important;;
-
+        text-decoration: none !important;
       }
 
       &:focus,
@@ -64,8 +50,7 @@
         border-radius: 0px;
         border-color: transparent;
         border: 0px;
-        text-decoration: none !important;;
-
+        text-decoration: none !important;
       }
 
       &:disabled,
@@ -76,5 +61,14 @@
 
       // No need for an active state here
     }
+    .btn-link:hover {
+        font-weight: $font-weight-normal;
+        color: {{ banner.text }} !important;
+        background-color: var(--{{ banner.background }});
+        border-radius: 0px;
+        border-color: transparent;
+        border: 0px;
+        text-decoration: none !important;
+        }
   </style>
 </div>

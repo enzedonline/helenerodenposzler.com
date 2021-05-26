@@ -67,21 +67,6 @@ class ContactPage(SEOWagtailCaptchaEmailForm):
     subpage_types = []
     max_count = 1
 
-    # intro = RichTextField(
-    #     blank=True, 
-    #     features= [
-    #         'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-    #         'bold',
-    #         'italic',
-    #         'ol',
-    #         'ul',
-    #         'link',
-    #         'hr',
-    #         'center',
-    #         'right',
-    #     ],
-    #     verbose_name=_("Introduction Text")
-    # )
     intro_text = StreamField(IntroStreamBlock())
     intro_image = models.ForeignKey(
         'wagtailimages.Image',
@@ -101,8 +86,6 @@ class ContactPage(SEOWagtailCaptchaEmailForm):
             'ul',
             'link',
             'hr',
-            'center',
-            'right',
             'small'
         ],
         verbose_name=_("Privacy Notice in Left Column")
@@ -116,8 +99,6 @@ class ContactPage(SEOWagtailCaptchaEmailForm):
             'ul',
             'link',
             'hr',
-            'center',
-            'right',
         ],
         verbose_name=_("Acknowledgement Text to Display On Website After Submit")
     )
@@ -165,7 +146,6 @@ class ContactPage(SEOWagtailCaptchaEmailForm):
             'ul',
             'link',
             'hr',
-            'center',
         ],
         verbose_name=_("Receipt Email Content"),
         help_text=_("Content for email sent to client")

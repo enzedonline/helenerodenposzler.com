@@ -117,7 +117,6 @@ class EmailSignature(TranslatableMixin, models.Model):
             'ul',
             'link',
             'hr',
-            'center',
         ],
         verbose_name=_("Email Signature Content"),
         help_text=_("Text for the Email Signature")

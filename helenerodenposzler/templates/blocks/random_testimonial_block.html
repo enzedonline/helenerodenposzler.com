@@ -11,15 +11,16 @@
         <img src="{{ img.url }}" style="border-radius: 6px;">
         </div>
         <div class="col">
-          <p><small>
+          <p class="testimonial"><small>
             {% if testimonial.author_link %}
               <a class="dark-nav-link" href="{{ testimonial.author_link }}" target="_blank">
             {% endif %}
-            {{ testimonial.author }} — <i>{{ testimonial.author_description }}</i>
+            {{ testimonial.author }}</small><br>
+            <span class="author-description">{{ testimonial.author_description }}</span>
             {% if testimonial.author_link %}
               </a>
             {% endif %}
-          </small></p>
+          </p>
         </div>
       </div>
     </div>
@@ -33,5 +34,10 @@ col {
 .testimonial {
   font-size: clamp(0.84375rem, 0.7721rem + 0.2206vw, 0.9375rem);
   line-height: 120%;
+}
+.author-description {
+  font-size: 80%;
+  line-height: 100%;
+  font-style: italic; 
 }
 </style>
