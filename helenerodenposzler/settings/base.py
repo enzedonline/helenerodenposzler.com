@@ -17,11 +17,13 @@ INSTALLED_APPS = [
     'wagtailmetadata',
     'wagtailfontawesome',
     'widget_tweaks',
+    'wagalytics',
 
     'wagtail_localize',
     'wagtail_localize.locales',
 
     'wagtail.contrib.forms',
+    'wagtail.contrib.frontend_cache',
     'wagtail.contrib.redirects',
     'wagtail.contrib.routable_page',
     'wagtail.contrib.modeladmin',
@@ -168,3 +170,6 @@ WAGTAILEMBEDS_FINDERS = [
 
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
 DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR, '../backups')}
+
+# FIX NEEDED FOR DJAGNO 3.2.x
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

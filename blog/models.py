@@ -1,5 +1,7 @@
 from core.blocks import GridStreamBlock
 from core.models import SEOPage
+from django.core.cache import cache
+from django.core.cache.utils import make_template_fragment_key
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -23,6 +25,19 @@ class BlogDetailPage(SEOPage):
 
     class Meta:
         verbose_name = _("Blog Page")
+
+    def flush_cache_fragments(self, fragment_keys):
+        for fragment in fragment_keys:
+            key = make_template_fragment_key(
+                fragment,
+                [self.id],
+            )
+            cache.delete(key)
+
+    def save(self, *args, **kwargs):
+        self.flush_cache_fragments(["base", "head", "blog_page", "main_menu", "banner_image", "footer"])
+        return super().save(*args, **kwargs)
+
 
 class BlogListingPage(SEOPage):
     template = "blog/blog_index_page.html"
@@ -107,6 +122,19 @@ class BlogListingPage(SEOPage):
 
         return context
 
+    def flush_cache_fragments(self, fragment_keys):
+        for fragment in fragment_keys:
+            key = make_template_fragment_key(
+                fragment,
+                [self.id],
+            )
+            cache.delete(key)
+
+    def save(self, *args, **kwargs):
+        self.flush_cache_fragments(["base", "head", "blog_index_page", "main_menu", "banner_image", "footer"])
+        return super().save(*args, **kwargs)
+
+
 def paginator_range(requested_page, last_page_num, wing_size=5):
     """ Given a 'wing size', return a range for pagination. 
         Wing size is the number of pages that flank either side of the selected page
@@ -140,3 +168,4 @@ def paginator_range(requested_page, last_page_num, wing_size=5):
     if end_page == last_page_num - 1:
         end_page = last_page_num
     return range(start_page, end_page + 1)
+

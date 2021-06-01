@@ -15,7 +15,7 @@ venv.ps1
 .venv/
 migrations/
 local.py
-helenerodenposzler/static/css/yeti.bootstrap.min.css
+helenerodenposzler/static/wagalytics/
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
 # in your Git repository. Update and uncomment the following line accordingly.

@@ -1,4 +1,4 @@
-{% load static wagtailuserbar i18n %}
+{% load static wagtailuserbar i18n cache %}
 {% get_current_language as LANGUAGE_CODE %}
 
 <!DOCTYPE html>
@@ -10,6 +10,9 @@
     <div class="sticky-top">
         {% include 'menus/main_menu.html' %}
     </div>
+
+    {% cache 604800 base page.id %}
+
     <div class="sharethis-sticky-share-buttons"></div>
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
@@ -23,6 +26,8 @@
         {% endblock %}
         </div>
     </body>
+
+    {% endcache %}
 
     <footer>
 

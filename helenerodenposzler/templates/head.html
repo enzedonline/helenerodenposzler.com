@@ -1,4 +1,6 @@
-{% load static i18n seo_metadata_tags %}
+{% load static seo_metadata_tags cache %}
+
+{% cache 604800 head page.id %}
 
 {# Google Analytics#}
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -46,3 +48,5 @@
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/helenerodenposzler.css' %}" type="text/css">
 {% endblock %}
+
+{% endcache %}

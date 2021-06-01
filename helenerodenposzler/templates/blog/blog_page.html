@@ -1,7 +1,7 @@
+{% load static wagtailcore_tags wagtailimages_tags blog_page_tags cache %}
 {% extends "base.html" %}
-{% load static wagtailcore_tags wagtailimages_tags blog_page_tags %}
 
-
+{% cache 604800 blog_page page.id %}
 
 {% block content %}
 
@@ -92,4 +92,7 @@
     {% endif %}
   </div>
 </div>
+
 {% endblock content %}
+
+{% endcache %}

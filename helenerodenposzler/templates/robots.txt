@@ -2,4 +2,4 @@ User-Agent: *
 Disallow: /admin/
 
 # Sitemap files
-Sitemap: {{ request.site.root_url }}/sitemap.xml
+Sitemap: https://helenerodenposzler.com/sitemap.xml
