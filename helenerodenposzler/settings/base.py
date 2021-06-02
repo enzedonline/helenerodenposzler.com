@@ -17,7 +17,7 @@ INSTALLED_APPS = [
     'wagtailmetadata',
     'wagtailfontawesome',
     'widget_tweaks',
-    'wagalytics',
+    # 'wagalytics',
 
     'wagtail_localize',
     'wagtail_localize.locales',
