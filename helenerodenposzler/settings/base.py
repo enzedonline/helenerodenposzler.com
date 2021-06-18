@@ -18,13 +18,11 @@ INSTALLED_APPS = [
     'wagtailfontawesome',
     'widget_tweaks',
     'wagalytics',
-    'clearcache',
 
     'wagtail_localize',
     'wagtail_localize.locales',
 
     'wagtail.contrib.forms',
-    'wagtail.contrib.frontend_cache',
     'wagtail.contrib.redirects',
     'wagtail.contrib.routable_page',
     'wagtail.contrib.modeladmin',

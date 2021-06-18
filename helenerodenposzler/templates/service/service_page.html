@@ -1,15 +1,15 @@
 {% extends "base.html" %}
-{% load static wagtailcore_tags cache %}
+{% load static wagtailcore_tags %}
 
 {% block content %}
 {% include 'core/banner_image.html' %}
-{% cache 604800 service_page page.id %}
+
 <div class="container-fluid pt-0 pt-md-2 px-2 px-sm-5 pb-4">
     {% for block in page.body %}
         {% include_block block %}
     {% endfor %}
 </div>
-{% endcache %}
+
 {% endblock content %}
 
 

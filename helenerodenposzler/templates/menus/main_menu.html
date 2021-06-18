@@ -1,6 +1,4 @@
-{% load wagtailimages_tags menu_tags static cache %}
-
-{% cache 604800 main_menu page.id %}
+{% load wagtailimages_tags menu_tags static %}
 
 {% company_logo as logo %}
 {% image logo.logo width-200 as logo_lg %} 
@@ -156,8 +154,6 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 </nav>
-
-{% endcache %}
 
 
 <script type="text/javascript">

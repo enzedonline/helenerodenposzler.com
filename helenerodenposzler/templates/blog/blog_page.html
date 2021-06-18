@@ -1,7 +1,5 @@
-{% load static wagtailcore_tags wagtailimages_tags blog_page_tags cache %}
+{% load static wagtailcore_tags wagtailimages_tags blog_page_tags %}
 {% extends "base.html" %}
-
-{% cache 604800 blog_page page.id %}
 
 {% block content %}
 
@@ -95,4 +93,3 @@
 
 {% endblock content %}
 
-{% endcache %}

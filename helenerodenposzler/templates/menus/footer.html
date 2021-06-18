@@ -1,6 +1,4 @@
-{% load wagtailimages_tags menu_tags static cache %}
-
-{% cache 604800 footer page.id %}
+{% load wagtailimages_tags menu_tags static %}
 
 {% get_menu 'Privacy' as privacy_menu %} 
 {% get_social_media_icons as social_media_icons %}
@@ -40,4 +38,3 @@
 
 </footer>
 
-{% endcache %}
