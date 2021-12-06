@@ -36,9 +36,9 @@
       {% endif %}
     </div>
   {% elif self.format == 'image-left-responsive' %}
-    <div class="card {{ self.background }} {% if not self.border %}border-0 {% endif %}p-{{pad}} pt-0 {% if self.full_height %}h-100{% endif %}">
+    <div class="card {{ self.background }} {% if not self.border %}border-0 {% endif %}p-{{pad}} pt-0 pb-md-3 {% if self.full_height %}h-100{% endif %}">
       <div class="row">
-        <div class="col-md-4 pt-3" style="min-width: 200px;">
+        <div class="col-md-4 pt-2" style="min-width: 200px;">
           {% if self.link %}<a href="{{ self.link }}">{% endif %}
             <picture>
               <source media="(min-width: 1800px)" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp" />
@@ -68,9 +68,9 @@
       </div>
     </div>
   {% elif self.format == 'image-left-fixed' %}
-    <div class="card {{ self.background }} {% if not self.border %}border-0 {% endif %}p-{{pad}} pt-0 {% if self.full_height %}h-100{% endif %}">
+    <div class="card {{ self.background }} {% if not self.border %}border-0 {% endif %}p-{{pad}} pt-0 pb-md-3 {% if self.full_height %}h-100{% endif %}">
       <div class="row">
-        <div class="col-4 pt-3" style="min-width: 200px;">
+        <div class="col-4 pt-2" style="min-width: 200px;">
           <a href="{{ self.link }}">
             <picture>
               <source media="(min-width: 1800px)" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp" />
@@ -100,9 +100,9 @@
       </div>
     </div>
   {% elif self.format == 'image-right-responsive' %}
-    <div class="card {{ self.background }} {% if not self.border %}border-0 {% endif %}p-{{pad}} pt-0 {% if self.full_height %}h-100{% endif %}">
+    <div class="card {{ self.background }} {% if not self.border %}border-0 {% endif %}p-{{pad}} pt-0 pb-md-3 {% if self.full_height %}h-100{% endif %}">
       <div class="row flex-row-reverse">
-        <div class="col-md-4 pt-3" style="min-width: 200px;">
+        <div class="col-md-4 pt-2" style="min-width: 200px;">
           <a href="{{ self.link }}">
             <picture>
               <source media="(min-width: 1800px)" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp" />
@@ -132,9 +132,9 @@
       </div>
     </div>
   {% else %}
-    <div class="card {{ self.background }} {% if not self.border %}border-0 {% endif %}p-{{pad}} pt-0 {% if self.full_height %}h-100{% endif %}">
+    <div class="card {{ self.background }} {% if not self.border %}border-0 {% endif %}p-{{pad}} pt-0 pb-md-3 {% if self.full_height %}h-100{% endif %}">
       <div class="row flex-row-reverse">
-        <div class="col-4 pt-3" style="min-width: 200px;">
+        <div class="col-4 pt-2" style="min-width: 200px;">
           <a href="{{ self.link }}">
             <picture>
               <source media="(min-width: 1800px)" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp" />
