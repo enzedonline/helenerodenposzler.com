@@ -3,6 +3,9 @@
 
 <!DOCTYPE html>
 <html lang={{ LANGUAGE_CODE }}>
+
+    {% if not request.path == '/' %}
+
     <head>
         {% include 'head.html' %}
     </head>
@@ -32,16 +35,14 @@
 
     <footer>
 
-        <div class="container">
-        <div class="container py-20">
-        <p class="py-40">&nbsp</p>
-        <hr class="my-4">
-        </div>
-        </div>
+            <div class="container">
+                <p class="py-2">&nbsp;</p>
+            </div>
 
         <div class="fixed-bottom">
             {% include 'menus/footer.html' %}
         </div>
     </footer>
     
+    {% endif %}
 </html>

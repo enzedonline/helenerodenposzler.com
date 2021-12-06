@@ -31,7 +31,7 @@ class ColourThemeChoiceBlock(wagtail_blocks.ChoiceBlock):
 class ButtonChoiceBlock(wagtail_blocks.ChoiceBlock):
     choices=[
         ('btn-primary', _("Standard Button")),
-        ('btn-btn-secondary', _("Secondary Button")),
+        ('btn-secondary', _("Secondary Button")),
         ('btn-link', _("Text Only")),
         ('btn-success', _("Success Button")),
         ('btn-danger', _("Danger Button")),
@@ -73,6 +73,7 @@ class ImageBlock(StructBlock):
     class Meta:
         icon = 'image'
         template = "blocks/image_block.html"
+        label = _("Image Block")
 
 class BlockQuote(StructBlock):
     """
@@ -89,6 +90,7 @@ class BlockQuote(StructBlock):
     class Meta:
         icon = "fa-quote-left"
         template = "blocks/blockquote.html"
+        label = _("Quote Block")
 
 class Link_Value(wagtail_blocks.StructValue):
     """ Additional logic for the Link class """
@@ -159,11 +161,11 @@ class Link(wagtail_blocks.StructBlock):
         url_link = value.get('url_link')
 
         if not(bool(internal_page) ^ bool(url_link)):
-            errors['internal_page'] = ErrorList(["Please select an internal page or an external link (but not both)"])
-            errors['url_link'] = ErrorList(["Please select an internal page or an external link (but not both)"])
+            errors['internal_page'] = ErrorList([_("Please select an internal page or an external link (but not both)")])
+            errors['url_link'] = ErrorList([_("Please select an internal page or an external link (but not both)")])
 
         if errors:
-            raise ValidationError("Please check the errors below and correct before saving", params=errors)
+            raise ValidationError(_("Please check the errors below and correct before saving"), params=errors)
 
         return super().clean(value)
 
@@ -179,9 +181,10 @@ class SimpleRichTextBlock(wagtail_blocks.StructBlock):
     )
     content = wagtail_blocks.RichTextBlock(
         features= [
-            'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+            'h2', 'h3', 'h4', 'h5', 'h6',
             'bold',
             'italic',
+            'underline',
             'ol',
             'ul',
             'link',
@@ -246,7 +249,7 @@ class CallToActionCard(FlexCard):
         required=False,
     )
     class Meta:
-        template = 'blocks/call_to_action_card_block.html'
+        template = 'blocks/flex_card_block.html'
         label = _("Call-To-Action Card (Image/Text/Button)")
         icon = 'fa-address-card'
 
@@ -285,9 +288,9 @@ class SimpleCardGridBlock(wagtail_blocks.StructBlock):
         max_length=40,
         default='row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4',
         choices=[
-            ('row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4', _("Mobile:1 Max:4")),
+            ('row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4', _("Mobile:1 Max:4")),
             ('row-cols-1 row-cols-md-2', _("Mobile:1 Max:2")),
-            ('row-cols-2 row-cols-md-3 row-cols-lg-4', _("Mobile:2 Max:4")),
+            ('row-cols-2 row-cols-lg-3 row-cols-xl-4', _("Mobile:2 Max:4")),
         ],
         label=_("Maximum Cards per Row")
     )
