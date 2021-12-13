@@ -37,7 +37,7 @@
         {% endfor %}
     {% endif %}
 
-    <div class="collapse navbar-collapse order-1 order-md-0 dual-collapse2" id="navbarColor01">
+    <div class="collapse navbar-collapse order-1 order-md-0 dual-collapse2" id="main-menu" aria-controls="main-menu" >
         <ul class="navbar-nav ml-auto align-items-md-center">
             {% get_menu 'main_menu' as main_menu %}
             {% if main_menu %}
@@ -125,7 +125,7 @@
     language_switcher menu tag iterates through site locales, finds equivalent url for each locale
     Template code loops through results, adds menu item flag + locale name + link to equiv page
     Assumes image for each language uploaded to Wagtail with title 'flag-lang_code' (eg flag-en, flag-fr etc) {% endcomment %}
-    <div class="collapse navbar-collapse order-2 dual-collapse2" style="max-width: 50px;" id="navbarColor01">
+    <div class="collapse navbar-collapse order-2 dual-collapse2" style="max-width: 50px;" id="language-switcher" aria-controls="language-switcher" >
 
         <ul class="navbar-nav ml-auto bd-example-container-sidebar">   
             <li class="nav-item dropdown">
@@ -149,8 +149,8 @@
     </div>
 
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" 
-            aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile-button" 
+            aria-controls="mobile-button" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 </nav>
