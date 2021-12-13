@@ -27,3 +27,7 @@ def get_context_var_or_none(context, name):
             if name in d:
                 return d[name]
     return None
+
+@register.simple_tag
+def print_template_value(value):
+    print(value)
