@@ -103,9 +103,8 @@ class Link_Value(wagtail_blocks.StructValue):
         elif url_link:
             if url_link.startswith('/'): # presumes internal link starts with '/' and no lang code
                 url = '/' + Locale.get_active().language_code + url_link
-            else: # external link, do not translate but add new tab instruction
-                #@TODO: target blank doesn't work on buttons, look for a workaround
-                url = url_link + '" target="_blank' 
+            else:
+                url = url_link 
             return url
         else:
             return None
@@ -124,6 +123,12 @@ class Link(wagtail_blocks.StructBlock):
     url_link = wagtail_blocks.CharBlock(
         required=False,
         label=_("Link to external site or internal URL")
+    )
+    open_in_new_tab = wagtail_blocks.BooleanBlock(
+        required=False,
+        default=False,
+        label=_("Open in New Tab"),
+        help_text=_("Recommended for external links")
     )
     appearance = ButtonChoiceBlock(
         max_length=15,
