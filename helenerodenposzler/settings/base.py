@@ -12,7 +12,6 @@ INSTALLED_APPS = [
     'core',
     'site_settings',
     'contact',
-    'dbbackup',
 
     'wagtailmetadata',
     'wagtailfontawesome',
@@ -88,6 +87,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'helenerodenposzler.wsgi.application'
 
+WAGTAILSEARCH_BACKENDS = {
+    'default': {
+        'BACKEND': 'wagtail.search.backends.database',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -166,9 +170,6 @@ WAGTAILEMBEDS_FINDERS = [
         'class': 'wagtail.embeds.finders.oembed',
     }
 ]
-
-DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
-DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR, '../backups')}
 
 # FIX NEEDED FOR DJAGNO 3.2.x
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
