@@ -1,10 +1,10 @@
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
-from wagtail.core.models import Page, TranslatableMixin
-from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail.models import Page, TranslatableMixin
 from wagtail.snippets.models import register_snippet
+from wagtail_localize.fields import SynchronizedField
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
 from wagtailmetadata.models import WagtailImageMetadataMixin
 
@@ -75,10 +75,16 @@ class Testimonial(TranslatableMixin, models.Model):
         FieldPanel('author'),
         FieldPanel('author_description'),
         FieldPanel('reference_text'),
-        ImageChooserPanel('photo'),
+        FieldPanel('photo'),
         FieldPanel('author_link'),
         ServiceTypeFieldPanel('service', ServiceListQuerySet()()),
     ]
+
+    override_translatable_fields = [
+        SynchronizedField("photo", overridable=False),
+        SynchronizedField("author_link", overridable=False),
+        SynchronizedField("service", overridable=False),
+    ]   
 
     def __str__(self):
         """The string representation of this class"""
@@ -121,10 +127,10 @@ class SEOPageMixin(WagtailImageMetadataMixin, models.Model):
     promote_panels = [
         MultiFieldPanel([
             FieldPanel('slug'),
+            FieldPanel('search_image'),
             FieldPanel('seo_title'),
             FieldPanel('show_in_menus'),
             FieldPanel('search_description'),
-            ImageChooserPanel('search_image'),
         ], _('Common page configuration')),
     ]
 

@@ -16,10 +16,10 @@ INSTALLED_APPS = [
     'wagtailmetadata',
     'wagtailfontawesome',
     'widget_tweaks',
-    'wagalytics',
 
     'wagtail_localize',
     'wagtail_localize.locales',
+    'wagtail_localize.modeladmin',
 
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'wagtail.images',
     'wagtail.search',
     'wagtail.admin',
-    'wagtail.core',
+    'wagtail',
 
     'modelcluster',
     'taggit',

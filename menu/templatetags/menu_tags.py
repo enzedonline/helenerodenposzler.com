@@ -121,7 +121,10 @@ def get_menu_items(menu, request):
 def get_menu(menu_title):
     # return the localized menu instance for a given title, or none if no such menu exists
     try:
-        return Menu.objects.all().filter(title=menu_title).first().localized 
+        if isinstance(menu_title, int):
+            return Menu.objects.all().filter(id=menu_title).first().localized 
+        else:
+            return Menu.objects.all().filter(title=menu_title).first().localized 
     except (AttributeError, Menu.DoesNotExist):
         return None
     

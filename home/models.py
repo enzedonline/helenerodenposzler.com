@@ -4,10 +4,8 @@ from core.models import SEOPage
 # from django.core.cache.utils import make_template_fragment_key
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from wagtail.admin.edit_handlers import (FieldPanel, MultiFieldPanel,
-                                         StreamFieldPanel)
-from wagtail.core.fields import StreamField
-from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail.fields import StreamField
 
 class HomePage(SEOPage):
 
@@ -44,13 +42,13 @@ class HomePage(SEOPage):
     content_panels = SEOPage.content_panels + [
         MultiFieldPanel(
             [
-                ImageChooserPanel('banner_image'),
+                FieldPanel('banner_image'),
                 FieldPanel('banner_headline'),
                 FieldPanel('banner_small_text'),
             ], 
             heading=_("Choose banner image and text/button overlay options.")
         ),
-        StreamFieldPanel("body"),
+        FieldPanel("body"),
     ]
 
     class Meta:

@@ -5,9 +5,8 @@ from core.models import SEOPage
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from wagtail.admin.edit_handlers import (FieldPanel, MultiFieldPanel,
-                                         StreamFieldPanel)
-from wagtail.core.fields import StreamField
+from wagtail.admin.panels import FieldPanel, MultiFieldPanel
+from wagtail.fields import StreamField
 from wagtail.images.edit_handlers import ImageChooserPanel
 
 class BlogDetailPage(SEOPage):
@@ -20,7 +19,7 @@ class BlogDetailPage(SEOPage):
     )
 
     content_panels = SEOPage.content_panels + [
-        StreamFieldPanel("body"),
+        FieldPanel("body"),
     ]
 
     class Meta:
@@ -85,8 +84,8 @@ class BlogListingPage(SEOPage):
             ], 
             heading=_("Choose banner image and text/button overlay options.")
         ),
-        StreamFieldPanel("top_section"),
-        StreamFieldPanel("bottom_section"),
+        FieldPanel("top_section"),
+        FieldPanel("bottom_section"),
     ]
 
     @property

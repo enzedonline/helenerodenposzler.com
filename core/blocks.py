@@ -1,14 +1,15 @@
-from django.core.exceptions import ValidationError
-from django.utils.translation import gettext_lazy as _
 from django.forms.utils import ErrorList
-from wagtail.core.blocks.field_block import IntegerBlock, URLBlock
-from wagtail.images.blocks import ImageChooserBlock
+from django.utils.translation import gettext_lazy as _
+from wagtail import blocks as wagtail_blocks
+from wagtail.blocks import (CharBlock, RawHTMLBlock, StreamBlock, StructBlock,
+                            TextBlock)
+from wagtail.blocks.field_block import IntegerBlock, URLBlock
+from wagtail.blocks.struct_block import StructBlockValidationError
 from wagtail.embeds.blocks import EmbedBlock
-from wagtail.core import blocks as wagtail_blocks
-from wagtail.core.blocks import CharBlock, TextBlock, StreamBlock, StructBlock, RawHTMLBlock
+from wagtail.images.blocks import ImageChooserBlock
 from wagtail_localize.synctree import Locale
 
-import core.metadata 
+import core.metadata
 
 class HiddenCharBlock(CharBlock):
     pass
@@ -166,11 +167,12 @@ class Link(wagtail_blocks.StructBlock):
         url_link = value.get('url_link')
 
         if not(bool(internal_page) ^ bool(url_link)):
-            errors['internal_page'] = ErrorList([_("Please select an internal page or an external link (but not both)")])
-            errors['url_link'] = ErrorList([_("Please select an internal page or an external link (but not both)")])
+            msg = _("Please select an internal page or an external link (but not both)")
+            errors['internal_page'] = ErrorList([msg])
+            errors['url_link'] = ErrorList([msg])
 
         if errors:
-            raise ValidationError(_("Please check the errors below and correct before saving"), params=errors)
+            raise StructBlockValidationError(block_errors=errors)
 
         return super().clean(value)
 
@@ -456,7 +458,7 @@ class ExternalLinkEmbedBlock(wagtail_blocks.StructBlock):
                 errors['external_link'] = ErrorList([_("No information for the URL was found, please check the URL and ensure the full URL is included and try again.")])
 
             if errors:
-                raise ValidationError(_("Please check the errors below and correct before saving"), params=errors)
+                raise StructBlockValidationError(block_errors=errors)
 
         return super().clean(value)
 

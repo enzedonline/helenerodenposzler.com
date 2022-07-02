@@ -3,15 +3,15 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
-from wagtail.admin.edit_handlers import (FieldPanel, HelpPanel, InlinePanel,
-                                         MultiFieldPanel, PageChooserPanel)
 from wagtail.admin.forms import WagtailAdminPageForm
-from wagtail.core.models import Orderable, TranslatableMixin
-from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.admin.panels import (FieldPanel, HelpPanel, InlinePanel,
+                                  MultiFieldPanel)
+from wagtail.models import Orderable, Page, TranslatableMixin
 from wagtail.snippets.models import register_snippet
-from wagtail_localize.synctree import Locale, Page as LocalizePage
+from wagtail_localize.fields import SynchronizedField
 
 from .edit_handlers import ReadOnlyPanel, RichHelpPanel, SubMenuFieldPanel
+
 
 class MenuListQuerySet(object):
     # Call as class()() to act as a function call, passes all menus to SubMenuPanel dropdown
@@ -79,15 +79,6 @@ class MenuPanelsIterable(object):
     # rather than declared in the model itself
 
     def __iter__(self):
-        # build submenu panels, including the FluidIterable for the widget
-        submenu_panels = [
-            HelpPanel(_("Select the menu that this sub-menu will load")),
-            SubMenuFieldPanel("submenu_id", MenuListQuerySet()()),
-            FieldPanel("display_option"),
-            FieldPanel("show_when"),
-            FieldPanel("menu_display_order"),
-            FieldPanel("show_divider_after_this_item"),
-        ]
 
         # two custom panels here:
         # ReadOnlyPanel - displays field as a non-field text, optionally adds a hidden input field to 
@@ -102,7 +93,7 @@ class MenuPanelsIterable(object):
                 [
                     ReadOnlyPanel("id", heading="Menu ID", add_hidden_input=True),
                     FieldPanel("title"),
-                    ImageChooserPanel("icon"),
+                    FieldPanel("icon"),
                 ],
                 heading=_("Menu Heading"),
             ),
@@ -117,7 +108,7 @@ class MenuPanelsIterable(object):
             ),
             MultiFieldPanel(
                 [
-                    InlinePanel("sub_menu_items", label=_("Sub-menu"), panels=submenu_panels)
+                    InlinePanel("sub_menu_items", label=_("Sub-menu"))
                 ],
                 heading="Submenus",
                 classname="collapsible collapsed",
@@ -165,6 +156,10 @@ class Menu(TranslatableMixin, ClusterableModel):
     )
     
     panels = MenuPanelsIterable()
+
+    override_translatable_fields = [
+        SynchronizedField("icon", overridable=False),
+    ]    
 
     def __str__(self):
         return self.title
@@ -266,25 +261,30 @@ class LinkMenuItem(MenuItem):
     # useful for routable pages
     # could also to POST arguments to a page (eg link_url = ?cat=news -> /blog/categories/?cat=news)
     link_page = models.ForeignKey(
-        LocalizePage,
+        Page,
         blank=True,
         null=True,
         related_name="+",
         on_delete=models.CASCADE,
         help_text=_(
-            "Use this to link to an internal page. Link to the page in the language of this menu."
+            "Use this to link to an internal page."
         ),
     )
 
     panels = [
         FieldPanel("title"),
-        ImageChooserPanel("icon"),
-        PageChooserPanel("link_page"),
+        FieldPanel("icon"),
+        FieldPanel("link_page"),
         FieldPanel("link_url"),
         FieldPanel("show_when"),
         FieldPanel("menu_display_order"),
         FieldPanel("show_divider_after_this_item"),
     ]
+
+    override_translatable_fields = [
+        SynchronizedField("icon", overridable=False),
+        SynchronizedField("link_page", overridable=False),
+    ]    
 
     class Meta:
         unique_together = ('translation_key', 'locale')
@@ -319,7 +319,7 @@ class AutofillMenuItem(MenuItem):
     # useful for routable pages
     # could also to POST arguments to a page (eg link_url = ?cat=news -> /blog/categories/?cat=news)
     link_page = models.ForeignKey(
-        LocalizePage, 
+        Page, 
         blank=True,
         null=True,
         related_name="+",
@@ -358,7 +358,7 @@ class AutofillMenuItem(MenuItem):
     )
     panels = [
         FieldPanel("description"),
-        PageChooserPanel("link_page"),
+        FieldPanel("link_page"),
         FieldPanel("include_linked_page"),
         FieldPanel("only_show_in_menus"),
         FieldPanel("max_items"),
@@ -367,6 +367,10 @@ class AutofillMenuItem(MenuItem):
         FieldPanel("menu_display_order"),
         FieldPanel("show_divider_after_this_item"),
     ]
+
+    override_translatable_fields = [
+        SynchronizedField("link_page", overridable=False),
+    ]    
 
     class Meta:
         unique_together = ('translation_key', 'locale')
@@ -406,7 +410,15 @@ class SubMenuItem(MenuItem):
         help_text=_("Display the sub-menu as icon, text or both.")
     )
 
-    # panels = [Declared in Menu and added to InlinePanel]
+    # build submenu panels
+    panels = [
+        HelpPanel(_("Select the menu that this sub-menu will load")),
+        SubMenuFieldPanel("submenu_id", MenuListQuerySet()()),
+        FieldPanel("display_option"),
+        FieldPanel("show_when"),
+        FieldPanel("menu_display_order"),
+        FieldPanel("show_divider_after_this_item"),
+    ]
 
     class Meta:
         unique_together = ('translation_key', 'locale')
@@ -421,7 +433,7 @@ class CompanyLogo(models.Model):
 
     panels = [
         FieldPanel("name", classname="full"),
-        ImageChooserPanel("logo"),
+        FieldPanel("logo"),
     ]
 
     def __str__(self):

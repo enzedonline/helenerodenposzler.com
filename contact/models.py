@@ -2,29 +2,23 @@ import os
 from datetime import datetime
 
 from bs4 import BeautifulSoup
-from core.blocks import HtmlBlock, SimpleCard, SimpleRichTextBlock, SpacerStaticBlock
+from core.blocks import HtmlBlock, SpacerStaticBlock
 from core.models import SEOPage, SEOWagtailCaptchaEmailForm
 from django.conf import settings
 from django.core import mail
-from django.core.files import File
 from django.core.mail import EmailMultiAlternatives
 from django.db import models
 from django.db.models.fields import CharField, EmailField
 from django.template.defaultfilters import linebreaksbr
 from django.utils.translation import gettext_lazy as _
 from modelcluster.models import ParentalKey
-from site_settings.models import EmailSettings, EmailSignature, SocialMedia
-from wagtail.admin.edit_handlers import (FieldPanel, FieldRowPanel,
-                                         InlinePanel, MultiFieldPanel,
-                                         StreamFieldPanel)
+from site_settings.models import EmailSettings, SocialMedia
+from wagtail.admin.panels import FieldPanel, FieldRowPanel, MultiFieldPanel, InlinePanel
 from wagtail.contrib.forms.models import AbstractFormField
-from wagtail.core.blocks import StreamBlock, RichTextBlock
-from wagtail.core.fields import RichTextField, StreamField
-from wagtail.core.models import TranslatableMixin
-from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.blocks import StreamBlock, RichTextBlock
+from wagtail.fields import RichTextField, StreamField
+from wagtail.models import TranslatableMixin
 from wagtail.images.models import Image
-from wagtail.snippets.edit_handlers import SnippetChooserPanel
-from wagtail_localize.synctree import Locale
 
 FORM_FIELD_CHOICES = (
     ('singleline', _('Single line text')),
@@ -159,8 +153,8 @@ class ContactPage(SEOWagtailCaptchaEmailForm):
     )
     
     content_panels = SEOPage.content_panels + [
-        StreamFieldPanel('intro_text'),
-        ImageChooserPanel('intro_image'),
+        FieldPanel('intro_text'),
+        FieldPanel('intro_image'),
         FieldPanel("privacy_notice"),
         InlinePanel("form_fields", label = "Form Fields"),
         FieldPanel("submit_button_text"),
@@ -177,7 +171,7 @@ class ContactPage(SEOWagtailCaptchaEmailForm):
             FieldPanel("reply_to"),
             FieldPanel("receipt_email_subject"),
             FieldPanel("receipt_email_content"),
-            SnippetChooserPanel('receipt_email_footer'),
+            FieldPanel('receipt_email_footer'),
         ], heading=_("Client Receipt Email Settings")),
     ]
 

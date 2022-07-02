@@ -1,12 +1,13 @@
-from django.db import models
 from django import forms
+from django.db import models
 from django.utils.translation import gettext_lazy as _
-from wagtail.admin.edit_handlers import FieldPanel, RichTextFieldPanel
+from wagtail.admin.panels import FieldPanel
 from wagtail.contrib.settings.models import BaseSetting, register_setting
-from wagtail.core.models import TranslatableMixin
-from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.fields import RichTextField
+from wagtail.models import TranslatableMixin
 from wagtail.snippets.models import register_snippet
-from wagtail.core.fields import RichTextField
+from wagtail_localize.fields import SynchronizedField
+
 
 class PasswordField(forms.CharField):
     widget = forms.PasswordInput
@@ -87,9 +88,12 @@ class SocialMedia(TranslatableMixin, models.Model):
     panels = [
         FieldPanel('site_name'),
         FieldPanel('url'),
-        ImageChooserPanel('photo'),
+        FieldPanel('photo'),
     ]
-
+    override_translatable_fields = [
+        SynchronizedField("photo", overridable=True),
+    ]   
+    
     def __str__(self):
         """The string representation of this class"""
         return self.site_name
@@ -133,8 +137,8 @@ class EmailSignature(TranslatableMixin, models.Model):
 
     panels = [
         FieldPanel('signature_name'),
-        RichTextFieldPanel('signature_content'),
-        ImageChooserPanel('signature_image'),
+        FieldPanel('signature_content'),
+        FieldPanel('signature_image'),
     ]
 
     def __str__(self):

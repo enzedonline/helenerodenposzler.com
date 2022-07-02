@@ -1,6 +1,6 @@
 from django import template
 from django.utils.safestring import mark_safe
-from wagtail.core.models import Page
+from wagtail.models import Page
 
 register = template.Library()
 
