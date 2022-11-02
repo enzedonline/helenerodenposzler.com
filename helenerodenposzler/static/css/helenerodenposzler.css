@@ -109,10 +109,14 @@ p {
 .switcher-menu {
   min-width: 8rem;
 }
+.nav-item {
+  font-size: clamp(1rem, 0.8088rem + 0.3922vw, 1.25rem) !important;
+}
 .footer-nav-link,
 .footer-nav-link.active {
   color: var(--light) !important;
   padding: 0px;
+  font-size: large;
 }
 .dark-nav-link,
 .dark-nav-link.active {
