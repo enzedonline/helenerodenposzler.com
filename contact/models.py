@@ -80,7 +80,8 @@ class ContactPage(SEOWagtailCaptchaEmailForm):
             'ul',
             'link',
             'hr',
-            'small'
+            'smaller',
+            'larger'
         ],
         verbose_name=_("Privacy Notice in Left Column")
     )

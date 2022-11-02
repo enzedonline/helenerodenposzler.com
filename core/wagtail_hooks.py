@@ -1,73 +1,44 @@
-"""Richtext hooks."""
 import wagtail.admin.rich_text.editors.draftail.features as draftail_features
-from wagtail.admin.rich_text.converters.html_to_contentstate import (
-    InlineStyleElementHandler
-)
 from wagtail import hooks
+from wagtail.admin.rich_text.converters.html_to_contentstate import \
+    InlineStyleElementHandler
+
+from .draftail_extensions import (DRAFTAIL_ICONS, register_block_feature,
+                                  register_inline_styling)
 
 @hooks.register("register_rich_text_features")
-def register_code_styling(features):
-    """Add the <small> to the richtext editor and page."""
-
-    # Step 1
-    feature_name = "small"
-    type_ = "SMALL"
-    tag = "small"
-
-    # Step 2
-    control = {
-        "type": type_,
-        "label": "ˢᵐᵃˡˡ",
-        "description": "Small"
-    }
-
-    # Step 3
-    features.register_editor_plugin(
-        "draftail", feature_name, draftail_features.InlineStyleFeature(control)
+def register_smaller_styling(features):
+    register_inline_styling(
+        features=features,
+        feature_name='smaller',
+        type_='SMALLER',
+        tag='span',
+        format='style="font-size:smaller"',
+        editor_style={'font-size':'smaller'},
+        description='Decrease Font',
+        icon=DRAFTAIL_ICONS.decrease_font
     )
 
-    # Step 4
-    db_conversion = {
-        "from_database_format": {tag: InlineStyleElementHandler(type_)},
-        "to_database_format": {"style_map": {type_: {"element": tag}}}
-    }
+@hooks.register("register_rich_text_features")
+def register_larger_styling(features):
+    register_inline_styling(
+        features=features,
+        feature_name='larger',
+        type_='LARGER',
+        tag='span',
+        format='style="font-size:larger"',
+        editor_style={'font-size':'larger'},
+        description='Increase Font',
+        icon=DRAFTAIL_ICONS.increase_font
+    )
 
-    # Step 5
-    features.register_converter_rule("contentstate", feature_name, db_conversion)
-
-    # Step 6. This is optional
-    # This will register this feature with all richtext editors by default
-    features.default_features.append(feature_name)
 @hooks.register("register_rich_text_features")
 def register_underline_styling(features):
-    """Add the <code> to the richtext editor and page."""
-
-    # Step 1
-    feature_name = "underline"
-    type_ = "UNDERLINE"
-    tag = "u"
-
-    # Step 2
-    control = {
-        "type": type_,
-        "label": "U̲",
-        "description": "Underline"
-    }
-
-    # Step 3
-    features.register_editor_plugin(
-        "draftail", feature_name, draftail_features.InlineStyleFeature(control)
+    register_inline_styling(
+        features=features,
+        feature_name='underline',
+        type_='UNDERLINE',
+        tag='u',
+        description='Underline',
+        icon=DRAFTAIL_ICONS.underline
     )
-
-    # Step 4
-    db_conversion = {
-        "from_database_format": {tag: InlineStyleElementHandler(type_)},
-        "to_database_format": {"style_map": {type_: {"element": tag}}}
-    }
-
-    # Step 5
-    features.register_converter_rule("contentstate", feature_name, db_conversion)
-
-    # Step 6. This is optional
-    # This will register this feature with all richtext editors by default
-    features.default_features.append(feature_name)

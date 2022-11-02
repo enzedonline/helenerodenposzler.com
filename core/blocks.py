@@ -198,7 +198,8 @@ class SimpleRichTextBlock(StructBlock):
             'ul',
             'link',
             'hr',
-			'small',
+			'smaller',
+            'larger'
         ]
     )
 
