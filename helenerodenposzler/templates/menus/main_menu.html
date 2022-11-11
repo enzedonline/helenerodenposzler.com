@@ -1,4 +1,4 @@
-{% load wagtailimages_tags menu_tags core_tags static %}
+{% load wagtailimages_tags menu_tags core_tags i18n static %}
 
 <nav class="navbar navbar-expand-md navbar-light bg-helene-faded-moutard pr-2 pr-md-0 ml-n2 py-1">
     {% trans_page_from_slug 'en' as homepage %}
@@ -120,14 +120,27 @@
         <ul class="navbar-nav ml-auto bd-example-container-sidebar">   
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    {% comment %} {% get_lang_flag as flag %}
+                    {% image flag fill-16x11 class="image-menu" %} {% endcomment %}
                     {% get_lang_flag as flag %}
-                    {% image flag fill-16x11 class="image-menu" %}
+                    <img 
+                        src="{{ flag.image }}"
+                        alt="{{flag.language}}"
+                        title="{{flag.language}}"
+                        width="22"
+                        style="vertical-align: -0.15rem;"
+                    />
                 </a>
                 <div class="dropdown-menu dropdown-menu-right switcher-menu">
                     {% language_switcher self as switcher %}
                     {% for lang in switcher.switch_pages %}
                         <a class="dropdown-item switcher-item" href="{{ lang.url }}">
-                            {% image lang.flag fill-16x11 class="image-menu" %}&nbsp
+                            <img 
+                                src="{{ lang.flag }}"
+                                alt="{{ lang.language }}"
+                                title="{{ lang.language }}"
+                                width="22"
+                            />&nbsp
                             {{ lang.language }}
                         </a>
                         {{ lang.alternate | safe}}

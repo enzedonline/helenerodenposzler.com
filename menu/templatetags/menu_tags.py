@@ -1,7 +1,8 @@
 from site_settings.models import SocialMedia
 from menu.models import Menu, CompanyLogo
 from django import template
-from wagtail_localize.synctree import Locale, Page
+from django.templatetags.static import static
+from wagtail.models import Page, Locale
 from wagtail.images.models import Image
 
 def sub_menu_items(menu, logged_in):
@@ -151,11 +152,12 @@ def language_switcher(page):
             next_url = ''
         if not locale == current_lang: # add the link to switch language and also alternate link
             alternate_link = f'<link rel="alternate" hreflang="{locale.language_code}" href="{trans_page.get_full_url()}" />'
+            flag = get_lang_flag(locale)
             switch_pages.append(
                 {
-                    'language': locale, 
+                    'language': flag['language'], 
                     'url': '/lang/' + locale.language_code + next_url,
-                    'flag': get_lang_flag(locale.language_code),
+                    'flag': flag['image'],
                     'alternate': alternate_link
                 }
             )
@@ -164,13 +166,16 @@ def language_switcher(page):
     return {'switch_pages':switch_pages, 'default_link': default_link}
 
 @register.simple_tag()
-def get_lang_flag(language_code=None):
+def get_lang_flag(locale=None):
     # returns the flag icon for the menu 
     # upload flag image to wagtail, set title to flag-lang (eg flag-fr, flag-en)
     # if no language code supplied, assumes current language
-    if not language_code:
-        language_code = Locale.get_active().language_code
-    return Image.objects.all().filter(title='flag-' + language_code).first()
+    if not locale:
+        locale = Locale.get_active()
+    return {
+        'image': f"{static('/svg/flags')}/{locale.language_code}.svg",
+        'language': locale.get_display_name()
+    }
 
 @register.simple_tag()
 def company_logo():
