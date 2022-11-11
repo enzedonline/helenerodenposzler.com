@@ -1,22 +1,11 @@
 {% load wagtailimages_tags menu_tags core_tags static %}
 
-{% company_logo as logo %}
-{% image logo.logo width-200 as logo_lg %} 
-{% image logo.logo width-175 as logo_md %}
-{% image logo.logo width-150 as logo_sm %}
-
-<nav class="navbar navbar-expand-md navbar-light bg-helene-faded-moutard pr-2 pr-md-0 ml-n2 py-2">
+<nav class="navbar navbar-expand-md navbar-light bg-helene-faded-moutard pr-2 pr-md-0 ml-n2 py-1">
     {% trans_page_from_slug 'en' as homepage %}
     <a class="navbar-brand" href="{{ homepage.url }}">
-        <picture>
-        <source media="(min-width: 992px)" srcset="{{ logo_lg.url }}" />
-        <source media="(min-width: 800px)" srcset="{{ logo_md.url }}"  />
-        <source srcset="{{ logo_sm.url }}" />
-        <img
-            src="{{ logo_sm.url }}"
-            alt="{{ self.title }}"
-        />
-        </picture>
+        <svg style="width:clamp(160px, 112.0513px + 14.5299vw, 330px); height:clamp(31px, 23.5918px + 2.2449vw, 64px);">
+            <use href="{% static 'svg/logo.svg' %}#logo" fill="currentColor" />
+        </svg>    
     </a>
 
     {% get_menu 'contact' as contact_menu %}

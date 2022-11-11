@@ -110,7 +110,7 @@ p {
   min-width: 8rem;
 }
 .nav-item {
-  font-size: clamp(1rem, 0.8088rem + 0.3922vw, 1.25rem) !important;
+  font-size: clamp(0.875rem, 0.7628rem + 0.5442vw, 1.375rem) !important;
 }
 .footer-nav-link,
 .footer-nav-link.active {
