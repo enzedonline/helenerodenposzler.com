@@ -1,10 +1,14 @@
-import wagtail.admin.rich_text.editors.draftail.features as draftail_features
 from wagtail import hooks
-from wagtail.admin.rich_text.converters.html_to_contentstate import \
-    InlineStyleElementHandler
 
-from .draftail_extensions import (DRAFTAIL_ICONS, register_block_feature,
-                                  register_inline_styling)
+from .draftail_extensions import DRAFTAIL_ICONS, register_inline_styling
+from .thumbnails import ThumbnailOperation
+
+
+@hooks.register('register_image_operations')
+def register_image_operations():
+    return [
+        ('thumbnail', ThumbnailOperation)
+    ]
 
 @hooks.register("register_rich_text_features")
 def register_smaller_styling(features):
