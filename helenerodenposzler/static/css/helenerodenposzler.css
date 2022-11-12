@@ -108,12 +108,10 @@ p {
 }
 .switcher-menu {
   min-width: 8rem;
+  background-color: var(--light);
 }
 .nav-item, .dropdown-item {
   font-size: clamp(0.89rem, 0.5291rem + 0.7519vw, 1.375rem) !important;
-}
-.dropdown-menu {
-  background-color: var(--light);
 }
 .footer-nav-link,
 .footer-nav-link.active {

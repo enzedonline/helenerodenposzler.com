@@ -110,25 +110,24 @@
     </div>
 
     {% comment %} 
-    Language switcher:
-    Flag of currently selected language displayed on drop down menu heading
-    language_switcher menu tag iterates through site locales, finds equivalent url for each locale
-    Template code loops through results, adds menu item flag + locale name + link to equiv page
-    Assumes image for each language uploaded to Wagtail with title 'flag-lang_code' (eg flag-en, flag-fr etc) {% endcomment %}
-    <div class="collapse navbar-collapse order-2 dual-collapse2 menu-bar-collapse" style="max-width: 55px;" id="language-switcher" aria-controls="language-switcher" >
+        Language switcher:
+        Flag of currently selected language displayed on drop down menu heading
+        language_switcher template tag iterates through site locales, finds equivalent url for each locale
+          adds menu item flag + locale name + link to equiv page
+        Assumes svg image for each language uploaded to ststic/svg/flags/ with filename 'lang_code.svg' (eg en.svg, fr.svg etc) 
+    {% endcomment %}
+    <div class="collapse navbar-collapse order-2 dual-collapse2 menu-bar-collapse" style="max-width: 60px;" id="language-switcher" aria-controls="language-switcher" >
 
-        <ul class="navbar-nav ml-auto bd-example-container-sidebar">   
+        <ul class="navbar-nav ml-auto">   
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    {% comment %} {% get_lang_flag as flag %}
-                    {% image flag fill-16x11 class="image-menu" %} {% endcomment %}
                     {% get_lang_flag as flag %}
                     <img 
                         src="{{ flag.image }}"
                         alt="{{flag.language}}"
                         title="{{flag.language}}"
-                        width="22"
-                        style="vertical-align: -0.15rem;"
+                        width="20" height="15"
+                        style="vertical-align: -0.05rem;"
                     />
                 </a>
                 <div class="dropdown-menu dropdown-menu-right switcher-menu">
@@ -139,9 +138,8 @@
                                 src="{{ lang.flag }}"
                                 alt="{{ lang.language }}"
                                 title="{{ lang.language }}"
-                                width="22"
-                            />&nbsp
-                            {{ lang.language }}
+                                width="20" height="15"
+                            /><span style="vertical-align: -0.05rem;">&nbsp;&nbsp;{{ lang.language }}</span>
                         </a>
                         {{ lang.alternate | safe}}
                     {% endfor %}
