@@ -1,9 +1,20 @@
+import re
+
 from django import template
 from django.utils.safestring import mark_safe
+from django.utils.text import normalize_newlines
 from wagtail.models import Page
 
 register = template.Library()
 
+
+@register.filter()
+def strip_newlines(text):
+    return re.sub(" +", " ", normalize_newlines(text).replace('\n', ' '))
+
+@register.filter()
+def replace_doublequotes(text):
+    return text.replace('"', '\'')
 
 @register.simple_tag()
 def trans_url(link):
