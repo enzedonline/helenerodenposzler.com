@@ -149,3 +149,31 @@ class EmailSignature(TranslatableMixin, models.Model):
         verbose_name = _('Email Signature')
         verbose_name_plural = _('Email Signatures')
         unique_together = ('translation_key', 'locale')
+
+@register_snippet
+class Organisation(TranslatableMixin, models.Model):
+    name = models.CharField(max_length=250)
+    locality = models.CharField(max_length=250)
+    region = models.CharField(max_length=250)
+    country_code = models.CharField(max_length=2)
+    logo = models.ForeignKey(
+        "wagtailimages.Image", on_delete=models.CASCADE, related_name="+"
+    )
+    image = models.ForeignKey(
+        "wagtailimages.Image", on_delete=models.CASCADE, related_name="+",
+    )
+
+    panels = [
+        FieldPanel("name"),
+        FieldPanel("logo"),
+        FieldPanel("image"),
+        FieldPanel("locality"),
+        FieldPanel("region"),
+        FieldPanel("country_code"),
+    ]
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        unique_together = ('translation_key', 'locale')
