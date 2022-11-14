@@ -1,5 +1,5 @@
 from site_settings.models import SocialMedia
-from menu.models import Menu, CompanyLogo
+from menu.models import Menu
 from django import template
 from django.templatetags.static import static
 from wagtail.models import Page, Locale
@@ -176,10 +176,6 @@ def get_lang_flag(locale=None):
         'image': f"{static('/svg/flags')}/{locale.language_code}.svg",
         'language': locale.get_display_name()
     }
-
-@register.simple_tag()
-def company_logo():
-    return CompanyLogo.objects.first()
 
 @register.simple_tag()
 def get_social_media_icons():
