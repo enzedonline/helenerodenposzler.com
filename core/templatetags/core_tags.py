@@ -7,6 +7,14 @@ from wagtail.models import Page
 
 register = template.Library()
 
+@register.simple_tag(takes_context=True)
+def get_context_var_or_none(context, name):
+    dicts = context.dicts  # array of dicts
+    if dicts:
+        for d in dicts:
+            if name in d:
+                return d[name]
+    return None
 
 @register.filter()
 def strip_newlines(text):
