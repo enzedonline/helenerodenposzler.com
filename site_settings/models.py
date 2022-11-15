@@ -1,12 +1,16 @@
 from django import forms
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from wagtail.admin.panels import FieldPanel
+from modelcluster.fields import ParentalKey
+from modelcluster.models import ClusterableModel
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.contrib.settings.models import BaseSetting, register_setting
 from wagtail.fields import RichTextField
-from wagtail.models import TranslatableMixin
+from wagtail.models import Orderable, TranslatableMixin
 from wagtail.snippets.models import register_snippet
 from wagtail_localize.fields import SynchronizedField
+
+from core.edit_handlers import ServiceTypeFieldPanel
 
 
 class PasswordField(forms.CharField):
@@ -177,3 +181,119 @@ class Organisation(TranslatableMixin, models.Model):
 
     class Meta:
         unique_together = ('translation_key', 'locale')
+
+@register_snippet
+class ServiceType(TranslatableMixin, ClusterableModel):
+    """Types of services offered"""
+    service = models.CharField(
+        max_length=50,
+        null=False,
+        blank=False,
+        help_text=_("Service Type")
+    )
+
+    panels = [
+        FieldPanel("service"),
+        MultiFieldPanel(
+            [
+                InlinePanel("service_offerings"),
+            ],
+            heading=_("Service Offerings"),
+        ),
+    ]
+
+    def __str__(self):
+        return self.service
+
+class ServiceOffering(TranslatableMixin, Orderable):
+    service_type = ParentalKey(
+        "ServiceType",
+        related_name="service_offerings"
+    )
+    description = models.TextField(
+        null=True,
+        blank=False
+    )
+
+    panels = [
+        FieldPanel('description'),
+    ]
+
+    def __str__(self):
+        return self.description
+
+    class Meta:
+        unique_together = ('translation_key', 'locale')
+
+
+class ServiceListQuerySet(object):
+    # Call as class()() to act as a function call, passes service list to ServiceTypePanel dropdown
+    def __call__(self, *args, **kwds):
+        return ServiceType.objects.all()
+
+@register_snippet
+class Testimonial(TranslatableMixin, models.Model):
+    """Testimonial Class"""
+
+    reference_text = models.TextField(
+        max_length=800,
+        null=False,
+        blank=False,
+        help_text=_("Reference text")
+    )
+    author = models.CharField(
+        max_length=100,
+        null=False,
+        blank=False,
+        help_text=_("Name of referee")
+    )
+    author_description = models.CharField(
+        max_length=150,
+        null=True,
+        blank=True,
+        help_text=_("Optional - Brief description of referee ('Mother of a student' etc)")
+    )
+    photo = models.ForeignKey(
+        "wagtailimages.Image",
+        blank=False,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+        help_text=_("Photo of author (displayed at 25x25)")
+    )
+    service = models.ForeignKey(
+        ServiceType, on_delete=models.SET_NULL,
+        blank=False,
+        null=True,
+    )
+    author_link = models.URLField(
+        max_length=100,
+        null=True,
+        blank=True,
+        help_text=_("Optional link to testimonial author")
+    )
+
+    panels = [
+        FieldPanel('author'),
+        FieldPanel('author_description'),
+        FieldPanel('reference_text'),
+        FieldPanel('photo'),
+        FieldPanel('author_link'),
+        ServiceTypeFieldPanel('service', ServiceListQuerySet()()),
+    ]
+
+    override_translatable_fields = [
+        SynchronizedField("photo", overridable=False),
+        SynchronizedField("author_link", overridable=False),
+        SynchronizedField("service", overridable=False),
+    ]   
+
+    def __str__(self):
+        """The string representation of this class"""
+        return self.author
+
+    class Meta:
+        verbose_name = 'Testimonial'
+        verbose_name_plural = 'Testimonials'
+        unique_together = ('translation_key', 'locale')
+
