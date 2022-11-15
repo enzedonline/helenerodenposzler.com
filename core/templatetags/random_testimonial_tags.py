@@ -1,6 +1,6 @@
 from django import template
 from random import randint
-from core.models import Testimonial
+from site_settings.models import Testimonial
 
 register = template.Library()
 
