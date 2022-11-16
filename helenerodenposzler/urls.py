@@ -35,6 +35,7 @@ if settings.DEBUG:
 # These paths are translatable so will be given a language prefix (eg, '/en', '/fr')
 urlpatterns = urlpatterns + i18n_patterns(
     path('search/', search_views.search, name='search'),
+    re_path(r'^403/$', default_views.permission_denied, kwargs={'exception': Exception("Permission Denied")}),
     re_path(r'^404/$', default_views.page_not_found, kwargs={'exception': Exception("Page not Found")}),
     re_path(r'^500/$', default_views.server_error),    # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
