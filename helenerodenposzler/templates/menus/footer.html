@@ -1,18 +1,19 @@
-{% load wagtailimages_tags menu_tags static %}
+{% load wagtailimages_tags menu_tags core_tags static i18n %}
 
 {% get_menu 'Privacy' as privacy_menu %} 
 {% get_social_media_icons as social_media_icons %}
+{% get_template_set 'footer' as trans %}
 
 <footer class="footer">
   <nav class="navbar navbar-light bg-dark py-1">
     <div>
       <ul class="nav bg-dark pr-4">
         {% for icon in social_media_icons %}
-        <li class="nav-item pr-4">
-          <a href="{{ icon.link }}" title="{{ icon.alt }}">
-            <img src="{{ icon.image }}" alt="{{ icon.alt }}" />
-          </a>
-        </li>
+          <li class="nav-item pr-4">
+            <a href="{{ icon.link }}" title="{{ icon.alt }}">
+              <img src="{{ icon.image }}" alt="{{ icon.alt }}" />
+            </a>
+          </li>
         {% endfor %}
       </ul>
     </div>
@@ -30,9 +31,11 @@
     {% endif %}
 
     <div class="py-0 mb-n1 d-none d-sm-block justify-content-right content-align-middle text-muted">
-      <a class="nav-link footer-nav-link" href="http://enzedonline.com"
-        ><span class="py-0" style="font-size:var(--font-size-6);">Website by Enzedonline.com</span></a
-      >
+      <a class="nav-link footer-nav-link" href="http://enzedonline.com/en/about">
+        <span class="py-0" style="font-size:var(--font-size-6);">
+          {{ trans.website_by }} Enzed Online
+        </span>
+      </a>
     </div>
   </nav>
 
