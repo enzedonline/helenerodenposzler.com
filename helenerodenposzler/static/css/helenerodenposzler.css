@@ -117,7 +117,21 @@ p {
 .footer-nav-link.active {
   color: var(--light) !important;
   padding: 0px;
-  font-size: large;
+  text-align: end;
+  font-size: 1.05em;
+}
+@media (min-width: 576px) {
+  .footer-nav-link,
+  .footer-nav-link.active {
+    font-size: initial;
+  }
+}
+@media (min-width: 768px) {
+  .footer-nav-link,
+  .footer-nav-link.active {
+    text-align: center;
+    font-size: large;
+  }
 }
 .dark-nav-link,
 .dark-nav-link.active {

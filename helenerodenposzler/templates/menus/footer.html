@@ -5,11 +5,11 @@
 {% get_template_set 'footer' as trans %}
 
 <footer class="footer">
-  <nav class="navbar navbar-light bg-dark py-1">
-    <div>
-      <ul class="nav bg-dark pr-4">
+  <nav class="navbar navbar-light bg-dark py-1 px-0">
+    <div class="col-auto pr-0">
+      <ul class="nav bg-dark py-0">
         {% for icon in social_media_icons %}
-          <li class="nav-item pr-4">
+          <li class="nav-item {% if forloop.last %}pr-md-5{% else %}pr-4{% endif %}">
             <a href="{{ icon.link }}" title="{{ icon.alt }}">
               <img src="{{ icon.image }}" alt="{{ icon.alt }}" />
             </a>
@@ -17,22 +17,22 @@
         {% endfor %}
       </ul>
     </div>
-
-    {% get_menu 'privacy' as privacy_menu %}
-    {% if privacy_menu %}
-      {% get_menu_items privacy_menu request as privacy_menu_items %}
-      {% for privacy_page in privacy_menu_items %}
-        <span class="py-0 mb-n4 justify-content-center content-align-middle text-muted">
-          <a class="nav-link footer-nav-link" href="{{ privacy_page.url }}">
-            <p class="py-0 footer-nav-link">{{ privacy_page.title }}</p>
-          </a>
-        </span>
-      {% endfor %}
-    {% endif %}
-
-    <div class="py-0 mb-n1 d-none d-sm-block justify-content-right content-align-middle text-muted">
-      <a class="nav-link footer-nav-link" href="http://enzedonline.com/en/about">
-        <span class="py-0" style="font-size:var(--font-size-6);">
+    <div class="col pl-0">
+      {% get_menu 'privacy' as privacy_menu %}
+      {% if privacy_menu %}
+        {% get_menu_items privacy_menu request as privacy_menu_items %}
+        {% for privacy_page in privacy_menu_items %}
+          <span class="py-0 mb-n4 text-muted">
+            <a class="nav-link footer-nav-link" href="{{ privacy_page.url }}">
+              <p class="py-0 mb-0">{{ privacy_page.title }}</p>
+            </a>
+          </span>
+        {% endfor %}
+      {% endif %}
+    </div>
+    <div class="col-auto px-0 mb-n2 d-none d-md-block text-muted">
+      <a class="nav-link text-white text-right" href="http://enzedonline.com/en/about">
+        <span class="p-0" style="font-size:var(--font-size-6);">
           {{ trans.website_by }} Enzed Online
         </span>
       </a>
