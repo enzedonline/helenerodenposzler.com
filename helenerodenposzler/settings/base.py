@@ -174,3 +174,6 @@ WAGTAILEMBEDS_FINDERS = [
 
 # FIX NEEDED FOR DJAGNO 3.2.x
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+# wagtail-metadata
+WAGTAILMETADATA_IMAGE_FILTER = "thumbnail-800x400|format-png"
