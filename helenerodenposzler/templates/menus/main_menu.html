@@ -140,9 +140,9 @@
                                 width="20" height="15"
                             /><span style="vertical-align: -0.05rem;">&nbsp;&nbsp;{{ lang.language }}</span>
                         </a>
-                        {{ lang.alternate | safe}}
                     {% endfor %}
-                    {{ switcher.default_link | safe }}
+                    {{ switcher.links|json_script:"switcherLinks" }}
+                    <script>addLangLinks('switcherLinks')</script>
                 </div>
             </li>       
         </ul>

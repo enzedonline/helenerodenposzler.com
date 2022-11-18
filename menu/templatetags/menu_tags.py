@@ -138,6 +138,8 @@ def language_switcher(page):
     default_lang = Locale.get_default()
     current_lang = Locale.get_active()
 
+    alternate_lang_links = []
+
     switch_pages = []
     for locale in Locale.objects.all():
         try:
@@ -154,19 +156,19 @@ def language_switcher(page):
             trans_page = Page.objects.first().get_children().live().first()
             next_url = ''
         if not locale == current_lang: # add the link to switch language and also alternate link
-            alternate_link = f'<link rel="alternate" hreflang="{locale.language_code}" href="{trans_page.get_full_url()}" />'
+            alternate_lang_links.append({'hreflang': locale.language_code, 'href': trans_page.full_url})
             flag = get_lang_flag(locale)
             switch_pages.append(
                 {
                     'language': flag['language'], 
                     'url': '/lang/' + locale.language_code + next_url,
-                    'flag': flag['image'],
-                    'alternate': alternate_link
+                    'flag': flag['image']
                 }
             )
         if locale == default_lang and trans_page: # add the x-default link
-            default_link = f'<link rel="alternate" hreflang="x-default" href="{trans_page.get_full_url()}" />'
-    return {'switch_pages':switch_pages, 'default_link': default_link}
+            alternate_lang_links.append({'hreflang': 'x-default', 'href': trans_page.full_url})
+
+    return {'switch_pages': switch_pages, 'links': alternate_lang_links}
 
 @register.simple_tag()
 def get_lang_flag(locale=None):
