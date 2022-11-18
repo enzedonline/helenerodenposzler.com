@@ -13,11 +13,13 @@ def two_column_layout(breakpoint, column_layout, horizontal_padding, order, hide
     
     if breakpoint == '-':
         breakpoint = ''
-        layout['horizontal_padding'] = 'px-' + str(horizontal_padding)
+        layout['lcol_horizontal_padding'] = 'pr-' + str(horizontal_padding)
+        layout['rcol_horizontal_padding'] = 'pl-' + str(horizontal_padding)
         layout['breakpoint_pixels'] = '0px'
         layout['pre_breakpoint_bottom_pad'] = ''
     else:
-        layout['horizontal_padding'] = 'px' + breakpoint + '-' + str(horizontal_padding)
+        layout['lcol_horizontal_padding'] = 'pr' + breakpoint + '-' + str(horizontal_padding)
+        layout['rcol_horizontal_padding'] = 'pl' + breakpoint + '-' + str(horizontal_padding)
         
         if order == 'right-first':
             layout['left_order'] = ' order-3 order' + breakpoint + '-1'
@@ -48,11 +50,15 @@ def three_column_layout(breakpoint, column_layout, horizontal_padding, hide):
  
     if breakpoint == '-':
         breakpoint = ''
-        layout['horizontal_padding'] = 'px-' + str(horizontal_padding)
+        layout['lcol_horizontal_padding'] = 'pr-' + str(horizontal_padding)
+        layout['mcol_horizontal_padding'] = 'px-' + str(horizontal_padding)
+        layout['rcol_horizontal_padding'] = 'pl-' + str(horizontal_padding)
         layout['breakpoint_pixels'] = '0px'
         layout['pre_breakpoint_bottom_pad'] = ''
     else:
-        layout['horizontal_padding'] = 'px' + breakpoint + '-' + str(horizontal_padding)
+        layout['lcol_horizontal_padding'] = 'pr' + breakpoint + '-' + str(horizontal_padding)
+        layout['mcol_horizontal_padding'] = 'px' + breakpoint + '-' + str(horizontal_padding)
+        layout['rcol_horizontal_padding'] = 'pl' + breakpoint + '-' + str(horizontal_padding)
         if breakpoint == '-sm':
             layout['breakpoint_pixels'] = '575px'
         elif breakpoint == '-md':

@@ -2,12 +2,12 @@
 {% two_column_layout value.breakpoint value.column_layout value.horizontal_padding value.order value.hide as layout %}
 
   <div class="row">
-    <div class="col{{ layout.left }} {{ layout.horizontal_padding }}{{ layout.left_order }} {{ layout.hide_left }} {% if value.vertical_border %}two-column-divider{% endif %}">
+    <div class="col{{ layout.left }} {{ layout.lcol_horizontal_padding }}{{ layout.left_order }} {{ layout.hide_left }} {% if value.vertical_border %}two-column-divider{% endif %}">
         {% for block in value.left_column %}
             {% include_block block %}
         {% endfor %}
     </div>
-    <div class="col{{ layout.right }} {{ layout.horizontal_padding }}{{ layout.right_order }} {{ layout.hide_right }}">
+    <div class="col{{ layout.right }} {{ layout.rcol_horizontal_padding }}{{ layout.right_order }} {{ layout.hide_right }}">
         {% for block in value.right_column %}
             {% include_block block %}
         {% endfor %}
