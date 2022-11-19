@@ -21,14 +21,12 @@
         height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <!-- End Google Tag Manager (noscript) -->
 
-        <div mt-4>
- 
+        <div>
+            {% block content %}{% endblock %}
 
-        {% block content %}{% endblock %}
-
-        {% block extra_js %}
-            {# Override this in templates to add extra javascript #}
-        {% endblock %}
+            {% block extra_js %}
+                {# Override this in templates to add extra javascript #}
+            {% endblock %}
         </div>
     </body>
 
