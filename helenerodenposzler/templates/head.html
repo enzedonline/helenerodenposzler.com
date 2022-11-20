@@ -2,19 +2,17 @@
 
 {# Analytics #}
 {% if debug is None and not request.is_preview and not request.user.is_authenticated %}
-  <script async src="https://www.googletagmanager.com/gtag/js?id={{ settings.site_settings.Tokens.google_analytics }}"></script>
-  <script async src="{% static 'js/analytics.js'%}"></script>
+  <script defer src="https://www.googletagmanager.com/gtag/js?id={{ settings.site_settings.Tokens.google_analytics }}"></script>
+  <script defer src="{% static 'js/analytics.js'%}"></script>
 {% endif %}
 
 {# Fonts #}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+<link rel="preload" href="{% static 'css/fonts-min.css' %}" as="style">
+<link rel="stylesheet" href="{% static 'css/fonts-min.css' %}" type="text/css">
 
 {# Global stylesheets #}
-<link rel="preload" href="{% static 'css/yeti.bootstrap.css' %}" as="style">
-<link rel="stylesheet" href="{% static 'css/yeti.bootstrap.css' %}" type="text/css">
-<link rel="stylesheet" href="{% static 'css/helenerodenposzler.css' %}"  type="text/css">
+<link rel="stylesheet" href="{% static 'css/yeti.bootstrap-min.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'css/helenerodenposzler-min.css' %}"  type="text/css">
   
 {# Global javascript #}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js" integrity="sha512-n/4gHW3atM3QqRcbCn6ewmpxcLAHGaDjpEBu4xZd47N0W2oQ+6q7oc3PXstrJYXcbNU1OHdQ1T7pAP+gi5Yu8g==" crossorigin="anonymous"></script>
@@ -29,7 +27,7 @@
   {% meta_tags as meta_tags %}
   {% if meta_tags is not None %}{{ meta_tags }}{% endif %}
 {% endif %}
-<link rel="canonical" href="{{page.full_url}}" />
+<link rel="canonical" href="{{page.url}}" />
 <meta property="og:type" content="website"/>
 <meta name="target" content="all"/>
 <meta name="audience" content="all"/>
