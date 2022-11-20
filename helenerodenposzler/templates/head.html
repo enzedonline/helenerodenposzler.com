@@ -1,32 +1,10 @@
 {% load static seo_metadata_tags core_tags %}
 
-{# Google Analytics#}
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-D4N5E5D93L"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-D4N5E5D93L');
-</script>
-
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-KH92MLK');</script>
-<!-- End Google Tag Manager -->
-
-<!-- Clarity tracking code for https://helenerodenposzler.com/ -->
-<script>    
-  (function(c,l,a,r,i,t,y){
-    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};        
-    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";        
-    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);    
-  })(window, document, "clarity", "script", "76ppf671sr");
-</script>
+{# Analytics #}
+{% if debug is None and not request.is_preview and not request.user.is_authenticated %}
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ settings.site_settings.Tokens.google_analytics }}"></script>
+  <script async src="{% static 'js/analytics.js'%}"></script>
+{% endif %}
 
 {# Fonts #}
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -70,7 +48,4 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="msapplication-TileImage" content="{% static 'favicon/mstile-144x144.png' %}">
 <meta name="msapplication-config" content="{% static 'favicon/browserconfig.xml' %}">
 <meta name="theme-color" content="#ffffff">
-
-{% block extra_css %}
-{% endblock %}
 
