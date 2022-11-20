@@ -1,4 +1,4 @@
-{% load static wagtailuserbar i18n %}
+{% load static i18n %}
 {% get_current_language as LANGUAGE_CODE %}
 
 <!DOCTYPE html>
@@ -6,39 +6,30 @@
 
     {% if not request.path == '/' %}
 
-    <head>
-        {% include 'head.html' %}
-        {% block extra_head %}{% endblock extra_head %}
-    </head>
+        <head>
+            {% include 'head.html' %}
+            {% block extra_head %}{% endblock extra_head %}
+        </head>
 
-    <div class="sticky-top">
-        {% include 'menus/main_menu.html' %}
-    </div>
-
-    <body>
-        <!-- Google Tag Manager (noscript) -->
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KH92MLK"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-        <!-- End Google Tag Manager (noscript) -->
-
-        <div>
-            {% block content %}{% endblock %}
-
-            {% block extra_js %}
-                {# Override this in templates to add extra javascript #}
-            {% endblock %}
+        <div class="sticky-top">
+            {% include 'menus/main_menu.html' %}
         </div>
-    </body>
 
+        <body>
+            <div>
+                {% block content %}{% endblock content %}
+                {% block extra_js %}{% endblock extra_js %}
+            </div>
+        </body>
 
-    <footer>
-        <div class="container">
-            <p class="py-2">&nbsp;</p>
-        </div>
-        <div class="fixed-bottom">
-            {% include 'menus/footer.html' %}
-        </div>
-    </footer>
-    
+        <footer>
+            <div class="container">
+                <p class="py-2">&nbsp;</p>
+            </div>
+            <div class="fixed-bottom">
+                {% include 'menus/footer.html' %}
+            </div>
+        </footer>
+        
     {% endif %}
 </html>
