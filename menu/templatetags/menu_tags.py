@@ -166,7 +166,9 @@ def language_switcher(page):
                 }
             )
         if locale == default_lang and trans_page: # add the x-default link
-            alternate_lang_links.append({'hreflang': 'x-default', 'href': trans_page.full_url})
+            # strip the language component from the url
+            default = f"{trans_page.get_site().root_url}/{'/'.join(trans_page.url_path.split('/')[2:])}"
+            alternate_lang_links.append({'hreflang': 'x-default', 'href': default})
 
     return {'switch_pages': switch_pages, 'links': alternate_lang_links}
 
