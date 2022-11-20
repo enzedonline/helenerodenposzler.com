@@ -13,6 +13,26 @@ from wagtail_localize.fields import SynchronizedField, TranslatableField
 
 from core.edit_handlers import RegexPanel, ServiceTypeFieldPanel
 
+@register_setting(icon='password')
+class Tokens(BaseSetting):
+    google_analytics = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+        verbose_name=_("Google Analytics Site ID")
+    )
+    facebook_app_id = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+        verbose_name=_("Facebook App ID")
+    )
+    clarity = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+        verbose_name=_("Clarity Site ID")
+    )
 
 class PasswordField(forms.CharField):
     widget = forms.PasswordInput
