@@ -47,3 +47,7 @@
 <meta name="msapplication-config" content="{% static 'favicon/browserconfig.xml' %}">
 <meta name="theme-color" content="#ffffff">
 
+{# hreflang #}
+{% for alt in self.alternates %}
+<link rel="alternate" hreflang="{{ alt.lang_code }}" href="{{ alt.location }}">
+{% endfor %}

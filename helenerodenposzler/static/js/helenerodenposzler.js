@@ -20,18 +20,3 @@ $(document).ready(function () {
   });
 });
 
-// add hreflang links to <head> (called from language switcher)
-// <link rel="alternate" hreflang="fr" href="https://helenerodenposzler.com/fr/"></link>
-// <link rel="alternate" hreflang="x-default" href="https://helenerodenposzler.com/en/"></link>
-const addLangLinks = (linksID) => {
-  const links = JSON.parse(document.getElementById(linksID).textContent);
-  if (links) {
-    for (const link of links) {
-      linkElement = document.createElement("link");
-      linkElement.rel = "alternate";
-      linkElement.hreflang = link.hreflang;
-      linkElement.href = link.href;
-      document.head.append(linkElement);
-    }
-  }
-};
