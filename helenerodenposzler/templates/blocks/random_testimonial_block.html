@@ -6,17 +6,19 @@
     <div class="card-body p-0 mb-n3">
       <p align="justify" class="testimonial">{{ testimonial.reference_text }}</p>
       <div class="row no-gutters">
-        <div class="col-auto d-flex align-items-left pr-3 pb-3">
+        <div class="col-auto pr-3 pb-3">
         {% image testimonial.photo fill-50x50 as img %}
         <img src="{{ img.url }}" style="border-radius: 6px;" alt="testimonial for helene roden poszler language school">
         </div>
         <div class="col">
-          <p class="testimonial"><small>
+          <p class="testimonial">
             {% if testimonial.author_link %}
               <a class="dark-nav-link" href="{{ testimonial.author_link }}" target="_blank">
             {% endif %}
-            {{ testimonial.author }}</small><br>
-            <span class="author-description">{{ testimonial.author_description }}</span>
+            <span class="author-description">
+              {{ testimonial.author }}<br/>
+              {{ testimonial.author_description }}
+            </span>
             {% if testimonial.author_link %}
               </a>
             {% endif %}
@@ -26,18 +28,3 @@
     </div>
   </div>
 </div>
-
-<style>
-col {
-  width: 0;
-}
-.testimonial {
-  font-size: clamp(0.84375rem, 0.7721rem + 0.2206vw, 0.9375rem);
-  line-height: 120%;
-}
-.author-description {
-  font-size: 80%;
-  line-height: 100%;
-  font-style: italic; 
-}
-</style>

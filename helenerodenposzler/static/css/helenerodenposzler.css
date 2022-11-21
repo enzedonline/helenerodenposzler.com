@@ -287,3 +287,11 @@ p {
   width: 100%;
   height: 100%;
 }
+.testimonial {
+  font-size: clamp(0.84375rem, 0.7721rem + 0.2206vw, 0.9375rem);
+  line-height: 120%;
+}
+.author-description {
+  font-size: 95%;
+  line-height: 100%;
+}
