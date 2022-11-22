@@ -1,7 +1,5 @@
 from core.blocks import GridStreamBlock
 from core.models import SEOPage
-# from django.core.cache import cache
-# from django.core.cache.utils import make_template_fragment_key
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
@@ -53,27 +51,4 @@ class HomePage(SEOPage):
 
     class Meta:
         verbose_name = "Home Page"
-
-    def get_sitemap_urls(self, request):
-        sitemap = super().get_sitemap_urls(request)
-
-        for locale_home in self.get_siblings(inclusive=False).live():
-            for entry in locale_home.get_sitemap_urls(request):
-                sitemap.append(entry)
-            for child_page in locale_home.get_descendants().live():
-                for entry in child_page.get_sitemap_urls(request):
-                    sitemap.append(entry)
-        return sitemap        
-
-    # def flush_cache_fragments(self, fragment_keys):
-    #     for fragment in fragment_keys:
-    #         key = make_template_fragment_key(
-    #             fragment,
-    #             [self.id],
-    #         )
-    #         cache.delete(key)
-
-    # def save(self, *args, **kwargs):
-    #     self.flush_cache_fragments(["base", "head", "home_page", "main_menu", "banner_image", "footer"])
-    #     return super().save(*args, **kwargs)
 
