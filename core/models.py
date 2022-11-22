@@ -4,7 +4,7 @@ from django.forms.widgets import CheckboxSelectMultiple
 from django.utils.translation import gettext_lazy as _
 from modelcluster.fields import ParentalManyToManyField
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
-from wagtail.models import Page
+from wagtail.models import Page, Locale
 from wagtailcaptcha.models import WagtailCaptchaEmailForm
 from wagtailmetadata.models import WagtailImageMetadataMixin
 
@@ -64,17 +64,14 @@ class SEOPageMixin(WagtailImageMetadataMixin, models.Model):
             FieldPanel('search_image'),
             FieldPanel('seo_title'),
             FieldPanel('search_description'),
-            FieldPanel('page_type'),
-            MultiFieldPanel(
-                [
-                    LocalizedSelectPanel(
-                        'services', 
-                        widget_class=CheckboxSelectMultiple, 
-                        ),
-                ],
-                heading = _("Services"),
-            ),
         ], _('Common page configuration')),
+        MultiFieldPanel([
+            FieldPanel('page_type'),
+            LocalizedSelectPanel(
+                'services', 
+                widget_class=CheckboxSelectMultiple, 
+                ),
+        ], _("Structured Data")),
     ]
 
     def get_meta_url(self):
@@ -95,10 +92,40 @@ class SEOPageMixin(WagtailImageMetadataMixin, models.Model):
 class SEOPage(SEOPageMixin, Page):
     pass
 
+    @property
+    def alternates(self):
+        trans_pages = self.get_translations()
+        if not trans_pages:
+            return None
+        alt = [{
+                'lang_code': self.locale.language_code,
+                'location': self.get_full_url()
+            }]
+        root_url = self.get_site().root_url
+        for page in trans_pages:
+            alt.append({
+                'lang_code': page.locale.language_code,
+                'location': page.get_full_url()
+            })
+        # x-default - strip the language component from the url for the default-lang page
+        # https://example.com/en/something/ -> https://example.com/something/
+        default_page = self.get_translation(Locale.get_default())
+        default = f"{root_url}/{'/'.join(default_page.url_path.split('/')[2:])}"
+        alt.append({'lang_code': 'x-default', 'location': default})
+        return alt
+
+    @property
+    def sitemap_urls(self):
+        return {
+            "location": self.full_url,
+            "lastmod": self.last_published_at or self.latest_revision_created_at,
+            "alternates": self.alternates
+        }
+
     class Meta:
         abstract = True
 
-class SEOWagtailCaptchaEmailForm(SEOPageMixin, WagtailCaptchaEmailForm):
+class SEOWagtailCaptchaEmailForm(SEOPage, WagtailCaptchaEmailForm):
     pass
 
     class Meta:
