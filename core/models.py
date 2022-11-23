@@ -54,6 +54,39 @@ class SEOPageMixin(WagtailImageMetadataMixin, models.Model):
         blank=True
     )
 
+    search_engine_index = models.BooleanField(
+        blank=False,
+        null=False,
+        default=True,
+        verbose_name=_("Allow search engines to index this page?")
+    )
+
+    search_engine_changefreq = models.CharField(
+        max_length=25,
+        choices=[
+            ("always", _("Always")),
+            ("hourly", _("Hourly")),
+            ("daily", _("Daily")),
+            ("weekly", _("Weekly")),
+            ("monthly", _("Monthly")),
+            ("yearly", _("Yearly")),
+            ("never", _("Never")),
+        ],
+        blank=True,
+        null=True,
+        verbose_name=_("Search Engine Change Frequency (Optional)"),
+        help_text=_("How frequently the page is likely to change? (Leave blank for default)")
+    )
+
+    search_engine_priority = models.DecimalField(
+        max_digits=2, 
+        decimal_places=1,
+        blank=True,
+        null=True,
+        verbose_name=_("Search Engine Priority (Optional)"),
+        help_text=_("The priority of this URL relative to other URLs on your site. Valid values range from 0.0 to 1.0. (Leave blank for default)")
+    )
+
     content_panels = Page.content_panels + [
         FieldPanel('summary'),
     ]
@@ -72,6 +105,11 @@ class SEOPageMixin(WagtailImageMetadataMixin, models.Model):
                 widget_class=CheckboxSelectMultiple, 
                 ),
         ], _("Structured Data")),
+        MultiFieldPanel([
+            FieldPanel('search_engine_index'),
+            FieldPanel('search_engine_changefreq'),
+            FieldPanel('search_engine_priority'),
+        ], _("Search Engine Indexing")),
     ]
 
     def get_meta_url(self):
@@ -116,11 +154,17 @@ class SEOPage(SEOPageMixin, Page):
 
     @property
     def sitemap_urls(self):
-        return {
+        url_item = {
             "location": self.full_url,
             "lastmod": self.last_published_at or self.latest_revision_created_at,
             "alternates": self.alternates
         }
+        if self.search_engine_changefreq:
+            url_item["changefreq"] = self.search_engine_changefreq
+        if self.search_engine_priority:
+            url_item["priority"] = self.search_engine_priority
+        
+        return url_item
 
     class Meta:
         abstract = True
