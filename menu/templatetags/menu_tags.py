@@ -134,11 +134,8 @@ def get_menu(menu_title):
     
 @register.simple_tag()
 def language_switcher(page):
-    # Build the language switcher, including the href alternate links for SEO
-    default_lang = Locale.get_default()
+    # Build the language switcher
     current_lang = Locale.get_active()
-
-    alternate_lang_links = []
 
     switch_pages = []
     for locale in Locale.objects.all():
@@ -153,10 +150,8 @@ def language_switcher(page):
             else:
                 next_url = '/?next=/'
         except AttributeError:
-            trans_page = Page.objects.first().get_children().live().first()
             next_url = ''
-        if not locale == current_lang: # add the link to switch language and also alternate link
-            alternate_lang_links.append({'hreflang': locale.language_code, 'href': trans_page.full_url})
+        if not locale == current_lang: # add the link to switch language 
             flag = get_lang_flag(locale)
             switch_pages.append(
                 {
@@ -165,12 +160,8 @@ def language_switcher(page):
                     'flag': flag['image']
                 }
             )
-        if locale == default_lang and trans_page: # add the x-default link
-            # strip the language component from the url
-            default = f"{trans_page.get_site().root_url}/{'/'.join(trans_page.url_path.split('/')[2:])}"
-            alternate_lang_links.append({'hreflang': 'x-default', 'href': default})
 
-    return {'switch_pages': switch_pages, 'links': alternate_lang_links}
+    return switch_pages
 
 @register.simple_tag()
 def get_lang_flag(locale=None):
@@ -200,10 +191,4 @@ def get_social_media_icons():
     except:
         return None
 
-@register.simple_tag()
-def locale_page(slug):
-    try:
-        localized_page = Page.objects.all().filter(slug=slug).first().localized
-        return localized_page
-    except (AttributeError, Menu.DoesNotExist):
-        return None        
+    

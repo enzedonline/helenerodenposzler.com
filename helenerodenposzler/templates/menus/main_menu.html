@@ -132,7 +132,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right switcher-menu">
                     {% language_switcher self as switcher %}
-                    {% for lang in switcher.switch_pages %}
+                    {% for lang in switcher %}
                         <a class="dropdown-item switcher-item" title="{{ lang.language }}" href="{{ lang.url }}">
                             <img 
                                 src="{{ lang.flag }}"
