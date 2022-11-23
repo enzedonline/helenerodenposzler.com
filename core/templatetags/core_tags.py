@@ -79,8 +79,8 @@ def var_exists(context, name):
 @register.simple_tag(takes_context=True)
 def robots(context):
     page = get_context_var_or_none(context, "self")
-    if not page:
-        return mark_safe('<meta name="robots" content="noindex">')
+    if not page or not page.search_engine_index:
+        return mark_safe('<meta name="robots" content="noindex, noodp, noarchive">')
     return mark_safe(
         '<meta name="robots" content="index, follow, archive, imageindex, odp, snippet, translate, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />'
     )
