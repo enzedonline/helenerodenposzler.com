@@ -16,7 +16,7 @@ class RobotsView(TemplateView):
 
 def sitemap(request):
     site = Site.find_for_request(request)
-    root_page = Page.objects.get(id=site.root_page_id)
+    root_page = Page.objects.defer_streamfields().get(id=site.root_page_id)
     urlset = []
     for locale_home in root_page.get_translations(inclusive=True).live().defer_streamfields().specific():
         if locale_home.search_engine_index:
