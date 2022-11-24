@@ -135,38 +135,41 @@ def get_menu(menu_title):
 @register.simple_tag()
 def language_switcher(page):
     # Build the language switcher
-    current_lang = Locale.get_active()
+    # determine next_url for each locale if page has translation
+    # /lang/<lang-code> redirects to menu.views.set_language_from_url:
+    #     path('lang/<str:language_code>/', set_language_from_url),
+    # if no ?next= param passed to the view, it will attempt to determine best url from HTTP_REFERER
+    # this will happen if non-Wagtail page is served, or if Wagtail page has no translation
 
-    switch_pages = []
+    current_lang = Locale.get_active()
+    switcher = []
+
     for locale in Locale.objects.all():
+        # page will be None if non-Wagtail page served
+        next_url = ''
         try:
-            if page.has_translation(locale=locale):
-                trans_page = page.get_translation(locale=locale)
-            else:
-                trans_page = page
-            # bug when run in debug mode on the server, page is none for some reason
-            if trans_page:
-                next_url = '/?next=' + trans_page.url
-            else:
-                next_url = '/?next=/'
-        except AttributeError:
+            trans_page = page.get_translation_or_none(locale=locale)
+            # if page has live translation forward to that page, else forward to home page in new locale
+            next_url = f'?next={trans_page.url}' if trans_page and trans_page.live else '?next=/'
+        except AttributeError: # non-Wagtail page, let view determine best url to forward to
             next_url = ''
+
         if not locale == current_lang: # add the link to switch language 
             flag = get_lang_flag(locale)
-            switch_pages.append(
+            switcher.append(
                 {
                     'language': flag['language'], 
-                    'url': '/lang/' + locale.language_code + next_url,
+                    'url': f'/lang/{locale.language_code}/{next_url}',
                     'flag': flag['image']
                 }
             )
 
-    return switch_pages
+    return switcher
 
 @register.simple_tag()
 def get_lang_flag(locale=None):
     # returns the flag icon for the menu 
-    # upload flag image to wagtail, set title to flag-lang (eg flag-fr, flag-en)
+    # upload flag svg image to static/svg/flags, filename must match locale code (ie fr.svg en-gb.svg etc)
     # if no language code supplied, assumes current language
     if not locale:
         locale = Locale.get_active()
