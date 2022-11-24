@@ -106,6 +106,10 @@ p {
   text-decoration: none;
   min-width: 6rem;
 }
+.switcher-lang {
+  padding-left: 0.7em;
+  vertical-align: -0.05rem;
+}
 .switcher-menu {
   min-width: 8rem;
   background-color: var(--light);
