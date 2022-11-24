@@ -3,7 +3,7 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.utils import translation
 from urllib.parse import urlparse
-from wagtail_localize.synctree import Page as LocalizePage, Locale
+from wagtail.models import Page, Locale
 
 def set_language_from_url(request, language_code):
     # call url with ?next=<<translated url>> to redirect to translated page
@@ -19,44 +19,7 @@ def set_language_from_url(request, language_code):
 
     # /?next= missing from referring url, attempt to translate
     if not next_url:
-        try:
-            # get the full path of the referring page;
-            previous = request.META['HTTP_REFERER']
-
-            try:
-                # split off the path of the previous page
-                prev_path = urlparse(previous).path
-
-                # IMPORTANT - ENSURE THE HOME PAGE SLUGS MATCH THEIR LANGUAGE CODE
-                # wagtail-localize uses a different root in the actual path for each language in wagtailcore_page
-                # (lang1 -> home, lang2 -> home-1, lang3 -> home-3 etc)
-                # Matching the slug to lang code means lang1->lang1 etc, the path is valid url_path
-                prev_page = LocalizePage.objects.get(url_path=prev_path)
-
-                # Get the url of page in requested language
-                # If that doesn't exist, get url of page in default language
-                # If the page doesn't exist in the default language, default to home page
-                next_page = prev_page.get_translation_or_none(locale=requested_locale)
-                if next_page == None:
-                    next_page = prev_page.get_translation_or_none(locale=Locale.get_default())
-                if next_page != None:
-                    next_url = next_page.url
-                else:
-                    next_url = '/'
-
-            except (LocalizePage.DoesNotExist, Locale.DoesNotExist):
-                # previous page is not a LocalizePage, try if previous path can be translated by 
-                # changing the language code
-                next_url = urls.translate_url(previous, language_code)
-
-                # if no translation is found, translate_url will return the original url
-                # in that case, go to the home page in the requested language
-                if next_url == previous:
-                    next_url = '/' + language_code + '/'
-
-        except KeyError:
-            # if for some reason the previous page cannot be found, go to the home page
-            next_url = '/' + language_code +'/'
+        next_url = find_next_url(request, language_code, requested_locale)
 
     # activate the language, set the cookie (gets around expiring session cookie issue), redirect to translated page
     translation.activate(language_code)
@@ -65,3 +28,36 @@ def set_language_from_url(request, language_code):
     response.set_cookie(settings.LANGUAGE_COOKIE_NAME, language_code, max_age=60*60*24*365)
 
     return response
+
+def find_next_url(request, language_code, requested_locale):
+    # /?next= missing from referring url, attempt to translate
+    try:
+        # get the full path of the referring page;
+        previous = request.META['HTTP_REFERER']
+
+        try:
+            # split off the path of the previous page
+            prev_path = urlparse(previous).path
+            prev_page = Page.objects.get(url_path=prev_path)
+
+            # Find translation of referring page
+            # Default to home page if nothing matches
+            next_page = prev_page.get_translation_or_none(locale=requested_locale)
+            next_url = next_page.url if next_page != None else '/'
+
+        except (Page.DoesNotExist, Locale.DoesNotExist):
+            # previous page is not a Wagtail Page, try if previous path can be translated by 
+            # changing the language code
+            next_url = urls.translate_url(previous, language_code)
+
+            # if no translation is found, translate_url will return the original url
+            # in that case, go to the home page in the requested language
+            if next_url == previous:
+                next_url = '/'
+
+    except KeyError:
+        # if for some reason the previous page cannot be found, go to the home page
+        next_url = '/'
+
+    return next_url
+    
