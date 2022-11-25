@@ -174,7 +174,7 @@ def get_lang_flag(locale=None):
     if not locale:
         locale = Locale.get_active()
     return {
-        'image': f"{static('/svg/flags')}/{locale.language_code}.svg",
+        'image': static(f'/svg/flags/{locale.language_code}.svg'),
         'language': locale.get_display_name()
     }
 
