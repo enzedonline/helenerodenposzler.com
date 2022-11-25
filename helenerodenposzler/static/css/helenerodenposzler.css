@@ -299,3 +299,11 @@ p {
   font-size: 95%;
   line-height: 100%;
 }
+.contact-divider {
+  border-right: 1px solid #DADADA;
+}
+@media (max-width: 767px) {
+  .contact-divider {
+    border-right: 0px solid #DADADA !important;
+  }
+}
