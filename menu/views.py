@@ -19,7 +19,7 @@ def set_language_from_url(request, language_code):
 
     # /?next= missing from referring url, attempt to translate
     if not next_url:
-        next_url = find_next_url(request, language_code, requested_locale)
+        next_url = find_next_url(request, requested_locale)
 
     # activate the language, set the cookie (gets around expiring session cookie issue), redirect to translated page
     translation.activate(language_code)
@@ -29,7 +29,7 @@ def set_language_from_url(request, language_code):
 
     return response
 
-def find_next_url(request, language_code, requested_locale):
+def find_next_url(request, requested_locale):
     # /?next= missing from referring url, attempt to translate
     try:
         # get the full path of the referring page;
@@ -48,7 +48,7 @@ def find_next_url(request, language_code, requested_locale):
         except (Page.DoesNotExist, Locale.DoesNotExist):
             # previous page is not a Wagtail Page, try if previous path can be translated by 
             # changing the language code
-            next_url = urls.translate_url(previous, language_code)
+            next_url = urls.translate_url(previous, requested_locale.language_code)
 
             # if no translation is found, translate_url will return the original url
             # in that case, go to the home page in the requested language
