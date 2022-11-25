@@ -13,7 +13,7 @@
       &nbsp
     </div>
     <div class="row">
-      <div class="col-md-5 pr-sm-5">
+      <div class="col-md-5 pr-md-5">
         {% for block in page.intro_text %}
             {% include_block block with block_id=block.id %}
         {% endfor %}
@@ -46,7 +46,7 @@
           <hr>
         </div>
       </div>
-      <div class="col-md-7 px-sm-5 border-left">
+      <div class="col-md-7 pl-md-5 border-md-left">
         <div class="card bg-helene-faded-green p-3">
           <div class="card-body p-0 mb-n3 privacy-notice">
             {{ self.privacy_notice|richtext }}
