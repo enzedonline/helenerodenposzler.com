@@ -3,73 +3,72 @@ from django import template
 register = template.Library()
 
 @register.simple_tag()
-def two_column_layout(breakpoint, column_layout, horizontal_padding, order, hide):
-    layout={}
-    layout['left'], layout['right'] = column_layout.split('-') 
-    layout['left_order'] = ''
-    layout['right_order'] = ''
-    layout['hide_left'] = ''
-    layout['hide_right'] = ''
-    
+def two_column_layout(value):
+    left, right = value['column_layout'].split('-') 
+    breakpoint = value['breakpoint']
+    horizontal_padding = str(value['horizontal_padding'])
+    lcol_collapse_top_pad = rcol_collapse_top_pad = ''
+
     if breakpoint == '-':
         breakpoint = ''
-        layout['lcol_horizontal_padding'] = 'pr-' + str(horizontal_padding)
-        layout['rcol_horizontal_padding'] = 'pl-' + str(horizontal_padding)
-        layout['breakpoint_pixels'] = '0px'
-        layout['pre_breakpoint_bottom_pad'] = ''
+        lcol_horizontal_padding = f' pr-{horizontal_padding}'
+        rcol_horizontal_padding = f' pl-{horizontal_padding}'
+        divider = ' divider-right' if value['vertical_border'] else ''
     else:
-        layout['lcol_horizontal_padding'] = 'pr' + breakpoint + '-' + str(horizontal_padding)
-        layout['rcol_horizontal_padding'] = 'pl' + breakpoint + '-' + str(horizontal_padding)
+        lcol_horizontal_padding = f' pr{breakpoint}-{horizontal_padding}'
+        rcol_horizontal_padding = f' pl{breakpoint}-{horizontal_padding}'
+        divider = ' divider-right' + breakpoint if value['vertical_border'] else ''
         
-        if order == 'right-first':
-            layout['left_order'] = ' order-3 order' + breakpoint + '-1'
-            layout['right_order'] = ' order-2'
-        
-        if hide == 'hide-right':
-            layout['hide_right'] = 'd-none d' + breakpoint + '-block'
-        elif hide == 'hide-left':
-            layout['hide_left'] = 'd-none d' + breakpoint + '-block'
-
-        if breakpoint == '-sm':
-            layout['breakpoint_pixels'] = '575px'
-        elif breakpoint == '-md':
-            layout['breakpoint_pixels'] = '767px'
+        if value['order'] == 'right-first':
+            left_order = f' order-3 order{breakpoint}-1'
+            right_order = ' order-2'
+            lcol_collapse_top_pad = f' pt-3 pt{breakpoint}-0'
         else:
-            layout['breakpoint_pixels'] = '991px'
+            left_order = ''
+            right_order = ''
+            rcol_collapse_top_pad = f' pt-3 pt{breakpoint}-0'
 
-    layout['left'] = breakpoint + (('-' + layout['left']) if layout['left'] else '')
-    layout['right'] = breakpoint + (('-' + layout['right']) if layout['right'] else '')
+        hide_left = hide_right = ''
+        if value['hide'] == 'hide-right':
+            hide_right = ' d-none d' + breakpoint + '-block'
+        elif value['hide'] == 'hide-left':
+            hide_left = ' d-none d' + breakpoint + '-block'
 
-    return layout
+    left_col = f'col{breakpoint}{("-" + left) if left else ""}'
+    right_col = f'col{breakpoint}{("-" + right) if right else ""}'
+
+    return {
+        'left': f'{left_col}{lcol_horizontal_padding}{left_order}{hide_left}{divider}{lcol_collapse_top_pad}',
+        'right': f'{right_col}{rcol_horizontal_padding}{right_order}{hide_right}{rcol_collapse_top_pad}'
+    }
     
 @register.simple_tag()
-def three_column_layout(breakpoint, column_layout, horizontal_padding, hide):
-    layout={}
-    layout['left'], layout['centre'], layout['right'] = column_layout.split('-') 
-    layout['hide_sides'] = ''
+def three_column_layout(value):
+    left, centre, right = value['column_layout'].split('-') 
+    breakpoint = value['breakpoint']
+    horizontal_padding = str(value['horizontal_padding'])
  
     if breakpoint == '-':
         breakpoint = ''
-        layout['lcol_horizontal_padding'] = 'pr-' + str(horizontal_padding)
-        layout['mcol_horizontal_padding'] = 'px-' + str(horizontal_padding)
-        layout['rcol_horizontal_padding'] = 'pl-' + str(horizontal_padding)
-        layout['breakpoint_pixels'] = '0px'
-        layout['pre_breakpoint_bottom_pad'] = ''
+        lcol_horizontal_padding = f' pr-{horizontal_padding}'
+        mcol_horizontal_padding = f' px-{horizontal_padding}'
+        rcol_horizontal_padding = f' pl-{horizontal_padding}'
+        divider = ' divider-right divider-left' if value['vertical_border'] else ''
+        hide_sides = ''
     else:
-        layout['lcol_horizontal_padding'] = 'pr' + breakpoint + '-' + str(horizontal_padding)
-        layout['mcol_horizontal_padding'] = 'px' + breakpoint + '-' + str(horizontal_padding)
-        layout['rcol_horizontal_padding'] = 'pl' + breakpoint + '-' + str(horizontal_padding)
-        if breakpoint == '-sm':
-            layout['breakpoint_pixels'] = '575px'
-        elif breakpoint == '-md':
-            layout['breakpoint_pixels'] = '767px'
-        else:
-            layout['breakpoint_pixels'] = '991px'
+        lcol_horizontal_padding = f' pr{breakpoint}-{horizontal_padding}'
+        mcol_horizontal_padding = f' px{breakpoint}-{horizontal_padding}'
+        rcol_horizontal_padding = f' pl{breakpoint}-{horizontal_padding}'
+        divider = f' divider-right{breakpoint} divider-left{breakpoint}' if value['vertical_border'] else ''
+        hide_sides = f' d-none d{breakpoint}-block' if value['hide'] == 'hide-sides' else ''
 
-        if hide == 'hide-sides':
-            layout['hide_sides'] = 'd-none d' + breakpoint + '-block'
+    left_col = f'col{breakpoint}{("-" + left) if left else ""}'
+    centre_col = f'col{breakpoint}{("-" + centre) if left else ""}'
+    right_col = f'col{breakpoint}{("-" + right) if left else ""}'
 
-    layout['left'] = breakpoint + (('-' + layout['left']) if layout['left'] else '')
-    layout['centre'] = breakpoint + (('-' + layout['centre']) if layout['centre'] else '')
-    layout['right'] = breakpoint + (('-' + layout['right']) if layout['right'] else '')
-    return layout
+    return {
+        'left': f'{left_col}{lcol_horizontal_padding}{hide_sides}',
+        'centre': f'{centre_col}{mcol_horizontal_padding}{divider}',
+        'right': f'{right_col}{rcol_horizontal_padding}{hide_sides}',
+    }
+

@@ -1,18 +1,18 @@
-{% load static wagtailcore_tags grid_block_tags %}
-{% three_column_layout value.breakpoint value.column_layout value.horizontal_padding value.hide as layout %}
+{% load wagtailcore_tags grid_block_tags %}
+{% three_column_layout self as layout %}
 
   <div class="row">
-    <div class="col{{ layout.left }} {{ layout.lcol_horizontal_padding }} {{ layout.hide_sides }}">
+    <div class="{{ layout.left }}">
         {% for block in value.left_column %}
             {% include_block block %}
         {% endfor %}
     </div>
-    <div class="col{{ layout.centre }} {{ layout.mcol_horizontal_padding }} {% if value.vertical_border %}three-column-divider{% endif %}">
+    <div class="{{ layout.centre }}">
         {% for block in value.centre_column %}
             {% include_block block %}
         {% endfor %}
     </div>
-    <div class="col{{ layout.right }} {{ layout.rcol_horizontal_padding }} {{ layout.hide_sides }}">
+    <div class="{{ layout.right }}">
         {% for block in value.right_column %}
             {% include_block block %}
         {% endfor %}
