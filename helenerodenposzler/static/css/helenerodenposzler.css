@@ -170,6 +170,9 @@ p {
   left: 100%;
   margin-top: -1px;
 }
+.dropdown-menu-right {
+  right: 0.25rem;
+}
 .helene-blockquote {
   font-family: 'Source Sans Pro', sans-serif;
   font-size: clamp(1.23046875rem, 0.9168rem + 0.9651vw, 1.640625rem);
