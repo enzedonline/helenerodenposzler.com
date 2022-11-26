@@ -8,11 +8,8 @@
 {% block content %} 
   {% get_template_set 'common' as trans %}
 
-  <div class="container-fluid pt-0 pt-2 px-3 px-sm-5 pb-4 mx-auto" style="max-width: 1800px;">
-    <div class="d-block d-md-none">
-      &nbsp
-    </div>
-    <div class="row">
+  <div class="container-fluid mt-4 px-3 px-sm-5 pb-4 mx-auto" style="max-width: 1800px;">
+    <div class="row pt-md-4">
       <div class="col-md-5 pr-md-5 divider-right-md">
         {% for block in page.intro_text %}
             {% include_block block with block_id=block.id %}
