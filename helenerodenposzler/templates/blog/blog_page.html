@@ -32,8 +32,8 @@
   {% endif %}
 </div>
 
-<div class="container-fluid pt-0 pt-md-2 px-2 px-sm-5 pb-4">
-    {% for block in page.body %}
+<div class="container-fluid pt-0 pt-2 px-3 px-sm-5 pb-4 mx-auto" style="max-width: 1800px;">
+  {% for block in page.body %}
         {% include_block block %}
     {% endfor %}
 </div>
