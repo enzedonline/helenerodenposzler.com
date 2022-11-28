@@ -8,6 +8,8 @@ def two_column_layout(value):
     breakpoint = value['breakpoint']
     horizontal_padding = str(value['horizontal_padding'])
     lcol_collapse_top_pad = rcol_collapse_top_pad = ''
+    left_order = right_order = ''
+    hide_left = hide_right = ''
 
     if breakpoint == '-':
         breakpoint = ''
@@ -24,11 +26,8 @@ def two_column_layout(value):
             right_order = ' order-2'
             lcol_collapse_top_pad = f' pt-3 pt{breakpoint}-0'
         else:
-            left_order = ''
-            right_order = ''
             rcol_collapse_top_pad = f' pt-3 pt{breakpoint}-0'
 
-        hide_left = hide_right = ''
         if value['hide'] == 'hide-right':
             hide_right = ' d-none d' + breakpoint + '-block'
         elif value['hide'] == 'hide-left':
