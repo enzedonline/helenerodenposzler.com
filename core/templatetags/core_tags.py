@@ -82,7 +82,7 @@ def robots(context):
     if not page or not page.search_engine_index:
         return mark_safe('<meta name="robots" content="noindex, noodp, noarchive">')
     return mark_safe(
-        '<meta name="robots" content="index, follow, archive, imageindex, odp, snippet, translate, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />'
+        '<meta name="robots" content="index, follow, archive, imageindex, odp, snippet, translate, max-snippet:-1, max-image-preview:large, max-video-preview:-1">'
     )
 
 
