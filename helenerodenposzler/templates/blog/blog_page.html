@@ -13,16 +13,16 @@
 
 <div class="banner-overlay-container">
   <picture>
-    <source media="(min-width: 1800px)" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp" />
-    <source media="(min-width: 1200px)" srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp" />
-    <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
-    <source srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
-    <source srcset="{{ fallback.url }} 2100w" />
+    <source media="(min-width: 1800px)" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp">
+    <source media="(min-width: 1200px)" srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp">
+    <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp">
+    <source srcset="{{ webp_img_w_600.url }} 600w" type="image/webp">
+    <source srcset="{{ fallback.url }} 2100w">
     <img
       src="{{ fallback.url }}"
       alt="{{ self.title }}"
       style="width: 100%; height: auto"
-    />
+    >
   </picture>
   {% if blog_index.banner_headline or blog_index.banner_small_text %}
   <div class="banner-overlay-text-block" style="object-fit: cover;">
@@ -52,13 +52,13 @@
         {% image nav.next.search_image fill-400x200-c100 format-webp as webp_img_w_400 %}
         {% image nav.next.search_image fill-400x200-c100 as fallback %}
         <picture>
-            <source srcset="{{ webp_img_w_400.url }} 400w" type="image/webp" />
-            <source srcset="{{ fallback.url }} 400w" />
+            <source srcset="{{ webp_img_w_400.url }} 400w" type="image/webp">
+            <source srcset="{{ fallback.url }} 400w">
             <img
                 src="{{ fallback.url }}"
                 alt="{{ nav.next.title }}"
                 style="width: 100%; height: auto"
-            />
+            >
         </picture>
       </a>
       <div class="card-body">
@@ -74,13 +74,13 @@
         {% image nav.prev.search_image fill-400x200-c100 format-webp as webp_img_w_400 %}
         {% image nav.prev.search_image fill-400x200-c100 as fallback %}
         <picture>
-            <source srcset="{{ webp_img_w_400.url }} 400w" type="image/webp" />
-            <source srcset="{{ fallback.url }} 400w" />
+            <source srcset="{{ webp_img_w_400.url }} 400w" type="image/webp">
+            <source srcset="{{ fallback.url }} 400w">
             <img
                 src="{{ fallback.url }}"
                 alt="{{ nav.prev.title }}"
                 style="width: 100%; height: auto;"
-            />
+            >
         </picture>
       </a>
       <div class="card-body">

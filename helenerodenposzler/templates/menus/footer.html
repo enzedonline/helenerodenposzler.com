@@ -4,14 +4,13 @@
 {% get_social_media_icons as social_media_icons %}
 {% get_template_set 'footer' as trans %}
 
-<footer class="footer">
   <nav class="navbar navbar-light bg-dark py-1 px-0">
     <div class="col-auto pr-0">
       <ul class="nav bg-dark py-0">
         {% for icon in social_media_icons %}
           <li class="nav-item {% if forloop.last %}pr-md-5{% else %}pr-4{% endif %}">
             <a href="{{ icon.link }}" title="{{ icon.alt }}">
-              <img src="{{ icon.image }}" alt="{{ icon.alt }}" />
+              <img src="{{ icon.image }}" alt="{{ icon.alt }}">
             </a>
           </li>
         {% endfor %}
@@ -23,7 +22,7 @@
         {% for privacy_page in privacy_menu_items %}
           <span class="py-0 mb-n4 text-muted">
             <a class="nav-link footer-nav-link" href="{{ privacy_page.url }}">
-              <p class="py-0 mb-0">{{ privacy_page.title }}</p>
+              <span class="py-0 mb-0">{{ privacy_page.title }}</span>
             </a>
           </span>
         {% endfor %}
@@ -37,6 +36,4 @@
       </a>
     </div>
   </nav>
-
-</footer>
 

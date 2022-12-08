@@ -61,19 +61,19 @@
             {% endif %}
                 
             <picture>
-            <source media="(min-width: 1800px)" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp" />
-            <source media="(min-width: 1300px)" srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp" />
-            <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
-            <source media="(min-width: 500px)" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
-            <source media="(min-width: 250px)" srcset="{{ webp_img_w_300.url }} 600w" type="image/webp" />
-            <source srcset="{{ webp_img_w_150.url }} 600w" type="image/webp" />
-            <source srcset="{{ fallback.url }}" />
+            <source media="(min-width: 1800px)" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp">
+            <source media="(min-width: 1300px)" srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp">
+            <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp">
+            <source media="(min-width: 500px)" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp">
+            <source media="(min-width: 250px)" srcset="{{ webp_img_w_300.url }} 600w" type="image/webp">
+            <source srcset="{{ webp_img_w_150.url }} 600w" type="image/webp">
+            <source srcset="{{ fallback.url }}">
             <img
                 class="d-block w-100"
                 src="{{ fallback.url }}"
                 alt="{{ slide.value.image.seo_title }}"
                 style="width: 100%; height: auto"
-            />
+            >
             </picture>
             {% if slide.value.title or slide.value.caption %}
                 <div class="carousel-caption pb-1 pt-0">

@@ -224,7 +224,7 @@ class ContactPage(SEOWagtailCaptchaEmailForm):
         icons = ''
         for item in social_media_icons:
             icon = item.localized
-            icons += '<a href="{}"><img src="{}" width="32" height="32" style="padding-right: 10; padding-top: 10;"></a>&nbsp&nbsp'.format(
+            icons += '<a href="{}"><img src="{}" width="32" height="32" style="padding-right: 10; padding-top: 10;"></a>&nbsp;&nbsp;'.format(
                 icon.url,
                 settings.BASE_URL + icon.photo.get_rendition('original').url
             )

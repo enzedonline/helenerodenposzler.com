@@ -11,11 +11,11 @@
             {% block extra_head %}{% endblock extra_head %}
         </head>
 
-        <div class="sticky-top">
-            {% include 'menus/main_menu.html' %}
-        </div>
-
         <body>
+            <div class="sticky-top">
+                {% include 'menus/main_menu.html' %}
+            </div>
+
             <div>
                 {% block content %}{% endblock content %}
                 {% block extra_js %}{% endblock extra_js %}

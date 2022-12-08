@@ -29,14 +29,14 @@
           {% image self.intro_image width-600 format-webp as webp_img_w_600 %}
           {% image self.intro_image width-900 as fallback %}
           <picture>
-            <source media="(min-width: 1200px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp" />
-            <source srcset="{{ webp_img_w_600.url }} 600w" type="image/webp" />
-            <source srcset="{{ fallback.url }} 900w" />
+            <source media="(min-width: 1200px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp">
+            <source srcset="{{ webp_img_w_600.url }} 600w" type="image/webp">
+            <source srcset="{{ fallback.url }} 900w">
             <img
               src="{{ fallback.url }}"
               alt="{{ self.intro_image.title }}"
               style="width: 100%; height: auto"
-            />
+            >
           </picture>
         </div>
         <div class="d-block d-md-none">
@@ -49,7 +49,7 @@
             {{ self.privacy_notice|richtext }}
           </div>
         </div>        
-        <p>&nbsp</p>
+        <p>&nbsp;</p>
         <form action="{% pageurl page %}" enctype="multipart/form-data" method="POST">
           {% csrf_token %} 
           

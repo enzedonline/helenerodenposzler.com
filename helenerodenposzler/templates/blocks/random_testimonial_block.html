@@ -1,10 +1,10 @@
 {% load wagtailcore_tags wagtailimages_tags random_testimonial_tags %}
 {% get_random_testimonial as testimonial %}
 
-<div mb-3 py-3>
+<div class="mb-3 py-3">
   <div class="card bg-helene-faded-green border-0 py-3 px-4 mb-3 h-100" style="border-radius: 12px;">
     <div class="card-body p-0 mb-n3">
-      <p align="justify" class="testimonial">{{ testimonial.reference_text }}</p>
+      <p class="testimonial">{{ testimonial.reference_text }}</p>
       <div class="row no-gutters">
         <div class="col-auto pr-3 pb-3">
         {% image testimonial.photo fill-50x50 as img %}
@@ -16,7 +16,7 @@
               <a class="dark-nav-link" href="{{ testimonial.author_link }}" target="_blank">
             {% endif %}
             <span class="author-description">
-              {{ testimonial.author }}<br/>
+              {{ testimonial.author }}<br>
               {{ testimonial.author_description }}
             </span>
             {% if testimonial.author_link %}
