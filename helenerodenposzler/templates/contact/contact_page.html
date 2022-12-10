@@ -85,7 +85,7 @@
                 </div>
               {% else %}
                 <div class="mt-n2">
-                  {{ field.label_tag }}
+                  {% if field.name != 'wagtailcaptcha' %}{{ field.label_tag }}{% endif %}
                 </div>
                 {% if form.is_bound %} 
                   {% if field.errors %} 
@@ -94,7 +94,7 @@
                     {% render_field field class="form-control is-valid form-control-sm" %} 
                   {% endif %} 
                 {% else %} 
-                  {% if field.name=='wagtailcaptcha' %}
+                  {% if field.name == 'wagtailcaptcha' %}
                     {% render_field field %} 
                   {% else %}
                     {% render_field field class="form-control form-control-sm" %} 
