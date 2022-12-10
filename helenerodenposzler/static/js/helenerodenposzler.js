@@ -4,6 +4,7 @@ $(document).ready(function () {
   $('a[href^="http://"]').attr("rel", "nofollow noopener");
   $('a[href^="https://"]').attr("target", "_blank");
   $('a[href^="https://"]').attr("rel", "nofollow noopener");
+
   // set drop right menu button properties
   $(".dropright button").on("click", function (e) {
     e.stopPropagation();
@@ -18,5 +19,9 @@ $(document).ready(function () {
   $(".navbar-toggler").mouseup(function () {
     $(this).blur();
   });
-});
+  // stop link buttons retaining focus after click
+  $(".link-button").mouseup(function(){
+    $(this).blur();
+  })
 
+});
