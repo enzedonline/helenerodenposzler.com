@@ -12,17 +12,15 @@
   <div class="card {{ self.background }} {% if not self.border %}border-0{% endif %} p-{{pad}} mb-3 h-100">
     <a href="{{ self.external_link }}" target="_blank">
 	<picture>
-      <source media="(min-width: 1800px)" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp">
-      <source media="(min-width: 120px)" srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp">
-      <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp">
-      <source media="(min-width: 500px)" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp">
-      <source srcset="{{ webp_img_w_300.url }} 300w" type="image/webp">
-      <source srcset="{{ fallback.url }} 2100w">
-      <img
-        src="{{ fallback.url }}"
-        alt="{{ self.image.seo_title }}"
-        style="width: 100%; height: auto"
-      >
+    <source media="(max-width: 600px)" sizes="(max-width: 600px) 600px" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp">
+    <source media="(max-width: 900px)" sizes="(max-width: 900px) 900px" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp">
+    <source media="(max-width: 1500px)" sizes="(max-width: 1500px) 1500px" srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp">
+    <source media="(min-width: 1501px)" sizes="(min-width: 1501px) 1501px" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp">
+    <img
+      src="{{ fallback.url }}"
+      alt="{{ self.image.seo_title }}"
+      style="width: 100%; height: auto;"
+    >
     </picture>
 	</a>
     <div class="card-body pb-0 pt-2 px-0" style="object-fit: cover;">
@@ -40,16 +38,14 @@
       <div class="col-sm-4 p-0" style="min-width: 200px;">
 	  	<a href="{{ self.external_link }}">
         <picture>
-          <source media="(min-width: 1800px)" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp">
-          <source media="(min-width: 120px)" srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp">
-          <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp">
-          <source media="(min-width: 500px)" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp">
-          <source srcset="{{ webp_img_w_300.url }} 300w" type="image/webp">
-          <source srcset="{{ fallback.url }} 2100w">
+          <source media="(max-width: 600px)" sizes="(max-width: 600px) 600px" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp">
+          <source media="(max-width: 900px)" sizes="(max-width: 900px) 900px" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp">
+          <source media="(max-width: 1500px)" sizes="(max-width: 1500px) 1500px" srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp">
+          <source media="(min-width: 1501px)" sizes="(min-width: 1501px) 1501px" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp">
           <img
             src="{{ fallback.url }}"
             alt="{{ self.image.seo_title }}"
-            style="width: 100%; height: auto"
+            style="width: 100%; height: auto;"
           >
         </picture>
 		</a>
@@ -71,17 +67,15 @@
     <div class="row no-gutters">
       <div class="col-4 p-0" style="min-width: 200px;">
         <a href="{{ self.external_link }}">
-		<picture>
-          <source media="(min-width: 1800px)" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp">
-          <source media="(min-width: 120px)" srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp">
-          <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp">
-          <source media="(min-width: 500px)" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp">
-          <source srcset="{{ webp_img_w_300.url }} 300w" type="image/webp">
-          <source srcset="{{ fallback.url }} 2100w">
+        <picture>
+          <source media="(max-width: 600px)" sizes="(max-width: 600px) 600px" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp">
+          <source media="(max-width: 900px)" sizes="(max-width: 900px) 900px" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp">
+          <source media="(max-width: 1500px)" sizes="(max-width: 1500px) 1500px" srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp">
+          <source media="(min-width: 1501px)" sizes="(min-width: 1501px) 1501px" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp">
           <img
             src="{{ fallback.url }}"
             alt="{{ self.image.seo_title }}"
-            style="width: 100%; height: auto"
+            style="width: 100%; height: auto;"
           >
         </picture>
 		</a>
@@ -112,21 +106,19 @@
         {% endif %}
       </div>
       <div class="col-sm-4 p-0 order-1 order-sm-12" style="min-width: 200px;">
-	  	<a href="{{ self.external_link }}">
-        <picture>
-          <source media="(min-width: 1800px)" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp">
-          <source media="(min-width: 120px)" srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp">
-          <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp">
-          <source media="(min-width: 500px)" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp">
-          <source srcset="{{ webp_img_w_300.url }} 300w" type="image/webp">
-          <source srcset="{{ fallback.url }} 2100w">
-          <img
-            src="{{ fallback.url }}"
-            alt="{{ self.image.seo_title }}"
-            style="width: 100%; height: auto"
-          >
-        </picture>
-		</a>
+        <a href="{{ self.external_link }}">
+          <picture>
+            <source media="(max-width: 600px)" sizes="(max-width: 600px) 600px" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp">
+            <source media="(max-width: 900px)" sizes="(max-width: 900px) 900px" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp">
+            <source media="(max-width: 1500px)" sizes="(max-width: 1500px) 1500px" srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp">
+            <source media="(min-width: 1501px)" sizes="(min-width: 1501px) 1501px" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp">
+            <img
+              src="{{ fallback.url }}"
+              alt="{{ self.image.seo_title }}"
+              style="width: 100%; height: auto;"
+            >
+          </picture>
+        </a>
       </div>      
     </div>
   </div>
@@ -144,21 +136,19 @@
         {% endif %}
       </div>
       <div class="col-4" style="min-width: 200px;">
-	  	<a href="{{ self.external_link }}">
-        <picture>
-          <source media="(min-width: 1800px)" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp">
-          <source media="(min-width: 120px)" srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp">
-          <source media="(min-width: 750px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp">
-          <source media="(min-width: 500px)" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp">
-          <source srcset="{{ webp_img_w_300.url }} 300w" type="image/webp">
-          <source srcset="{{ fallback.url }} 2100w">
-          <img
-            src="{{ fallback.url }}"
-            alt="{{ self.image.seo_title }}"
-            style="width: 100%; height: auto"
-          >
-        </picture>
-		</a>
+        <a href="{{ self.external_link }}">
+          <picture>
+            <source media="(max-width: 600px)" sizes="(max-width: 600px) 600px" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp">
+            <source media="(max-width: 900px)" sizes="(max-width: 900px) 900px" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp">
+            <source media="(max-width: 1500px)" sizes="(max-width: 1500px) 1500px" srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp">
+            <source media="(min-width: 1501px)" sizes="(min-width: 1501px) 1501px" srcset="{{ webp_img_w_2100.url }} 2100w" type="image/webp">
+            <img
+              src="{{ fallback.url }}"
+              alt="{{ self.image.seo_title }}"
+              style="width: 100%; height: auto;"
+            >
+          </picture>
+        </a>
       </div>      
     </div>
   </div>

@@ -25,17 +25,18 @@
           </a>
         </p>
         <div class="d-none d-md-block">
-          {% image self.intro_image width-900 format-webp as webp_img_w_900 %} 
-          {% image self.intro_image width-600 format-webp as webp_img_w_600 %}
-          {% image self.intro_image width-900 as fallback %}
+          {% image self.intro_image width-700 format-webp as webp_img_w_700 %} 
+          {% image self.intro_image width-550 format-webp as webp_img_w_550 %}
+          {% image self.intro_image width-300 format-webp as webp_img_w_300 %}
+          {% image self.intro_image width-700 as fallback %}
           <picture>
-            <source media="(min-width: 1200px)" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp">
-            <source srcset="{{ webp_img_w_600.url }} 600w" type="image/webp">
-            <source srcset="{{ fallback.url }} 900w">
+            <source media="(max-width: 900px)" sizes="(max-width: 900px) 900px" srcset="{{ webp_img_w_300.url }} 600w" type="image/webp">
+            <source media="(max-width: 1500px)" sizes="(max-width: 1500px) 1200px" srcset="{{ webp_img_w_550.url }} 600w" type="image/webp">
+            <source media="(min-width: 1501px)" sizes="(min-width: 1501px) 1501px" srcset="{{ webp_img_w_700.url }} 2100w" type="image/webp">
             <img
               src="{{ fallback.url }}"
               alt="{{ self.intro_image.title }}"
-              style="width: 100%; height: auto"
+              style="width: 100%; height: auto;"
             >
           </picture>
         </div>
