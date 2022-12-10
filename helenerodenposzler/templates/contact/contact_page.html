@@ -94,7 +94,11 @@
                     {% render_field field class="form-control is-valid form-control-sm" %} 
                   {% endif %} 
                 {% else %} 
-                  {% render_field field class="form-control form-control-sm" %} 
+                  {% if field.name=='wagtailcaptcha' %}
+                    {% render_field field %} 
+                  {% else %}
+                    {% render_field field class="form-control form-control-sm" %} 
+                  {% endif %}
                 {% endif %} 
               {% endif %}
               {% if field.errors or field.help_text%}
