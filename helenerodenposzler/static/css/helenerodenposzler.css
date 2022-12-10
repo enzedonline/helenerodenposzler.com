@@ -217,7 +217,9 @@ p {
   object-fit: cover;
   text-align: left;
 }
-
+.form-check-input {
+  margin-top: 0.5rem;
+}
 .btn {
   border-radius: 12px;
 }

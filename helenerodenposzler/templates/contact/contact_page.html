@@ -103,16 +103,9 @@
               {% endif %}
               {% if field.errors or field.help_text%}
                 <div class="row">
-                  <div {% if field.errors %}class="col"{% else %}class="col-auto"{% endif%}>
-                    {% if field.help_text %}
-                      <small class="form-text text-muted">{{ field.help_text|linebreaksbr }}<br />&nbsp;</small>
-                    {% else %}
-                      <small>&nbsp;</small>
-                    {% endif %}
-                  </div>
-                  <div {% if field.errors %}class="col-auto text-right"{% else %}class="col"{% endif %}>
+                  {% if field.name == 'wagtailcaptcha' %}
                     {% if field.errors %}
-                      <ul class="list-unstyled">
+                      <ul class="list-unstyled pl-3">
                         {% for error in field.errors %}
                           <small class="text-danger">
                             <li>{{ error }}</li>
@@ -120,7 +113,26 @@
                         {% endfor %}
                       </ul>
                     {% endif %}
-                  </div>
+                  {% else %}
+                    <div {% if field.errors %}class="col"{% else %}class="col-auto"{% endif%}>
+                      {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text|linebreaksbr }}<br />&nbsp;</small>
+                      {% else %}
+                        <small>&nbsp;</small>
+                      {% endif %}
+                    </div>
+                    <div {% if field.errors %}class="col-auto text-right"{% else %}class="col"{% endif %}>
+                      {% if field.errors %}
+                        <ul class="list-unstyled">
+                          {% for error in field.errors %}
+                            <small class="text-danger">
+                              <li>{{ error }}</li>
+                            </small>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
+                    </div>
+                  {% endif %}
                 </div>
               {% else %}
                 <small>&nbsp;</small>
