@@ -1,39 +1,25 @@
 {% load wagtailimages_tags %}
 
 {% image self.image.file original format-webp as webp_img_scale_100 %}
-{% image self.image.file width-1200 format-webp as webp_img_w_1200 %}
-{% image self.image.file width-750 format-webp as webp_img_w_750 %}
-{% image self.image.file width-500 format-webp as webp_img_w_500 %}
+{% image self.image.file width-1500 format-webp as webp_img_w_1500 %}
+{% image self.image.file width-900 format-webp as webp_img_w_900 %}
+{% image self.image.file width-600 format-webp as webp_img_w_600 %}
 {% image self.image.file original as fallback %}
 
 <div class="block-container">
   <div class="{{ self.background }} p-0">
     <figure class="p-1">
       <picture class="srcset">
-        <source
-          media="(min-width: 1500px)" 
-          srcset="{{ webp_img_scale_100.url }} 1500w"  
-          type="image/webp"
-        />
-        <source
-          media="(min-width: 1000px)" 
-          srcset="{{ webp_img_w_1200.url }} 1200w"  
-          type="image/webp"
-        />
-        <source
-          media="(min-width: 600px)" 
-          srcset="{{ webp_img_w_750.url }} 750w"  
-          type="image/webp"
-        />
-        <source
-          srcset="{{ webp_img_w_500.url }} 500w"  
-          type="image/webp"
-        />
-        <source
-          srcset="{{ fallback.url }} 1500w"  
-        />
-
-        <img class="srcset__image" src="{{ fallback.url }}" alt="{{ self.image.seo_title }}" style='width: 100%; height: auto;'>
+        <source media="(max-width: 600px)" sizes="(max-width: 600px) 600px" srcset="{{ webp_img_w_600.url }} 600w" type="image/webp">
+        <source media="(max-width: 900px)" sizes="(max-width: 900px) 900px" srcset="{{ webp_img_w_900.url }} 900w" type="image/webp">
+        <source media="(max-width: 1500px)" sizes="(max-width: 1500px) 1500px" srcset="{{ webp_img_w_1500.url }} 1500w" type="image/webp">
+        <source media="(min-width: 1501px)" sizes="(min-width: 1501px) 1501px" srcset="{{ webp_img_scale_100.url }} 2100w" type="image/webp">    
+        <img 
+          class="srcset__image" 
+          src="{{ fallback.url }}" 
+          alt="{{ self.image.seo_title }}" 
+          style='width: 100%; height: auto;'
+        >
       </picture>
       {% if self.caption or self.attribution %}
         <figcaption class="image-block-caption text-right px-1 pt-1 pb-2 lh-sm">
