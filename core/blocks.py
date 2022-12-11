@@ -542,30 +542,6 @@ class RandomTestimonialBlock(StaticBlock):
         icon = 'fa-comment'
         label = 'Random Testimonial'
 
-class LatestBlogPostGrid(StructBlock):
-    group_label = SimpleRichTextBlock(
-        blank=True,
-        null=True,
-        label=_("Optional heading for block"),
-        help_text=_("Leave blank for no heading"),
-        required=False
-    )
-    background = ColourThemeChoiceBlock(
-        default='bg-transparent',
-        label=_("Card Background Colour")
-    )
-    post_count = IntegerBlock(
-        default=2,
-        min_value=1,
-        max_value=20,
-        label=_("Number of blog posts to show")
-    )
-    class Meta:
-        template = 'blocks/latest_blog_posts_block.html'
-        label = _("Latest Blog Post(s)")
-        icon = 'fa-edit'
-
-
 class BaseStreamBlock(StreamBlock):
     richtext_block = SimpleRichTextBlock()
     image_block = ImageBlock()
@@ -580,7 +556,6 @@ class BaseStreamBlock(StreamBlock):
     external_link_embed = ExternalLinkEmbedBlock()
     inline_video_block = InlineVideoBlock()
     image_carousel = ImageCarouselBlock()
-    latest_blog_posts = LatestBlogPostGrid()
     random_testimonial = RandomTestimonialBlock()
     spacer_block = SpacerStaticBlock()
     empty_block = EmptyStaticBlock()

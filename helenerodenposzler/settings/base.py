@@ -7,7 +7,6 @@ INSTALLED_APPS = [
     'home',
     'search',
     'service',
-    'blog',
     'menu',
     'core',
     'site_settings',
