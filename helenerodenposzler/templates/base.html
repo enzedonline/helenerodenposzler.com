@@ -8,7 +8,7 @@
 
         <head>
             {% include 'head.html' %}
-            {% include 'core/structured_data.html' %}
+            {% if page %}{% include 'core/structured_data.html' %}{% endif %}
             {% block extra_head %}{% endblock extra_head %}
         </head>
 
