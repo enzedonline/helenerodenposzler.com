@@ -50,12 +50,12 @@ def register_underline_styling(features):
         icon=DRAFTAIL_ICONS.underline
     )
 
-# @hooks.register("after_publish_page")
-# def register_ping_google_after_publish(request, page):
-#     if not settings.DEBUG:
-#         ping_google(request)
+@hooks.register("after_publish_page")
+def register_ping_google_after_publish(request, page):
+    if not settings.DEBUG:
+        ping_google(request)
 
-# @hooks.register("after_delete_page")
-# def register_ping_google_after_delete(request, page):
-#     if not settings.DEBUG:
-#         ping_google(request)
+@hooks.register("after_delete_page")
+def register_ping_google_after_delete(request, page):
+    if not settings.DEBUG:
+        ping_google(request)
