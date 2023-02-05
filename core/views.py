@@ -1,9 +1,10 @@
 import os
-from wagtail.models import Page, Site
+from datetime import datetime
 
-from django.views.generic import TemplateView
 from django.template.response import TemplateResponse
 from django.utils.http import http_date
+from django.views.generic import TemplateView
+from wagtail.models import Page, Site
 
 env = os.environ.copy()
 
@@ -24,7 +25,16 @@ def sitemap(request):
         for child_page in locale_home.get_descendants().live().defer_streamfields().specific():
             if child_page.search_engine_index:
                 urlset.append(child_page.sitemap_urls)
-    last_modified = max([x['lastmod'] for x in urlset])
+    try:
+        urlset.remove([])
+    except:
+        pass
+    try:
+        last_modified = max([x['lastmod'] for x in urlset])
+    except Exception as e:
+        # either urlset is empty or lastmod fields not present, set last modified to now
+        print(f"\n{type(e).__name__} at line {e.__traceback__.tb_lineno} of {__file__}: {e}\n") 
+        last_modified = datetime.now()
 
     return TemplateResponse(
         request, 
