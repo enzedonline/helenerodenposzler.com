@@ -132,25 +132,27 @@ class SEOPage(SEOPageMixin, Page):
 
     @property
     def alternates(self):
-        trans_pages = self.get_translations()
-        if not trans_pages:
+        default_locale = Locale.get_default()
+        x_default = None
+
+        trans_pages = self.get_translations(inclusive=True)
+        if trans_pages.count() > 1:
+            alt = []
+            for page in trans_pages:
+                alt.append({
+                    'lang_code': page.locale.language_code,
+                    'location': page.full_url
+                })
+                if page.locale == default_locale:
+                    x_default = page.full_url
+            
+            if not x_default: # page not translated to default language, use first trans_page instead
+                x_default = trans_pages.first().full_url
+            alt.append({'lang_code': 'x-default', 'location': x_default})
+
+            return alt
+        else:
             return None
-        alt = [{
-                'lang_code': self.locale.language_code,
-                'location': self.get_full_url()
-            }]
-        root_url = self.get_site().root_url
-        for page in trans_pages:
-            alt.append({
-                'lang_code': page.locale.language_code,
-                'location': page.get_full_url()
-            })
-        # x-default - strip the language component from the url for the default-lang page
-        # https://example.com/en/something/ -> https://example.com/something/
-        default_page = self.get_translation(Locale.get_default())
-        default = f"{root_url}/{'/'.join(default_page.url_path.split('/')[2:])}"
-        alt.append({'lang_code': 'x-default', 'location': default})
-        return alt
 
     @property
     def sitemap_urls(self):
